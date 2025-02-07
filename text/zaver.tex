@@ -1,0 +1,98 @@
+\chapter*{Závěr}
+\phantomsection
+\addcontentsline{toc}{chapter}{Závěr}
+
+%Cílem této semestrální práce bylo navrhnout měřící systém pro měření zůstatkového objemu kapalin v HoReCa podnicích, stanovení požadavků na jednotlivé komponenty a jejich samostatné oživení.
+%
+%V první kapitole se zabýváme definicí inventury a legislativními předpisy pro použití našeho měřícího systému. Druhá kapitola se věnuje dosavadním metodám měření a jejich hlavních nevýhod. Třetí kapitola přináší matematické řešení nově navrženého systému, kdy za pomocí linearizace jsme schopni přepočítat hmotnost na objem bez nutné znalosti teploty kapaliny. Čtvrtá kapitola je teoretické seznámení se sériovou komunikací, díky které jsou data přenášeny mezi mikrokontrolérem a ostatními moduly.
+%Pátá kapitola představuje požadavky na jednotlivé komponenty a jejich výběr. V poslední kapitole dochází k oživení jednotlivých modulů.
+%
+%Semestrální část se zabývala teoretickou rovinou. V rámci bakalářské práce bude cílem zprovoznit celý systém.
+%
+
+
+
+Cílem této semestrální práce bylo navrhnout systém pro měření zůstatkového objemu kapaliny(destilátu) v láhvi pro HoReCa podniky, stanovení požadavků na jednotlivé komponenty a jejich samostatné oživení. Nově navržený systém dokáže pomocí váhy a výpočetní jednotky přepočítat hmotnost kapaliny v láhvi na její objem.
+
+V kapitole č. \ref{inventura} se zabývám definicí inventury a legislativními předpisy pro použití navrhovaného měříciho systému. Zjistil jsem, že pro naše účely není nutná certifikovaná váha a zákon nám nestanovuje s jakou přesností je nutné objem kapalin měřit. 
+
+Kapitola č. \ref{Dosavadní metody měření} pojednává o stávajících metodách měření a jejich hlavních nedostatcích. V praxi se často používají odměrné válce, které nejsou z hlediska času ani financí efektivní v dlouhodobém měřítku. Váhy, které jsou podobné vyvíjenému systému, nabízejí větší přesnost a jsou časově účinnější, avšak kvůli vysokým nákladům se setkávají s omezeným zájmem.
+
+Kapitola č. \ref{Přepočet hmotnosti na objem} přináší matematické řešení nově navrženého systému, kdy za pomocí linearizace jsme schopni přepočítat hmotnost na objem bez nutné znalosti teploty kapaliny.  %Výsledný objem je roven teplotě pro kterou byl stanoven maximální objem kapaliny v láhvi výrobcem. 
+
+V kapitola č. \ref{Sériová komunikace} je teoretické seznámení se sériovou komunikací, díky které jsou data přenášeny mezi mikrokontrolérem a ostatními moduly. Pro vyvíjený systém se jedná o rozhraní RS-232 a UART.
+
+Kapitola č. \ref{Nově navržený systém} v úvodu představuje funkčnost systému a jeho obsluhu, dále popisuje relační databázi a její data, následně podrobně rozebírá požadavky na jednotlivé komponenty a jejich výběr. První z důležitých komponent je mikrokontrolér, kde byl vybrán Raspberry Pi 4 4GB. Zmíněné požadavky jako Wi-Fi modul nebo vývoj firmware pro dotykový displej je nad rámec bakalářské práce, ale pro budoucí inovaci systému nemusíme měnit mikrokontrolér a realizovat znovu už fungující HW kompatibilitu mezi komponenty a vyvíjet SW vybavení.
+
+V poslední kapitole \ref{Zprovoznění jednotlivých komponent} dochází k oživení jednotlivých komponent. Váha byla testována pomocí programu PuTTy, který odesílal na váhu požadavky pro odeslání naměřených dat. Na konzoli PuTTy se povedlo zobrazit přijatá data, tudíž váhu se povedlo oživit. Dále komunikační port váhy byl měřen pomocí osciloskopu, kde jsme v režimu pro čtení UART protokolu byly schopni zachytit posílaná data. Čtečka čárového kódu ve výchozím nastavení fungovala jako klávesnice, proto jsme ji přepl do režimu virtuálního sériového portu pomocí manuálu výrobce a programem Python se mi podařilo číst skenovaná EAN data přicházející po sériové lince\\
+%Semestrální část se zabývala teoretickou rovinou. V rámci bakalářské práce bude cílem zprovoznit celý systém a navrhnout možné inovace, které jsou nad rámec teto práce.
+Semestrální část se zabývala teoretickou rovinou. Bakalářská práce bude směřovat praktickým směrem. 
+
+kdy v první řadě bude cílem vytvořit a naplnit relační databázi pro ukládání dat jako např. hmotnost láhve a její EAN kód, viz kapitola č. 5.4. Dále vyvinout firmware s grafickým uživatelským prostředím v programovacím jazyce Python pro jednodeskový počítač Raspberry Pi 4B, který přepočítá naměřenou hmotnost na objem metodou zmíněnou ve 3. kapitole. Systém poběží na operačním systému Raspbian. Závěrem zprovoznit měřicí systém jako funkční celek a provést testovná měření. 
+
+Do budoucna bych chtěl inovovat své zařízení o mobilní aplikaci, která bude sledovat stav inventury(počet změřených lahví, výsledky předchozích inventur, správa databáze - přidání/odebrání lahví ze systému). Dále chci redukovat počet periferií pomocí dotykového displeje, který bude obsahovat už dotykový displej. Vývoj aplikace na osobní počítač pro správu databáze a tisk jejich dat. %Výsledkem má být funkční měřicí systém jako celek a navrhnout možné inovace, které by byly nad rámec této práce.
+
+%Výsledkem má být měřicí systém fungující jako celek
+
+%ze 
+%která bude schopna pracovat se zmíněnou databází a komunikovat s ostatníma modulama. Vývoj druhé aplikace pro počítač, kdy  
+
+%, která pomocí získaných dat z databáze a dalších modulů
+
+%dále bude cílem navrhnout další možné inovace, které jsou nad rámec této práce
+
+%V rámci bakalářské práce bude cílem vytvořit 
+
+
+===============================================================
+
+heey
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+x & Destilát č. 1   & Destilát č. 2   &  . . . \\ \hline
+Název destilátu [-] [TEXT] &    &    &  . . . \\ \hline
+EAN kód [-]&  &    &        \\ \hline
+Hmotnost prázdné láhve [g] &    &  &        \\ \hline
+Hmotnost plné láhve [g] &    &    &  \\ \hline
+Hmotnost víčka [g] &    &    &  \\ \hline
+Maximální objem láhve [l] &    &    &  \\ \hline
+Množství alkoholu [l] &    &    &  \\ \hline
+Adresa obrázku [-] &    &    &  \\ \hline
+%Obrázek: obsahuje adresu/název obrázku, který je uložen ve složce
+\end{tabular}
+\caption{Databáze destilátů}
+\end{table}
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+x & Destilát č. 1   & Destilát č. 2   &  . . . \\ \hline
+Název destilátu [-] [TEXT] &    &    &  . . . \\ \hline
+EAN kód [-]&  &    &        \\ \hline
+Hmotnost prázdné láhve [g] &    &  &        \\ \hline
+Hustota kapaliny [g] &    &    &  \\ \hline
+Hmotnost víčka [g] &    &    &  \\ \hline
+Maximální objem láhve [l] &    &    &  \\ \hline
+Množství alkoholu [l] &    &    &  \\ \hline
+Adresa obrázku [-] &    &    &  \\ \hline
+%Obrázek: obsahuje adresu/název obrázku, který je uložen ve složce
+\end{tabular}
+\caption{Databáze destilátů}
+\end{table}
+
+
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|} 
+        \hline
+        Název & EAN & Max. objem & hmotnost prázdné lahve & Hmotnost plné lahve & Adresa obrázku\\ \hline
+         &  &  &  &  & \\ \hline
+         &  & s &  &  f& \\ \hline
+    \end{tabular}
+    \caption{Caption}
+    \label{tab:my_label}
+\end{table}

@@ -1,0 +1,450 @@
+% Soubory musí být v kódování, které je nastaveno v příkazu \usepackage[...]{inputenc}
+
+\documentclass[%        Základní nastavení
+  %draft,    				  % Testovací překlad
+  12pt,       				% Velikost základního písma je 12 bodů
+	t,                  % obsah slajdů bude vždy začínat od shora (nebude vertikálně centrovaný)
+	aspectratio=1610,   % poměr stran bude 16:10 (všechny projektory v učebnách na Technické 12 Brno),
+	                    % další volby jsou 43, 149, 169, 54, 32.
+	unicode,						% Záložky a informace budou v kódování unicode
+]{beamer}				    	% Dokument třídy 'zpráva', vhodná pro sazbu závěrečných prací s kapitolami
+%\usepackage{etex}
+
+\usepackage[utf8]		  % Kódování zdrojových souborů je v UTF-8
+	{inputenc}					% Balíček pro nastavení kódování zdrojových souborů
+	
+\usepackage{graphicx} % Balíček 'graphicx' pro vkládání obrázků
+											% Nutné pro vložení logotypů školy a fakulty
+
+\usepackage[          % Balíček 'acronym' pro sazby zkratek a symbolů
+	nohyperlinks				% Nebudou tvořeny hypertextové odkazy do seznamu zkratek
+]{acronym}						
+											% Nutné pro použití prostředí 'acronym' balíčku 'thesis'
+
+%% Balíček hyperref je volán třídou beamer automaticky, proto není třeba následujícího kódu:
+%\usepackage[
+%	breaklinks=true,		% Hypertextové odkazy mohou obsahovat zalomení řádku
+%	hypertexnames=false % Názvy hypertextových odkazů budou tvořeny
+%											% nezávisle na názvech TeXu
+%]{hyperref}						% Balíček 'hyperref' pro sazbu hypertextových odkazů
+%											% Nutné pro použití příkazu 'nastavenipdf' balíčku 'thesis'
+
+\usepackage{cmap} 		% Balíček cmap zajišťuje, že PDF vytvořené `pdflatexem' je
+											% plně "prohledávatelné" a "kopírovatelné"
+
+%\usepackage{upgreek}	% Balíček pro sazbu stojatých řeckých písmem
+											%% např. stojaté pí: \uppi
+											%% např. stojaté mí: \upmu (použitelné třeba v mikrometrech)
+											%% pozor, grafická nekompatibilita s fonty typu Computer Modern!
+
+%\usepackage{amsmath} %balíček pro sabu náročnější matematiky
+
+\usepackage{booktabs} % Balíček, který umožňuje v tabulce používat
+                      % příkazy \toprule, \midrule, \bottomrule
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%      Definice informací o dokumentu             %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{nastaveni}      % v tomto souboru doplňte údaje o sobě, o názvu práce...
+                       % (tento soubor je sdílený s textem práce)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%     Nastavení polí ve Vlastnostech dokumentu PDF      %%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Při vloženém balíčku 'hyperref' lze použít příkaz '\pdfsettings'
+\pdfsettings
+%  Nastavení polí je možné provést také ručně příkazem:
+%\hypersetup{
+%  pdftitle={Název studentské práce},    	% Pole 'Document Title'
+%  pdfauthor={Autor studenstké práce},   	% Pole 'Author'
+%  pdfsubject={Typ práce}, 						  	% Pole 'Subject'
+%  pdfkeywords={Klíčová slova}           	% Pole 'Keywords'
+%}
+\hypersetup{pdfpagemode=FullScreen}       % otevření rovnou v režimu celé obrazovky
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usetheme{VUT} 				% barvy a rozložení prezentace odpovídající VUT FEKT
+% alternativně lze použít jiná berevná témata, ale bez záruky. Například: 
+%\usetheme{Darmstadt} \usecolortheme{default2}
+\logoheader					% vytvoření zkráceného loga VUT FEKT v hlavičce slajdu, nechte odkomentované
+
+
+
+\begin{document}
+
+% v případě zakomentování následujícího se zobrazí v pravém dolním rohu slajdů klikatelné navigační symboly 
+\disablenavigationsymbols
+
+% titulní snímek, vysazen bez horních, dolních a postranních lišt (volba plain),
+% není tak vysazen ani nadpis snímku
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1. snímek s cíli (zadaním) práce
+%\begin{frame} 
+%	% nadpis snímku
+%	\frametitle{Cíle práce}
+%	\begin{itemize}
+%			\item Nastudovat
+%			\item Popsat
+%				\begin{itemize}
+%					\item nastudované
+%				\end{itemize}
+%			\item Implementovat
+%				\begin{itemize}
+%					\item nastudované
+%					\item nové
+%				\end{itemize}
+%			\item Porovnat a vyhodnotit
+%				\begin{itemize}
+%						\item výsledky
+%				\end{itemize}
+%	\end{itemize}
+%\end{frame}
+
+%1. Cíle práce
+%2. Seznámení s problematikou ulohy.
+%3. metody měření v současné době.. klady a zápory.
+%4. Popis reseni, vcetne seznam a popisu jednotlivych komponent.
+%5. Popis vzorové aplikace reseni.
+%4. Závěr
+%    - Shrnutí dosažených výsledků.
+%    - Bakalářská práce.
+
+\begin{frame}
+	% nadpis snímku
+	\frametitle{Cíle práce}
+	\begin{enumerate}
+			\item Nastudovat způsoby měření zůstatkového objemu kapalin za účelem inventury v HoReCa provozech.
+			\item Porovnat dosavadní metody dostupné na trhu.
+            %\item Návrh nového měřícího systému a pož
+            \item Definovat požadavky na nově navržený systém
+            \item Navrhněte blokové schéma celého systému a uveďte požadavky na jednotlivé komponenty.
+            \item Volba vhodných komponent a jejich propojení s výpočetní jednotkou. Zprovoznění jednotlivých komponent.
+			%	\begin{itemize}
+			%		\item nastudované
+			%	\end{itemize}
+			%\item 
+			%	\begin{itemize}
+			%		\item nastudované
+			%		\item nové
+			%	\end{itemize}
+			%\item Porovnat a vyhodnotit
+			%	\begin{itemize}
+			%			\item výsledky
+			%	\end{itemize}
+	\end{enumerate}
+\end{frame}
+
+%%%%%%%%%%%%%##################################
+\begin{frame} %6
+    \frametitle{Nově navrhovaný sytém} %BLOKOVE schmea
+    
+    \begin{figure}%	
+				\centering
+				%\vspace{0.5cm}	              % horizontální mezera
+				\includegraphics[width=0.7\columnwidth]{obrazky/Blokové schéma.png}
+    \end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%##################################
+\begin{frame} %3
+    \frametitle{Dosavadní metody měření}
+    \begin{itemize}
+			\item Odměrné válce
+				\begin{itemize}
+					\item Obecné odměrné válce
+                    \item Odměrné válce na alkohol
+				\end{itemize}
+			\item Váhy
+	\end{itemize}
+
+    \begin{figure}%	
+				\centering
+				\vspace{1cm}	              % horizontální mezera
+				\includegraphics[width=0.2\columnwidth]{obrazky/odměrný válec.jpg}
+                \includegraphics[width=0.3\columnwidth]{obrazky/odměrný válec na alkohol.jpg}
+                \includegraphics[width=0.3\columnwidth]{obrazky/decibar.jpg}
+    \end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%##################################
+\begin{frame} %4
+    \frametitle{Výpočet objemu}  
+    \begin{columns}[T]
+    \begin{column}{0.6\textwidth}
+      \begin{alertblock}{Lineární předpis funkce}
+	   	$$ V = k \cdot m - q\, \left[\mathrm{m^3}\right] $$
+	   \end{alertblock}
+    
+     \begin{block}{Výpočet směrnice}
+	   	$$ k = \frac{V_{max}-V_{min}}{m_{max}-m_{min}}\, \left[\mathrm{m^3}/kg\right] $$
+	   \end{block}
+    
+      \begin{block}{Výpočet offsetu}
+	   	$$ q = V_{min} - k \cdot m_{min}\, \left[\mathrm{m^3}\right] $$
+	   \end{block}
+    \end{column}
+
+ \begin{column}{0.4\textwidth}
+ \vspace{0.5cm}
+ \(V_{min}\) ...objem prázdné láhve
+
+\(V_{max}\) ...objem plné láhve
+
+\(m_{min}\) ...hmotnost prázdné láhve
+
+\(m_{max}\) ...hmotnost plné láhve
+\end{column}
+ \end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%##################################
+%\begin{frame} %5
+%    \frametitle{Výpočet objemu} %GRAFY
+%    \begin{figure}%	
+%				\centering
+%				%\vspace{0.5cm}	              % horizontální mezera
+%				\includegraphics[width=0.7\columnwidth]{obrazky/lineární funkce.png}
+%    \end{figure}
+%\end{frame}
+
+
+%%%%%%%%%%%%%##################################
+\begin{frame} %6
+    \frametitle{Databáze}
+    \vspace{1cm}
+    \begin{table}[!h]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+    Název destilátu & Destilát č.1   & Destilát č.2   &  . . . \\ \hline
+    EAN kód [-]&  &    &        \\ \hline
+    Hmotnost prázdné láhve [g] &    &  &        \\ \hline
+    Hmotnost plné láhve [g] &    &    &  \\ \hline
+    Hmotnost víčka [g] &    &    &  \\ \hline
+    Maximální objem láhve [l] &    &    &  \\ \hline
+    Množství alkoholu [l] &    &    &  \\ \hline
+    Obrázek [-] &    &    &  \\ \hline
+    %Obrázek: obsahuje adresu/název obrázku, který je uložen ve složce
+    \end{tabular}
+    %\caption{Databáze destilátů}
+    \end{table}
+\end{frame}
+
+%%%%%%%%%%%%%############################
+\begin{frame} 
+	\frametitle{Výběr komponent}
+	
+	\begin{columns}[T] 								% prostředí sloupce s umístěním nahoře
+		\begin{column}{0.4\textwidth}		% první sloupec
+			%Obrázek znázorňuje model:\\[2ex]
+			%
+			\begin{itemize}
+				\item Mikrokontrolér
+				\item Váha
+				\item Čtečka čárového kódu
+				\item Displej
+			\end{itemize}
+            \vspace{1cm}
+            \includegraphics[width=0.7\columnwidth]{obrazky/gm65.PNG}
+		\end{column}
+		%
+		\begin{column}{0.6\textwidth}		% druhý sloupec
+			\begin{figure}%	
+				\centering
+				%\vspace{1cm}	              % horizontální mezera
+				\includegraphics[width=0.7\columnwidth]{obrazky/raspberry-pi-4.png}
+                \includegraphics[width=0.7\columnwidth]{obrazky/E3000.png}
+				%lze vložit popisek, ale povetšinou je to v prezentaci zbytečné
+				%\caption{Popisek obrázku}%
+				%\label{obr:ukazka}
+			\end{figure}
+		\end{column}
+	\end{columns}											% ukončení prostředí sloupce
+\end{frame}
+
+%%%%%%%%%%%%%##############################
+\begin{frame} 
+	\frametitle{Závěr}
+    Jak budu pokračovat v bakalářské práci:
+    \begin{itemize}
+                \item Zprovoznit výsledný systém jako celek
+				\item Vývoj firmwaru pro mikrokontrolér
+				\item Vývoj databáze
+			\end{itemize}
+    
+\end{frame}
+
+%%%%%%%%%%%%#############################
+% podekovani
+\begin{frame}[c] 
+% bez nadpisu snímku
+	\frametitle{\mbox{ }}
+	\begin{center}
+		{\Huge Děkuji za pozornost!}
+	\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[c] 
+    \begin{table} [!h]
+        \centering
+        \begin{tabular}{|l|l|l|l|}
+        \hline
+             Název nalévače   & Nalévač č.1 & Nalévač č.2 &  . . .\\ \hline
+             Výrobce &             &             &\\ \hline
+             Hmotnost &             &             &\\ \hline
+             Obrázek &             &             &\\ \hline
+        \end{tabular}
+        \caption{Databáze nalévačů}
+        \label{tab:my_label}
+    \end{table}
+
+    \begin{figure}%	
+				\centering
+				%\vspace{1cm}	              % horizontální mezera
+				\includegraphics[width=0.3\columnwidth]{obrazky/nalévač.jpg}
+			\end{figure}
+    
+\end{frame}
+
+\begin{frame}[c] 
+    \frametitle{Zprovoznění komponent}
+
+    \begin{figure}%	
+				\centering
+				%\vspace{1cm}	              % horizontální mezera
+				\includegraphics[width=0.6\columnwidth]{obrazky/nastaveni putty.png}
+			\end{figure}
+    
+\end{frame}
+
+\begin{frame}[c] 
+    \frametitle{Zprovoznění komponent}
+
+    \begin{figure}%	
+				\centering
+				%\vspace{1cm}	              % horizontální mezera
+                \includegraphics[width=0.7\columnwidth]{obrazky/Testování komunikace pomocí PuTTY.jpg}
+			\end{figure}
+    
+\end{frame}
+
+\begin{frame}[c] 
+    \frametitle{Zprovoznění komponent}
+
+    \begin{figure}%	
+				\centering
+				%\vspace{1cm}	              % horizontální mezera
+                \includegraphics[width=0.8\columnwidth]{obrazky/DS1Z_QuickPrint6.png}
+			\end{figure}
+    
+\end{frame}
+
+
+\begin{frame}[c] 
+    \frametitle{Váha - výstupní data (RS-232)}
+
+    \begin{itemize}
+                \item 1 start bit
+				\item 8 datových bitů
+				\item 1 stop bit
+                \item Bez paritního bitu
+    \end{itemize}
+    \vspace{1cm}	
+    
+    Data reprezentována jako ASCII:    
+    \begin{figure}%	
+				\centering
+				%\vspace{1cm}	              % horizontální mezera
+				\includegraphics[width=0.9\columnwidth]{obrazky/ascii.png}
+			\end{figure}
+    
+\end{frame}
+
+%%%%%%%%%%%%%
+%\begin{frame} 
+%	\frametitle{Klíčové nástroje}
+%
+%	% prostředí 'alertblock', které slouží pro zdůraznění informace
+%	\begin{alertblock}{Pro práci je klíčový Eulerův vzorec}
+%		$$\eul^{\jmag x}=\cos x + \jmag\sin x$$
+%	\end{alertblock}
+%
+%	\vspace{4ex}
+%	Eulerova identita je speciálním případem tohoto vzorce, jestliže dosadíme $x=\uppi$\,:
+%
+%	% prostředí 'block', které slouží jako informativní
+%	\begin{block}{Eulerova identita}
+%		$$\eul^{\jmag \uppi}=\cos \uppi + \jmag\sin \uppi,$$\\
+%		odkud vyplývá
+%		$$\eul^{\jmag \uppi}+1=0.$$
+%	\end{block}
+%\end{frame} 
+
+%%%%%%%%%%%%%
+%\begin{frame} 
+%	\frametitle{Plošný spoj}
+%	
+%	\begin{columns}[T] 								% prostředí sloupce s umístěním nahoře
+%		\begin{column}{0.4\textwidth}		% první sloupec
+%			Obrázek znázorňuje model:\\[2ex]
+%			%
+%			\begin{itemize}
+%				\item Deska
+%				\item Součástky
+%				\item Signály
+%				\item Napájení
+%			\end{itemize}
+%		\end{column}
+%		%
+%		\begin{column}{0.6\textwidth}		% druhý sloupec
+%			\begin{figure}%	
+%				\centering
+%				\vspace{1cm}	              % horizontální mezera
+%				\includegraphics[width=0.8\columnwidth]{obrazky/soucastky}
+%				%lze vložit popisek, ale povetšinou je to v prezentaci zbytečné
+%				%\caption{Popisek obrázku}%
+%				%\label{obr:ukazka}
+%			\end{figure}
+%		\end{column}
+%	\end{columns}											% ukončení prostředí sloupce
+%\end{frame}
+
+%%%%%%%%%%%%%
+%\begin{frame} 
+%	\frametitle{Výsledky}
+%	\vspace{1cm}
+%	\begin{table}[]
+%		\centering
+%		\caption{Výsledky měření mobilních sítí}
+%		\label{tab:tabulka}
+%			\begin{tabular}{lcc}
+%				\toprule
+%					Technologie  & Rychlost stahování [kB/s] & Rychlost nahrávání [kB/s] \\
+%				\midrule
+%					GPRS (2,5G)	& 7,2 	& 3,6\\
+%					UMTS 3G     & 48 		& 48\\
+%					HSPA (3,5G)	&	1\,706	&	720\\
+%					LTE (4G) 		& 40\,750 & 10\,750\\
+%				\bottomrule                                       
+%			\end{tabular}
+%	\end{table}
+%\end{frame}
+
+
+% otázky oponenta
+%\frame{
+%\frametitle{Otázky oponenta}
+%	\emph{Jaká je souvislost Vašeho vzorce (1.2) s~Maxwellovými rovnicemi v~integrálním tvaru?}\\[2ex]
+%	%
+%	Již staří Římané\,\dots
+%}
+
+\end{document}

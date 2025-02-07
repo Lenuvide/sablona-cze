@@ -1,0 +1,268 @@
+\chapter{Výpočet objemu - var. 1}
+%Hlavní komponentou vyvíjeného systému je váha, kdy z naměřené hmotnosti jsme schopni vypočítat objem. Základní vztah pro výpočet objemu kapaliny je:
+Hlavní komponentou vyvíjeného systému je váha, kdy z naměřené hmotnosti jsme schopni vypočítat objem. Použijeme základní vztah pro výpočet objemu, kde hmotnost kapaliny vypočítáme jako rozdíl plné a prázdné láhve:
+
+\begin{equation}
+    V = \frac{m}{\rho} \, \left[\mathrm{m^3}\right] \label{objem_kapalina}
+ \end{equation}
+
+V ...objem kapaliny
+
+m ...hmotnost kapaliny \([\mathrm{kg}]\)
+
+\(\rho\) ...hustota kapaliny \([\mathrm{kg/m^3}]\)
+\\
+\\
+Výpočet hustoty kapaliny:
+
+%V prvním případě je nutné vypočítat hmotnost kapaliny:
+
+%\begin{equation}
+%    m = m_{plná} - m_{prázdná} \, \left[\mathrm{kg}\right]
+%    \label{objem_kapalina}
+%\end{equation}
+
+%\(m_{min}\) ...hmotnost prázdné láhve \([\mathrm{kg}]\)
+
+%\(m_{max}\) ...hmotnost plné láhve \([\mathrm{kg}]\)
+%\\
+
+\begin{equation}
+    \rho = \frac{m_{max} - m_{min}}{V_{max}} \, \left[\mathrm{kg/m^3}\right] \label{objem_kapalina}
+\end{equation}
+
+\(m_{min}\) ...hmotnost prázdné láhve \([\mathrm{kg}]\)
+
+\(m_{max}\) ...hmotnost plné láhve \([\mathrm{kg}]\)
+
+\(V_{max}\) ...objem plné láhve \([\mathrm{m^3}]\)
+\\
+
+%KOMENT
+
+Při výpočtu objemu můžeme zanedbat tepelnou roztažnost ze dvou důvodů:
+
+1)
+Při inventarizaci se snažíme zjistit rozdíl v množství destilátu od předchozí inventury. Běžnou praxí je využití odměrného válce, kdy objem určujeme podle rysky. Nový systém však využívá nepřímého měření založeného na hmotnosti. Kapalina při změně objemu nemění svou hmotnost, což vyvolává otázku, proč se nesoustředíme na měření zbytkové hmotnosti místo objemu. V obchodní praxi, a to i v gastronomii, se však všechny lihoviny uvádějí v jednotkách objemu. Proto je nutné naměřenou hmotnost přepočítat na objem, přičemž je klíčové, aby všechny hodnoty byly vztaženy ke stejné teplotě, aby bylo možné výsledky mezi sebou porovnávat. 
+
+Objem se počítá pro referenční teplotu, při které byl stanoven objem plné láhve. Každý kapalný produkt (nápoje, mycí prostředky, oleje atd.) uvádí na své etiketě objem, který je obvykle vypočítán pro pokojovou teplotu 20 °C. Výhodou této metody je, že umožňuje zjistit zbytkové množství kapaliny při jakékoliv teplotě. V případě odměrných válců by bylo nutné měřit všechny destiláty při pokojové teplotě, což je časově náročné(z důvodu než se nám alkohol vytažený z lednice zahřeje na pokojovou teplotu) nebo by bylo potřeba měřit teplotu lihoviny a následně provést korekční výpočet, jaký objem by kapalina měla při pokojové teplotě. Ani jeden z těchto postupů se však běžně nepoužívá kvůli své nepraktičnosti.
+
+2)
+V případě odměrných válců jejich nevýhodou je tepelná roztažnost kapalin, kdy válce jsou dimenzované pro konkrétní teplotu, obvykle 20 °C. Většina otevřených destilátů je chlazena v lednicích pro zachování chuti, kvality a aromatu, což způsobuje menší objem naměřený na válci oproti skutečnému. Podmínky skladování si stanovuje každý výrobce lihovin sám. Obvykle čím má lihovina menší procento alkoholu tím se podává chladnější, není to ale pravidlo. Víno je chlazeno na 5 - 15 °C, lihoviny 5 - 18 °C(gin, rum, whisky) a emulzní likéry(vaječný likér, Baileys) > 5 °C.
+
+Například, měří-li se při teplotě 5 °C destilát s vysokým obsahem alkoholu, např. 80\% z důvodu vyšší tepelné roztažnosti ethanolu oproti vodě a při počátečním objemu 1 l, vyjde chyba 13,74 ml za předpokladu, že destilát obsahuje pouze ethanol a vodu bez dalších příměsí. Pro účely inventury však není tato chyba nijak významná. Postup výpočtu je ukázán níže. [\ref{objem_kapalina}]
+
+\begin{equation}
+\label{objem_kapalina}
+    \Delta V = \Delta V_v + \Delta V_e \left[m^3\right]
+\end{equation}
+
+
+\[\Delta V = 0,64 + 1,13 = 13,74 \left[ml\right]\]
+
+
+\(\Delta V\) ...celkový rozdílový objem
+
+\(\Delta V_{v}\) ...rozdílový objem vody \([m^3]\)
+
+\(\Delta V_{e}\) ...rozdílový objem ethanolu \([m^3]\)
+
+
+\begin{equation}
+%\label{objem_kapalina}
+    \Delta V_v = \frac{p_v}{100} \cdot V_0 \cdot \beta_v \cdot (t_1 - t_0)
+\end{equation}
+
+\[\Delta V_v = \frac{20}{100} \cdot 1 \cdot  2,14 \cdot 10^{-4} \cdot (20 - 5) = 0,64 \left[ml\right]\]
+
+\(p_v\) ...objemový podíl vody \([\%]\) 
+
+\(V_0\) ...počáteční objem lihoviny \([m^3]\)
+
+\(\beta_v\) ...součinitel objemové teplotní roztažnosti vody \([\frac{m^3}{m^3 \cdot ^\circ C}]\)
+
+\(t_1\) ...koncová teplota \([^\circ C]\)
+
+\(t_0\) ...počáteční teplota \([^\circ C]\)
+
+\begin{equation}
+    \Delta V_e = \frac{p_e}{100} \cdot V_0 \cdot \beta_e \cdot (t_1 - t_0)\left[m^3\right] \label{objem_kapalina}
+\end{equation}
+
+\[\Delta V_e = \frac{80}{100} \cdot 1 \cdot  1,09 \cdot 10^{-3} \cdot (20 - 5) = 13,1 \left[ml\right]\]
+
+\(p_e\) ...objemový podíl ethalonu(alkoholu) \([\%]\) 
+
+\(\beta_e\) ...součinitel objemové teplotní roztažnosti ethalonu \([\frac{m^3}{m^3 \cdot ^\circ C}]\)
+
+
+
+%\begin{equation}
+%    \rho = \frac{m_{plná} - m_{prázdná}}{V_{max}} \, \left[\mathrm{kg/m^3}\right] \label{objem_kapalina}
+%\end{equation}
+
+
+%Výsledný vzorec pro výpočet objemu:
+
+%\begin{equation}
+%    V = \frac{m - m_{prázdná}}{\rho} \, \left[\mathrm{m^3}\right] \label{objem_kapalina}
+%\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter*{Výpočet objemu - var. 2}
+\addcontentsline{toc}{chapter}{Výpočet objemu - var. 2}
+Hlavní komponentou vyvíjeného systému je váha, kdy z naměřené hmotnosti jsme schopni vypočítat objem. Použijeme základní vztah pro výpočet objemu, kde hmotnost kapaliny vypočítáme jako rozdíl hmotnosti láhve se zbytkovou kapalinou a hmotnosti prázdné láhve:
+
+\begin{equation}
+    V = \frac{m - m_{min}}{\rho} \, \left[\mathrm{m^3}\right] \label{objem_kapalina}
+\end{equation}
+
+V ...objem kapaliny
+
+m ...hmotnost láhve se zbytkovou kapalinou \([\mathrm{kg}]\)
+
+\(m_{min}\) ...hmotnost prázdné láhve \([\mathrm{kg}]\)
+
+\(\rho\) ...hustota kapaliny \([\mathrm{kg/m^3}]\)
+\\
+\\
+Výpočet hustoty kapaliny:
+
+\begin{equation}
+    \rho = \frac{m_{max} - m_{min}}{V_{max}} \, \left[\mathrm{kg/m^3}\right] \label{objem_kapalina}
+\end{equation}
+
+
+\(m_{max}\) ...hmotnost plné láhve \([\mathrm{kg}]\)
+
+\(V_{max}\) ...objem plné láhve \([\mathrm{m^3}]\)
+\\
+\\
+Při výpočtu objemu můžeme zanedbat tepelnou roztažnost ze dvou důvodů:
+\\
+\begin{enumerate}
+    \item
+    Při inventarizaci se snažíme zjistit rozdíl v množství destilátu od předchozí inventury. Běžnou praxí je využití odměrného válce, kdy objem určujeme podle rysky. Nový systém však využívá nepřímého měření založeného na hmotnosti. Kapalina při změně objemu nemění svou hmotnost, což vyvolává otázku, proč se nesoustředíme na měření zbytkové hmotnosti místo objemu. V obchodní praxi, a to i v gastronomii, se však všechny lihoviny uvádějí v jednotkách objemu. Proto je nutné naměřenou hmotnost přepočítat na objem, přičemž je klíčové, aby všechny hodnoty byly vztaženy ke stejné teplotě, aby bylo možné výsledky mezi sebou porovnávat.
+    
+    Objem se počítá pro referenční teplotu, při které byl stanoven objem plné láhve. Každý kapalný produkt (nápoje, mycí prostředky, oleje atd.) uvádí na své etiketě objem, který je obvykle vypočítán pro pokojovou teplotu 20 °C. Výhodou této metody je, že umožňuje zjistit zbytkové množství kapaliny při jakékoliv teplotě. V případě odměrných válců by bylo nutné měřit všechny destiláty při pokojové teplotě, což je časově náročné(z důvodu než se nám alkohol vytažený z lednice zahřeje na pokojovou teplotu) nebo by bylo potřeba měřit teplotu lihoviny a následně provést korekční výpočet, jaký objem by kapalina měla při pokojové teplotě. Ani jeden z těchto postupů se však běžně nepoužívá kvůli své nepraktičnosti.
+    
+    \item 
+    %Z výše uvedeného bodu vyplývá, že vypočítaný objem bude odpovídat referenční teplotě 20 °C. Stejně jako v příkladu č. [\ref{objem_kapalina}] se objeví zanedbatelná chyba, pokud bude měřicí systém stejně nebo přesnější než odměrný válec.
+    I pro případ, kdybychom nepočítali objem pro referenční teplotu, tak odchylka vyjde stejně jako v příkladu č. [\ref{objem_kapalina}], kde se objeví zanedbatelná chyba, pokud bude měřicí systém stejně nebo přesnější než odměrný válec.
+\end{enumerate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{Přepočet hmotnosti na objem}
+\addcontentsline{toc}{chapter}{Přepočet hmotnosti na objem}
+\label{Přepočet hmotnosti na objem}
+%Přepočet hmotnostního množství na objemové / Výpočet objemu
+%\section{Princip}
+
+%Hlavní komponentou vyvíjeného systému je váha, která slouží, stejně jako víše zmíněne váhy, k přepočtu hmotnostního množství na objemové.
+%Ze známe hmnotnosti 
+
+%Hlavní komponentou vyvíjeného systému je váha, která slouží k přepočtu hmotnostního množství na objemové. Základní vztah pro výpočet objemu je: 
+
+%Hlavní komponentou vyvíjeného systému je váha, kdy z naměřené hmotnosti jsme schopni vypočítat objem. Základní vztah pro výpočet objemu kapaliny je:
+
+%\begin{equation}
+%    V = \frac{m}{\rho} \, \left[\mathrm{m^3}\right] \label{objem_kapalina}
+%\end{equation}
+
+%V ...objem kapaliny
+
+%m ...hmotnost kapaliny \([\mathrm{kg}]\)
+
+%\(\rho\) ...hustota kapaliny \([\mathrm{kg/m^3}]\)
+%\\
+
+%V praxi by byla tato metoda poměrně přesná pro výpočet objemu pouze čirých destilátů, které mají složení “jen” vody a ethanolu, pro které známe hustotu a poměr mezi nimi, díky známé hodnotě obsahu alkoholu. Barevné destiláty nebo destiláty s vyšší viskozitou obvykle obsahují další příměsi, pro které neznáme jejich hustotu a poměr mezi nimi a výpočet pouze z vody a ethanolu by vedl na velkou chybovost.
+%Tato metoda by byla v praxi poměrně přesná pro výpočet objemu pouze čirých destilátů, které se skládají "jen" z vody a ethanolu. Pro tyto destiláty známe hustotu a poměr obou složek díky známému obsahu alkoholu. Barevné nebo viskózní destiláty však obvykle obsahují další příměsi, jejichž hustotu a poměr neznáme. Výpočet pouze z vody a ethanolu by proto vedl k velké nepřesnosti.
+
+\section{Linearizace}
+\label{odkazos}
+%https://cs.wikipedia.org/wiki/ISO_1
+%https://cs.wikipedia.org/wiki/Standardn%C3%AD_teplota_a_tlak
+
+Pro výpočet objemu kapaliny, v našem případě destilátů, můžeme za určitých podmínek použít linearizaci dvou bodů. Výpočet provedeme ze známého objemu plné láhve a hmotnosti prázdné a plné láhve. Teplota a tlak nemají vliv na hmotnost, tedy na množství alkoholu, a proto je můžeme zanedbat. Výsledný objem bude platit pro referenční teplotu a tlak, při kterých byl stanoven objem plné láhve.
+
+%Výpočet objemu kapaliny v našem případě destilátů se dá za určitých podmínek spočítat pomocí linearizace dvou bodů %- hmotnosti prázné a plné lahve a k tomu patřičný objem.
+
+%Výpočet budem provádět ze známého objemu plné láhve a naměřené hmotnosti prázdné a plné láhve. Teplota a tlak nemá vliv na naměřenou hmotnost tedy množství alkoholu a můžeme je zanedbat. Výsledný objem bude pro referenční teplotu a tlak při které byl stanoven objem plné láhve. %Pro naše účely tedy není nutné znát objem v daném okamžiku, ale za  
+
+%Tuhle teplotu a tlak stanovuje česká norma ČSN EN ISO 1 (01 4110).
+
+%Výpočet je tedy závislý na naměřené hmotnosti na kterou nemá vliv teplota ani tlak. 
+
+%Tím, že je výpočet závislý na hmotnosti, tak můžeme zanedbat teplotu a tlak. Rozdílem hmotností kapaliny a láhve jsme schopni získat  
+
+%Teplotu a tlak můžeme zanedbat. Tím, že měříme hmotnost 
+
+%Při fyzické inventuře nás zajímá skutečné množství  
+
+
+%V našem případě tlak v uzavřené láhvi je tak malý, že neovlivňuje výsledný objem kapaliny. Teplota 
+
+%inventurní účely se dá  
+%
+%však můžem použít jinou metodu, která není závislá na hustotě, tedy teplotě a tlaku s tím spojená. 
+%
+%%Hustota je závislá na teplotě, proto budem počítat s její referenční hodnotou teploty. Budem předpokládat, jaký 
+%%Našim cílem je po
+%
+%Hustota je závislá na teplotě a tlaku. V případě kapalin můžeme tlak zanedbat z důvodu "nulového" vlivu na výsledný objem.
+%
+%V praxi
+%
+%Hustota je závislá na teplotě a tlaku, proto si stanovíme pevnou hodnotu teploty, kterou budem považovat za konstantu. Budem tedy počítat objem kapaliny pro referenční teplotu a tlak. Náš objem tedy bude závisly pouze na hmotnosti a můžeme ho linearizovat.
+%
+%Našim cílem je změřit objem alkoholu bez nutnosti jej přelévat, proto budem měřit i hmotnost lahve ve kterém se alkohol nachází. Ze známe hmotnosti prázdné "m1" a plné láhve "m2 "a tomu příslušnému objemu 'V2', jsme schopni vytvořit předpis přímky ze dvou bodů. %V první řadě je nutné zjistit směrnici (pro nulový offset):
+
+Výpočet objemu pomocí předpisu přímky ve směrnicovém tvaru:
+\begin{equation}
+    V = k \cdot m - q\, \left[\mathrm{m^3}\right] \label{objem_linearizace}
+\end{equation}
+
+Výpočet směrnice:
+%\ref{objem_linearizace}
+\begin{equation}
+    k = \frac{V_{max}-V_{min}}{m_{max}-m_{min}}\, \left[\mathrm{m^3/kg}\right]\label{směrnice}
+\end{equation}
+
+\(V_{min}\) ...objem prázdné láhve \([\mathrm{m^3}]\)
+
+\(V_{max}\) ...objem plné láhve \([\mathrm{m^3}]\)
+
+\(m_{min}\) ...hmotnost prázdné láhve \([\mathrm{kg}]\)
+
+\(m_{max}\) ...hmotnost plné láhve \([\mathrm{kg}]\)
+\\
+
+Objem prázdné lahve bude vždy nulový, proto můžeme předpis směrnice zjednodušit:
+\begin{equation}
+    k = \frac{V_{max}}{m_{max}-m_{min}}\, \left[\mathrm{m^3/kg}\right] \label{směrnice_ez}
+\end{equation}
+
+%Pokud to nepujde napsat vizuálně zlomkovým tvarem, tak dat nezapomenout závorky
+
+Výpočet offsetu:
+\begin{equation}
+    q = V_{min} - k \cdot m_{min}\, \left[\mathrm{m^3}\right] \label{offset}
+\end{equation}
+
+Opětovně jde zjednodušit na tvar:
+
+\begin{equation}
+    q = k \cdot m_{min}\, \left[\mathrm{m^3}\right] \label{offset_ez}
+\end{equation}
+
+%Pro naší aplikaci bude V1 vždy rovna nule, protože minimální objem je nulový
+
+%%FOTO grafu ve kterem bude Vmin = 0
+
+%\section{Linearizace}
