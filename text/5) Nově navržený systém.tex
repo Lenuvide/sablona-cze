@@ -407,7 +407,7 @@ V této sekci se nebudeme zabývat, jakým způsobem jsou čísla kódována do 
 
 \subsection{Požadavky na čtečku čárového kódu}
 
-Na trhu je dostupných více druhů senzorů, které se liší požadavky na přesnost, druh implementace, velikostí, atd.
+Na trhu je dostupných více druhů senzorů, které se liší požadavky na přesnost, druh implementace, velikostí atd.
 
 Komunikační rozhraní čtečky se požaduje UART nebo USB s možností povolení virtuálního seriového portu pro komunikaci s mikrokontrolérem - označováno USB VCom.
 
@@ -431,7 +431,11 @@ Mezi alternativy můžeme zařadit:
     \item WaveShare Barcode Scanner - dražší než vybraná čtečka(1318 Kč), integrovaný sériový port micro USB a UART
 \end{itemize}
 
-\section{Mikrokontrolér}
+\section{Mikrokontrolér} %Mikrokontroler
+%Výpočetní modul / Modul s výpočetní jednotkou / Řídící jednotka
+
+%Výpočetní modul je samostatná hardwarová součást (typicky deska plošných spojů s procesorem, pamětí a nezbytnými rozhraními), která zajišťuje hlavní výpočetní výkon ve větším elektronickém nebo řídicím systému. Pracují často s dalšími moduly, ať už řídícími(mikrokontroler, jednodeskový počítač, atd), sběrnicovými, vstupními(senzory, klávesnice, atd) či výstupními(diplej, reproduktor, atd)
+
 
 %Mikrokontroler jinak označovaný jednočipový počítač je integrovaný obvod
 Mikrokontrolér nebo také jednočipový počítač je integrovaný obvod obsahující kompletní mikropočítač. Jednočipové počítače se vyznačují velkou spolehlivostí a kompaktností, proto jsou určeny především pro jednoúčelové aplikace. Mikrokontroléry jsou často používány v embedded systémech, jako jsou například řídicí systémy, regulátory, senzory a další aplikace, kde je potřeba rychle a spolehlivě zpracovávat data.%[zdroj]
@@ -439,12 +443,31 @@ Mikrokontrolér nebo také jednočipový počítač je integrovaný obvod obsahu
 %https://sk.wikipedia.org/wiki/Mikrokontrol%C3%A9r
 %https://cs.wikipedia.org/wiki/Jedno%C4%8Dipov%C3%BD_po%C4%8D%C3%ADta%C4%8D
 
-\subsection{Požadavky na mikrokontrolér}
-Hlavním z požadavků je snadná realizovatelnost firmware s integrovaným grafickým uživatelským rozhraním pro ovládání dotykového displeje. Pro takový účely je vhodné použít programovací jazyk Python, který nabízí široký výběr knihoven a nástrojů, které ulehčují a zrychlují vývoj samotného firmware.
+\subsection{Požadavky na řídící jednotku / výpočetní modul}
+%napájení
+%OS(bez os nepojede databaze atd) a grafická čip, hdmi,  pro vývoj GUI
+%Jednodeskotopový PC skrz chod pythonu a Tkinter, ten na mikrokontroleru nerozjedu skrz malou pamět a výkon a na MikroPython nic takového nebude. Dále mikrokontorler nemá SD slot pro ukládání databáze
+%V mobilu mam napsany od petyho proč nevybrat to a tam a nejaky popis k mikrokontrolerum
 
-Další z požadavků je 4x USB a 1x HDMI nebo Micro HDMI port pro připojení jednotlivých komponent měřicího systému - váha, EAN čtečka, displej a klávesnice.
+%
 
-Další požadavek je na integrovanou čtečku SD karty na které budou uložena veškerá data zmíněná v kapitole č. 5.3 o databázi.
+Hlavním z požadavků je snadná realizovatelnost firmware s integrovaným grafickým uživatelským rozhraním(GUI) ovládaného dotykovým displejem. Pro takové účely je vhodné použít vysokoúrovňový programovací jazyk, např. Python, který nabízí široký výběr knihoven a nástrojů, které ulehčují a zrychlují vývoj samotného firmware, na druhou stranu je nutné přihlédnout na dostačující výkon a paměť řídící jednotky.
+Firmware poběží na operačním systému Linux.
+
+Další požadavky:
+\begin{itemize}
+    \item Výkon: Vyvíjená GUI aplikace bude zobrazována a ovládána vybraným displejem[5.5.2] s rozlišením 1024x600 a současně zpracovávat data ze čtečky čárového kódu[5.6.2] a váhy[5.4.2], pro tyto účely by se hodil dvou a více jádrový procesor... grafický akcelerátor. Další z věcí, která by mohla ulehčit chod aplikace, by byl grafický akcelerátor.
+    \item Výkon: Dvou a více jádrový procesor pro paralelní chod GUI a stavového automatu pro zpracování dat ze čtečky čárového kódu a váhy.
+    \item Periferie:
+        \begin{itemize}
+            \item 3x USB: Čtečka čárového kódu, váha, napájení displeje 
+            \item 1x HDMI: Dotykový displej
+            \item slot na SD kartu na které budou uložena veškerá data databáze zmíněná v kapitole č. 5.3, operační systém a samotný firmware.
+        \end{itemize}
+        3x USB a 1x HDMI nebo Micro HDMI port pro připojení jednotlivých komponent měřicího systému - váha, EAN čtečka, displej.
+    \item Další požadavek je integrovaný slot pro SD kartu na které budou uložena veškerá data databáze zmíněná v kapitole č. 5.3, operační systém a samotný firmware.
+    \item Wi-Fi modul: Do budoucna je cílem bezdrátová konektivita s měřícím systémem pomocí mobilní aplikace nebo připojení se k ERP systémům
+\end{itemize}
 
 Do budoucna je cílem bezdrátová konektivita s mikrokontrolérem pomocí mobilní aplikace nebo připojení se k ERP systémům, pro tyto účely požadujeme integrovaný Wi-Fi modul.
 
