@@ -4,8 +4,11 @@
 Nově navržený systém se skládá z databáze a 5 hlavních komponent navzájem propojených: mikrokontrolér, váha, čtečka čárového kódu, displej a klávesnice. Dále je možnost připojit systém k počítači pro správu databáze a tisk dat. 
 
 \section{Postup měření}%/Princip/funkcionalita
-Pro evidenci zůstatkového objemu jedné láhve je nutné naskenovat její čárový kód pomocí čtečky čárových kódů a zvážit ji. Mikrokontroler na základě získaného EAN vybere z databáze patřičná data, viz kapitola č. \ref{databaze} a přepočítá hmotnost na objem. V případě, že by čárový kód nebyl čitelný, je možné ho zadat ručně do systému prostřednictvím klávesnice. Veškeré důležité informace včetně zbytkového objemu se zobrazí na displeji. Pro výpis všech naměřených dat je možné systém připojit k počítači a nechat si je vytisknout do formátu .xlsx pomocí navržené desktopové aplikace. Tato aplikace slouží i ke správě databáze.
-%Do budoucna k měřicimu systému bude vyvíjena aplikace, 
+Pro evidenci zůstatkového objemu jedné láhve je nutné naskenovat její čárový kód pomocí čtečky čárových kódů a zvážit ji. Mikrokontroler na základě získaného EAN vybere z databáze patřičná data, viz kapitola č. \ref{databaze} a přepočítá hmotnost na objem. V případě, že by čárový kód nebyl čitelný, je možné ho zadat ručně do systému prostřednictvím klávesnice. Veškeré důležité informace včetně zbytkového objemu se zobrazí na displeji. %Pro výpis všech naměřených dat je možné systém připojit k počítači a nechat si je vytisknout do formátu .xlsx pomocí navržené desktopové aplikace. Tato aplikace slouží i ke správě databáze.
+%Do budoucna k měřicimu systému bude vyvíjena desktopová aplikace běžící na stolním počítačí/notebooku. Mikrokontroler bude k počítači připojen prostřednictvím USB portu
+%Do budoucna pro výpis všech naměřených dat bude možné systém připojit k počítači a nechat si je vytisknout do formátu  .xlsx pomocí navržené desktopové aplikace. Tato aplikace slouží i ke správě databáze.
+
+Do budoucna bude vyvíjena desktopová aplikace pro editaci databáze[č.5.3] a zpracování naměřených dat, jako je například tisk do formátu .xlsl. Měřící systém bude propojený s počítačem skrz USB kabel nebo Wi-Fi.
 
 \section{Blokové schéma}
 %FOTO
@@ -21,15 +24,20 @@ Pro evidenci zůstatkového objemu jedné láhve je nutné naskenovat její čá
 \section{Databáze}
 \label{databaze}
 %Celý systém je závislý na datech, které nesou informace o názvu destilátu
-Aby bylo možné přepočítat hmotnost na objem je nutné znát předem hmotnost prázdné a plné láhve a její maximální objem. Postup výpočtu je zmíněn v kapitole č. \ref{odkazos}. Tyto data jsou uloženy v databázi včetně informací jako jsou: název destilátu, EAN kód, maximální objem, nebo adresa k obrázku daného produktu.
+Aby bylo možné přepočítat hmotnost na objem je nutné znát předem hmotnost prázdné a plné láhve a její maximální objem. Postup výpočtu je zmíněn v kapitole č. \ref{odkazos}. Tyto data jsou uloženy v relační\footnote{Data uložený v tabulkách, kde sloupce reprezentují atributy a řádky jednotlivé záznamy, řádky jsou propojeny pomocí tzv. klíčů. Tabulky \ref{databaze_destilatu} a \ref{tab:my_label} mají prohozené řádky a sloupce z důvodu lepšího umístění na stránku.} databázi včetně informací jako jsou: název destilátu, EAN kód, maximální objem, nebo adresa k obrázku daného produktu.
 %K datům se přistupuje pomocí EAN kódu nebo názvem destilátu zadaný klávesnicí.
 
 %Některé destiláty, mají na svém hrdle nalévač místo vršku, který mění hmotnost láhve. Aby naš systém byl časově efektivní, tak implementujeme druhou databázi 
 
-Některé destiláty mají na svém hrdle nalévátko (obrázek č. \ref{nalevačos}) místo víčka, který mění hmotnost láhve. V takovém případě bychom museli nalévač nahradit víčkem, aby hmotnost láhve odpovídala předpisu funkce, což je časově neefektivní. Místo toho byla navržena druhá databáze, obsahující hmotnosti různých nalévačů. Vzorec pro výpočet objemu ve výchozím nastavení počítá s víčkem na láhvi, proto uživatel musí při měření zakliknout pomocí klávesnice, že chce měřit objem s nalévačem. Při výpočtu dojde k nahrazení hmotnosti víčka hmotností nalévače a následně dojde k výpočtu výsledného objemu.
+%Některé destiláty mají na svém hrdle nalévátko (obrázek č. \ref{nalevačos}) místo víčka, který mění hmotnost láhve. V takovém případě bychom museli nalévač nahradit víčkem, aby hmotnost láhve odpovídala předpisu funkce, což je časově neefektivní. Místo toho byla navržena druhá databáze, obsahující hmotnosti různých nalévačů. Vzorec pro výpočet objemu ve výchozím nastavení počítá s víčkem na láhvi, proto uživatel musí při měření zakliknout pomocí klávesnice, že chce měřit objem s nalévačem. Při výpočtu dojde k nahrazení hmotnosti víčka hmotností nalévače a následně dojde k výpočtu výsledného objemu.
+
+Některé destiláty mají na svém hrdle nalévač nebo také nalévátko (obrázek č. \ref{nalevačos}) místo víčka, který mění hmotnost láhve. V takovém případě bychom museli nalévač nahradit víčkem, aby hmotnost láhve odpovídala předpisu rovnice č.xyz (skutečná hmotnost prázdné láhve musí odpovídat s hodnotou hmotnosti prázdné láhve v databázi), což je časově neefektivní. Místo toho byla navržena druhá databáze, obsahující hmotnosti různých nalévačů. Vzorec pro výpočet objemu ve výchozím nastavení počítá s víčkem na láhvi, proto uživatel musí při měření zakliknout v aplikaci, že chce měřit objem s nalévačem. Při výpočtu dojde k nahrazení hmotnosti víčka hmotností nalévače a následně dojde k výpočtu výsledného objemu.
+
+
 %Vyhledání destilátu a jeho dat je porstřednictvím EAN kódu nebo jeho názvu.
 
 Obě databáze jsou uložené v mikrokontroléru.
+
 %FOTO
 \begin{table}[!h]
 \centering
@@ -46,6 +54,7 @@ Obě databáze jsou uložené v mikrokontroléru.
 \textbf{Adresa obrázku} [-] [\textit{TEXT}] &    &    &  \\ \hline
 %Obrázek: obsahuje adresu/název obrázku, který je uložen ve složce
 \end{tabular}
+\label{databaze_destilatu}
 \caption{Databáze destilátů}
 \end{table}
 
@@ -63,12 +72,13 @@ Obě databáze jsou uložené v mikrokontroléru.
     \caption{Databáze nalévačů}
     \label{tab:my_label}
 \end{table}
+
 \begin{figure}[!h]
     \begin{center}
         \includegraphics[scale=0.6]{obrazky/nalevac.jpg}
     \end{center}
     \label{nalevačos}
-    \caption{Nalévátko na alkohol \cite{nalevatko}}
+    \caption{Nalévač na alkohol \cite{nalevatko}}
 \end{figure}
 % \definecolor{Silver}{rgb}{0.752,0.752,0.752}
 % \begin{table}[!h]
@@ -129,7 +139,7 @@ Nejdůležitější komponentou systému je váha pro výpočet zbytkového obje
 %
 \subsection{Požadavky na váhu}
 
-Hlavním požadavkem je oboustranný otevřený komunikační port pro čtení dat a odesílání požadavku na jejich zaslání prostřednictvím sériové linky do řídící jednotky. (u kterého bude znám popis přenosu dat) Tyto požadavky zpravidla splňují laboratorní a průmyslové váhy, kde se očekává, že data budou zpracovávána pomocí aplikace.
+Hlavním požadavkem je oboustranný otevřený komunikační port pro čtení dat a odesílání požadavku na jejich zaslání prostřednictvím sériové linky do řídící jednotky, je tedy nutné znát přesný popis přenosu dat. Tyto požadavky zpravidla splňují laboratorní a průmyslové váhy, kde se očekává, že data budou zpracovávána pomocí aplikačního softwaru.
 
 Váživost (maximální hmotnost, která lze na váze navážit) se požaduje minimálně 2 kg. Hmotnost prázdné láhve u většiny destilátů se pohybuje od 500 do 800 g a samotný obsah láhve je od 500 do 1000 ml, tudíž až necelý 1 kg. V případě robustnějších lahví okolo 1 kg by váživost do 2 kg nemusela stačit, proto je vhodnější volit 3 kg. Větší váživost jak 3 kg, by neměla pro běžné podniky HoReCa význam, navíc s vyšší váživostí úměrně klesá její přesnost a roste cena váhy.
 
@@ -226,9 +236,8 @@ Paket se skládá z:
     \item bez paritního bitu
 \end{itemize}
 %V našem případě není vyžadován paritní bit z důvodu opětovného odesílání stejných dat na výstup. Přínos by mohl mít pokud bychom ukládali veškeré příchozí data. Systém vezneme pouze poslední příchozí hodnotu, pokud sekvence dat za touhle hodnotou byla neměnná(např. za ±1 sekundu), tedy že se nám ustálila naměřená hmotnost.
-
+%
 %Datový paket váhy neobsahuje paritní bit, tudíž není možné zjistit zda zpráva není poškozena. Ošetření absence paritního bitu bude na SW úrovni. Pokud váha bude stabilizovaná a poslední 3 přijaté zprávy budou shodné, můžeme tuto hodnotu prohlásit/brát jako validní/správnou (nepoškozenou).
-
 Datový paket váhy neobsahuje paritní bit, tudíž odhalení poškozené zprávy je obtížnější. Ošetření absence paritního bitu bude na softwarové úrovni, kdy se vyhodnotí poslední 3 přijaté zprávy, pokud budou všechny shodné, můžeme prohlásit, že tato hodnota je s největší pravděpodobností nepoškozená. Pravděpodobnost, že by 3x po sobě přišla stejně poškozená zpráva, je vysoce mizivá.
 
 %Datový paket váhy neobsahuje paritní bit, což ztěžuje detekci případného poškození zprávy. Absence paritního bitu bude proto řešena na softwarové úrovni: vyhodnotí se poslední tři přijaté zprávy a pokud se všechny shodují, lze předpokládat, že jsou pravděpodobně nepoškozené. Pravděpodobnost trojnásobného opakovaného poškození stejné hodnoty je totiž téměř zanedbatelná.
@@ -373,6 +382,8 @@ Vybraný displej je JOY-IT RASPBERRY PI touch display 7". Jeho důležité param
         Rozlišení                                                        & 1024 × 600 px    \\ \hline
          Rozhraní 
             & HDMI, USB \\ \hline
+        Napájení & 5 V (0,6 A) \\ \hline
+        Spotřeba & 3 W \\ \hline
         Dotykový displej                                                        & Ano     \\ \hline
         Cena                                                            & 2297 Kč     \\ \hline
     \end{tabular}
@@ -389,6 +400,7 @@ Vybraný displej je JOY-IT RASPBERRY PI touch display 7". Jeho důležité param
     \caption{Vybraný displej JOY-IT \cite{displej}}
 \end{figure}
 
+\subsection{Alternativy vybraného displeje}
 Mezi alternativy můžeme zařadit:
 \begin{itemize}
     \item JOY-IT RASPBERRY PI touch display 5" - displej se liší od vybraného menší uhlopříčkou(5"), menším rozlišením(800x480) a nižší cenou(1599 Kč)
@@ -434,6 +446,7 @@ Vybraná čtečka je GM65 od společnosti KROW, obrázek č.\ref{gm65}.
     \label{gm65}
 \end{figure}
 
+\subsection{Alternativy vybrané čtečky čárového kódu}
 Mezi alternativy můžeme zařadit:
 \begin{itemize}
     \item YHDAA YHD-M800D - cenově stejně dostupné(1000 Kč) jak vybraná čtečka, integrovaný USB port, nepřehledná a nevypovídající dokumentace 
