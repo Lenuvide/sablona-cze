@@ -144,14 +144,35 @@ Hlavním požadavkem je oboustranný otevřený komunikační port pro čtení d
 Váživost (maximální hmotnost, která lze na váze navážit) se požaduje minimálně 2 kg. Hmotnost prázdné láhve u většiny destilátů se pohybuje od 500 do 800 g a samotný obsah láhve je od 500 do 1000 ml, tudíž až necelý 1 kg. V případě robustnějších lahví okolo 1 kg by váživost do 2 kg nemusela stačit, proto je vhodnější volit 3 kg. Větší váživost jak 3 kg, by neměla pro běžné podniky HoReCa význam, navíc s vyšší váživostí úměrně klesá její přesnost a roste cena váhy.
 
 Přesnost, jinak řečeno rozlišení nebo odčitatelnost, se udává v dílcích(d). Dílek je nejmenší hodnota hmotnosti, kterou lze z displeje váhy odečíst.\cite{vazivost} Měření zbytkového objemu destilátu při inventurách není záležitostí "laboratorního měření" a zákon nestanovuje s jakou přesností je nutné měřit objem v láhvích pro inventurní účely. Obecně na 
-přesnost není kladen velký důraz. Tím, že žádná norma nestanovuje jakou přesnost by měl mít nově navržený měřicí systém, by bylo optimální, aby měřilo s přesností stejnou nebo vyšší než odměrné válce. Odměrné válce na alkohol (kapitola č. \ref{obecny_valec}) mají přesnost 40 ml. Obyčejné odměrné válce (kapitola č. \ref{valec_na_alkohol}) používané pro inventurní účely jsou běžně nižší třídy přesnosti, jako je třída B, kde přesnost měření není klíčová. Můžeme se setkat v gastro průmyslu i s odměrnými válci nejvyšší přesnosti a to s třídou A, které jsou primárně určeny pro laboratorní účely. Tyto válce dle normy ISO 4788, mají přesnost pro objem 1 litr: +-5 ml (celková přesnost 10 ml) a dělení stupnice po 10 ml. V praxi je přesnost měření menší ze tří důvodů:
-\begin{enumerate}
-    \item Skutečná chyba při měření nezávisí jen na přesnosti odměrného válce, ale také na schopnosti uživatele odhadnout hodnotu mezi dvěma ryskami.
-    \item Přesnost se snižuje, pokud uživatel sleduje risku pod úhlem.
-    \item Pokud uživatel měří objem při jiné teplotě než pro kterou je válec kalibrovaný (kapitola č.  \ref{Dosavadní metody měření - valce})
-    %\item Odměrné válce jsou kalibrované pro měření při konkrétní teplotě, běžně se jedná o pokojovou teplotu 20 °C. V praxi se většina destilátů nachází v lednici, kde jsou chlazeny na 5 - 8 °C, což způsobuje menší objem naměřený na válci oproti skutečnému. Například, měří-li se při teplotě 5 °C destilát s vysokým obsahem alkoholu, např. 80\% z důvodu vyšší tepelné roztažnosti ethanolu oproti vodě, vyjde chyba 13,74 ml.
-\end{enumerate}
-Požadovaná přesnost váhy je rovna nebo menší jak 10 g (necelých 10 ml) v porovnání s odměrnými válci třídy A za předpokladu, že uživatel se vyhýbá třem výše zmíněným chybám.
+přesnost není kladen velký důraz. Tím, že žádná norma nestanovuje, jakou přesnost by měl mít nově navržený měřicí systém, by bylo optimální, aby měřilo s přesností stejnou nebo vyšší než odměrné válce. Odměrné válce na alkohol
+(kapitola č. \ref{valec_na_alkohol}) mají přesnost ±5 ml. Obyčejné odměrné válce (kapitola č. \ref{obecny_valec}) třídy B mají přesnost ±10 ml a třídy A ±5 ml.
+
+Požadovaná přesnost váhy závisí na hustotě měřené kapaliny.  Čím hustší kapalinu máme, tím menší přesnost vyžadujeme, a naopak - méně hustá kapalina bude vážit méně na jednotku objemu, v našem případě 10 ml. Tudíž nás zajímá, která složka destilátu má nejmenší hustotu. Ve své podstatě bude měřen pouze ethanol a voda, co se týče příměsí pro dochucení, tak ty jsou větší hustoty, proto přesnost váhy vztáhneme k ethanolu, i když nikdy nebudeme měřit 100\% ethanol, ale jeho směs s vodou a dalšími příměsi. Požadovaná přesnost váhy tedy je ±3,95 g (10 ml ethanolu), postup výpočtu níže[\ref{presnost vahy}]:\\
+
+Výpočet přesností váhy:
+%\begin{equation}
+%    Presnost\, váhy = \frac{V_{max}-V_{min}}{m_{max}-m_{min}}\, \left[\mathrm{m^3/kg}\right]\label{presnost vahy}
+%\end{equation}
+
+%\begin{equation}
+%    Přesnost\ váhy = Přesnost\ válce \cdot Hustota\ kapaliny \label{presnost vahy}
+%\end{equation}
+
+\begin{equation}
+    %U(m) = U(V) \cdot \rho 
+    \Delta m = \Delta V \cdot \rho \label{presnost vahy}
+\end{equation}
+
+\(\Delta m\) ...Přesnost váhy \([\mathrm{g}]\) %Nejistota hmotnosti (přesnost váhy)
+
+\(\Delta V\) ...Přesnost válce \([\mathrm{ml}]\) %...Nejistota objemu (přesnost válce)
+
+\(\rho\) ...Hustota nejlehčí složky destilátu (ethanol) \([\mathrm{g/ml}]\)
+
+\begin{equation}
+    \Delta m = \pm5 \cdot 0,79 = \pm3,95 \, \left[\mathrm{g}\right] \label{presnost vahy}
+\end{equation}
+
 
 
 Váha je určena pro fyzickou inventuru HoReCa podniků, která spadá pod interní činnost podniku a není podmínkou, aby byla certifikována viz. kapitola č.\ref{meridlo}
@@ -168,7 +189,7 @@ Po splnění výše zmíněných požadavků je rozhodujícím faktorem cena.
 \begin{itemize}
     \item Oboustranný otevřený komunikační port
     \item Váživost nad 2 kg
-    \item Přesnost 10 g a více
+    \item Přesnost ±3,95 g a více
     \item Nízká cena
 \end{itemize}
 
@@ -227,6 +248,7 @@ Kompletní specifikace je uvedena v dokumentaci: \cite{vaha_datasheed}
 %Napěťový vodič je pro náš systém zbytečný, proto není uvažován a datový vodiče jsou zapojený do kříže z důvodu pear-to-pear topologie.
 
 \subsection{Datový paket}
+\label{datový paket váhy}
 
 Paket se skládá z:
 \begin{itemize}
@@ -371,7 +393,7 @@ Hlavní požadavky na displej jsou:
 
 \subsection{Výběr displeje}
 
-Vybraný displej je JOY-IT RASPBERRY PI touch display 7". Jeho důležité parametry jsou v tabulce č. 5.4\\
+Vybraný displej je JOY-IT RASPBERRY PI touch display 7". Jeho důležité parametry jsou v tabulce č. \ref{displeej}\\
 
 \begin{table}[!h]
     \centering
@@ -387,8 +409,8 @@ Vybraný displej je JOY-IT RASPBERRY PI touch display 7". Jeho důležité param
         Dotykový displej                                                        & Ano     \\ \hline
         Cena                                                            & 2297 Kč     \\ \hline
     \end{tabular}
-    \label{displeej}
     \caption{Základní parametry vybraného displeje}
+    \label{displeej}
 \end{table}
 
 
@@ -403,6 +425,21 @@ Vybraný displej je JOY-IT RASPBERRY PI touch display 7". Jeho důležité param
 \subsection{Alternativy vybraného displeje}
 Mezi alternativy můžeme zařadit:
 \begin{itemize}
+    \item JOY-IT RASPBERRY PI touch display 5"
+    \begin{itemize}
+        \item Uhlopříčka 5" (12,7 cm)
+        \item Rozlišení 800x480 px
+        \item Cena 1599 Kč
+    \end{itemize}
+    \item Raspberry Pi LCD - 7" Touchscreen
+    \begin{itemize}
+        \item Uhlopříčka 7" (17,78 cm)
+        \item Rozlišení 800x480 px
+        \item Cena 1399 Kč
+        \item Horší dostupnost na českém trhu.
+    \end{itemize}
+
+
     \item JOY-IT RASPBERRY PI touch display 5" - displej se liší od vybraného menší uhlopříčkou(5"), menším rozlišením(800x480) a nižší cenou(1599 Kč)
     \item Raspberry Pi LCD - 7" Touchscreen - displej se liší od vybraného menším rozlišením(800x480) a nižší cenou(1399 Kč). Jeho nevýhodou je horší dostupnost na českém trhu
 \end{itemize}
@@ -411,32 +448,83 @@ Mezi alternativy můžeme zařadit:
 %Displej nám bude zobrazovat data o 
 
 \section{Čtečka čárového kódu}
-Čtečka čárového kódu je zařízení, které jak jeho název napovídá, umí číst kód skládající se z černých proužků různých délek \cite{carovy_kod}, které reprezentují čísla splňující EAN standard.
+Čtečka čárového kódu je zařízení, které, jak jeho název napovídá, umí číst grafický kód skládající se z černých a bílých proužků různých šířek, které reprezentují čísla splňující určitý standard pro obchodní průmysl, jako je například formát EAN. EAN (European Article Number) je mezinárodní unikátní identifikační číslo, které usnadňuje prodejcům prodej zboží. Pro český trh se běžně využívá EAN-13 (13-ti místné číslo nacházející se pod čárovým kódem). 
+
+Čárové kódy se dělí na jednorozměrné (1D, lineární), které běžně známe z produktů v obchodech (černobílé proužky) a dvojrozměrné (2D) reprezentované jako matice bodů. Nejznámějším 2D formátem je QR (Quick Response) kod, který se využívá k rychlému placení, sdílení URL adres, připojení k internetu, atd. V praxi jsou 1D kódy, uloženy v databázi obchodu, ke kterému je přiřazen název a cena produktu.
+%Čtečka čárového kódu je zařízení, které, jak jeho název napovídá, umí číst kód skládající se z černých proužků různých délek \cite{carovy_kod}, které reprezentují čísla splňující EAN standard.
 %zdroj1: https://pageloot.com/cs/carovy-kod/jak-funguje-skener-carovych-kodu/
 %zdroj2: https://cs.wikipedia.org/wiki/%C4%8Cte%C4%8Dka_%C4%8D%C3%A1rov%C3%A9ho_k%C3%B3du
 
-EAN (European Article Number) je mezinárodní unikátní identifikační číslo, které usnadňuje prodejcům prodej zboží. Pro český trh se běžně využívá EAN-13 (13-ti místné číslo nacházející se nad čárovým kódem) \cite{EAN}
+%EAN (European Article Number) je mezinárodní unikátní identifikační číslo, které usnadňuje prodejcům prodej zboží. Pro český trh se běžně využívá EAN-13 (13-ti místné číslo nacházející se nad čárovým kódem) \cite{EAN}
 %zdroj: https://cs.wikipedia.org/wiki/European_Article_Number
 
 %V praxi je toto číslo uloženo v databázi obchodu, které je spojeno s název produktu a jeho cenou. Po načtení čárového kódu. %Po načtení čárového kódu
 
-V praxi je toto číslo uloženo v databázi obchodu, ke kterému je přiřazen název a cena produktu.
+%V praxi je toto číslo uloženo v databázi obchodu, ke kterému je přiřazen název a cena produktu.
 
 %Každé zboží se dá lehce indetifikovat pomocí
 
-V této sekci se nebudeme zabývat, jakým způsobem jsou čísla kódována do této podoby, ale jakým způsobem lze tyto čárové kódy číst.
+%V této sekci se nebudeme zabývat, jakým způsobem jsou čísla kódována do této podoby, ale jakým způsobem lze tyto čárové kódy číst.
+
+Čárový kód se skládá z ochranných znaků „start“ a „stop“, ze středového dělícího znaku a z datových znaků, které reprezentují jednotlivé číslice. Formát EAN‑13 konkrétně určuje, že první tři číslice (tzv. prefix) značí zemi nebo region registrace, následujících šest jich slouží k identifikaci výrobce a dalších pět k rozlišení konkrétního produktu. Poslední třináctá číslice má kontrolní charakter. Vypočteme ji tak, že od konce kódu sčítáme číslice (kontrolní číslici ignorujeme) na lichých pozicích (1., 3., 5. atd.). Získaný součet vynásobíme trojkou, potom přičteme součet číslic, které leží na sudých pozicích. Výsledné číslo odečteme od nejbližšího vyššího násobku deseti a takto získaný rozdíl je kontrolní číslice. Tento postup pomáhá ověřit správnost EAN‑13 a minimalizuje chyby při skenování. [zdroj1][zdroj2]
+%Zdroj1: https://is.ambis.cz/th/jmeqf/BP_Carove_kody_MMachan_3BK_IT.pdf
+%Zdroj2: https://www.vut.cz/www_base/zav_prace_soubor_verejne.php?file_id=16877
+
+\begin{figure}[!h]
+    \begin{center}
+        \includegraphics[scale=0.15]{obrazky/čárový kód.png} %0.5
+    \end{center}
+    \caption{Ukázka čárového kódu EAN-13.}
+    \label{čárový kod}
+\end{figure}
+
+
+
+
 
 \subsection{Požadavky na čtečku čárového kódu}
+Na trhu existuje celá řada čteček lišících se přesností, způsobem implementace a velikostí. Pro navrhovaný systém je vyžadována čtečka bez ochranného krytu s montážními otvory nebo s dostatečným prostorem pro jejich vyvrtání, aby čtečku bylo možné integrovat do vlastní konstrukce (krabičky) společně se všemi dalšími komponenty. Přednost se dává technologii CCD nebo kamerovému snímači díky vyšší mechanické odolnosti (např. při pádu) a lepší čitelnosti částečně poškozených kódů.
+V poslední řadě je nutné, aby čtečka zvládala číst EAN-13 a méně často používaný EAN-8.
 
-Na trhu je dostupných více druhů senzorů, které se liší požadavky na přesnost, druh implementace, velikostí atd.
+%dodelat zde tabulku: technologie: Kamerove (cmos), typ kodu: 1D, 2D, rychlost čtení, proudový odběr
 
-Komunikační rozhraní čtečky se požaduje UART nebo USB s možností povolení virtuálního seriového portu pro komunikaci s mikrokontrolérem - označováno USB VCom.
 
-Další požadavek spočívá v tom, aby čtečka byla schopna číst standard EAN-13, který je běžně používán v České republice, a také EAN-8, s nímž se lze výjimečně setkat.
+%Na trhu je dostupných více druhů senzorů, které se liší požadavky na přesnost, druh implementace, velikostí atd. Velikost se požaduje menší bez ochranné krabičky pro budoucí uchycení do navrhnuté krabičky, která zastřeší všechny komponenty systému na jednom místě. včetně montážních otvorů nebo dostatečného prostoru pro jejich vyvrtání. Preferovanou technologií je CCD nebo CMOS z důvodu větší durability např. při pádu měřícího systému na zem a lepší čitelnosi poškozených kódů. Navíc od roku 2025 by mělo z obchodník řetězců vymizet klasické 1D čárové kódy a měli by je nahradit 2D QR kody, otázkou je zda přibude i nový formát 2D kódů na kterou budou vyvýjeny nové čtecí systémy
+
+%Požaduje se komunikační rozhraní, nejlépe USB nebo UART pro odesílání a přijímání dat ze čtečky. Datový formát nejlépe ASCII, stejně jako u vybrané váhy, pro jeho jednoduché zpracování.
+
+%Komunikační rozhraní čtečky se požaduje UART nebo USB s možností povolení virtuálního seriového portu pro komunikaci s mikrokontrolérem - označováno USB VCom.
+
+%Další požadavek spočívá v tom, aby čtečka byla schopna číst standard EAN-13, který je běžně používán v České republice, a také EAN-8, s nímž se lze výjimečně setkat.
 \subsection{Vybraná čtečka čárového kódu}
 
-Vybraná čtečka je GM65 od společnosti KROW, obrázek č.\ref{gm65}.
-Čtečka disponuje UART a USB VCom. Kompletní specifikace je obsažena v dokumentaci.\cite{scaner}
+%Vybraná čtečka je GM65 od společnosti KROW, využívající CMOS technologie, obrázek č.\ref{gm65}.
+%Čtečka disponuje UART a USB VCom. Kompletní specifikace je obsažena v dokumentaci.\cite{scaner}
+%Datový formát pro seriovou komuniaci čtečky je stejný jak u vybrané váhy[xx] i zde chybý ověřovací bit, který bude ošetřen softwarově
+
+%Z důvodu technologického pokroku a podle výše zmíněných parametrů jsem byl schopen najít pouze CMOS čtečky, proto tedy vybraná čtečka je GM65....
+
+S ohledem na výše uvedené požadavky byla vybrána kamerová čtečka KROW GM65, využívající optických snímačů CMOS (viz obrázek č.\ref{gm65}) a LED diody pro nasvícení čárového kódu v hůře osvětleném prostředí. Čtečka nabízí komunikační rozhraní UART a USB. Datový formát pro sériovou komunikaci je shodný s vybranou váhou [\ref{datový paket váhy}].
+%Podobně jako u váhy chybí ověřovací bit, který bude řešen softwarově. Podrobné technické specifikace čtečky jsou uvedeny v její dokumentaci.
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        Výrobce                & KROW             \\ \hline
+        Model                  & GM65             \\ \hline
+        Typ                    & Kamerová čtečka  \\ \hline
+        Čtecí vzdálenost \tablefootnote{Pro standart EAN-13 s šířkou kódu 35,6 mm při intenzitě osvětlení 250 lux}       & 4 - 25 cm            \\ \hline
+        Rozhraní & HDMI, USB \\ \hline
+        Napájení               & 5 V (až 160 mA)  \\ \hline
+        Spotřeba               & 0,8 W            \\ \hline
+        Rychlost čtení         & 0,1 s            \\ \hline
+        Cena                   & 992 Kč           \\ \hline
+    \end{tabular}
+    \caption{Základní parametry vybraného displeje}
+    \label{displeej}
+\end{table}
+
 
 \begin{figure}[!h]
     \begin{center}
@@ -446,12 +534,46 @@ Vybraná čtečka je GM65 od společnosti KROW, obrázek č.\ref{gm65}.
     \label{gm65}
 \end{figure}
 
+%Toto níže je blbost
+%\begin{table} [!h]
+%    \centering
+%    \begin{tabular}{|l|l|l|l|l|l|}
+%    \hline
+%         Hlavička  & Typ & Délka dat & Adresa & Data & CRC \\ \hline
+%         2 B       & 1 B & 7 B       & 3    B & 1 B  & 1 B\\ \hline 
+%    \end{tabular}
+%    \caption{Předpis výstupních dat}
+%    \label{datovy format čtečky}
+%\end{table}
+
+
+
+
 \subsection{Alternativy vybrané čtečky čárového kódu}
-Mezi alternativy můžeme zařadit:
+%Mezi alternativy můžeme zařadit:
+%Vybrané alternativy jsou kamerové
+
 \begin{itemize}
-    \item YHDAA YHD-M800D - cenově stejně dostupné(1000 Kč) jak vybraná čtečka, integrovaný USB port, nepřehledná a nevypovídající dokumentace 
-    \item WaveShare Barcode Scanner - dražší než vybraná čtečka(1318 Kč), integrovaný sériový port micro USB a UART
+    \item YHDAA YHD-M800D
+    \begin{itemize}
+        \item Typ: Kamerový snímač
+        \item Cena: 1000 Kč
+        \item Rozhraní: USB
+        \item Nepřehledná a nevypovídající dokumentace
+    \end{itemize}
+    \item WaveShare Barcode Scanner
+    \begin{itemize}
+        \item Typ: Kamerový snímač
+        \item Cena: 1318 Kč
+        \item Rozhraní: USB, UART
+    \end{itemize}
 \end{itemize}
+
+
+%\begin{itemize}
+  %  \item YHDAA YHD-M800D - kamerová čtečka, cenově stejně dostupné(1000 Kč) jak vybraná čtečka, integrovaný USB port, nepřehledná a nevypovídající dokumentace 
+ %   \item WaveShare Barcode Scanner - kamerová čtečka, dražší než vybraná čtečka(1318 Kč), integrovaný sériový port micro USB a UART
+%\end{itemize}
 
 \section{Modul s výpočetní jednotkou} %Mikrokontroler
 %Výpočetní modul / Modul s výpočetní jednotkou / Řídící jednotka / Výpočetní jednotka
@@ -478,7 +600,7 @@ Modul s výpočetní jednotkou je samostatná hardwarová součást (obvykle des
 
 %
 
-Hlavním z požadavků je snadná realizovatelnost firmware s integrovaným grafickým uživatelským rozhraním(GUI) ovládaného dotykovým displejem. Pro takové účely je vhodné použít vysokoúrovňový programovací jazyk, např. Python, který nabízí široký výběr knihoven a nástrojů, které ulehčují a zrychlují vývoj samotného firmware, na druhou stranu je nutné přihlédnout na dostačující výkon a operační paměť(RAM) řídící jednotky. Vývoj GUI a práce s databází obnáší zpravidla přítomnost OS už jen z důvodu zabudovaných grafických ovladačů pro komunikaci s displejem, správu paměti nebo využití grafických knihoven, které je pro svojí funkčnost OS vyžadují, proto využiji nenáročné distribuce linuxu, která je o proti konkurenčním OS výkonově i paměťově nenáročná.
+Hlavním z požadavků je snadná realizovatelnost firmware s integrovaným grafickým uživatelským rozhraním(GUI) ovládaného dotykovým displejem. Pro takové účely je vhodné použít vysokoúrovňový programovací jazyk, např. Python, který nabízí široký výběr knihoven a nástrojů, které ulehčují a zrychlují vývoj samotného firmware, na druhou stranu je nutné přihlédnout na dostačující výkon a operační paměť(RAM) řídící jednotky. Vývoj GUI a práce s databází obnáší zpravidla přítomnost OS už jen z důvodu zabudovaných grafických ovladačů pro komunikaci s displejem, správu paměti nebo využití grafických knihoven, které je pro svoji funkčnost OS vyžadují, proto využiji nenáročné distribuce linuxu, která je oproti konkurenčním OS výkonově i paměťově nenáročná.
 %Z důvodu volby vysokoúrovňového programovacího jazyku, GUI a využití databáze je nutné, aby firmware běžel na OS.
 %Z důvodu minimální výkonové a paměťové náročnosti poběží řídící jednotka na nenáročné distribuci Linuxu. Pro takový účely se hodí libovolná distribuce linuxu, která je hojně využívána u jednodeskových počítačů.
 
@@ -500,14 +622,14 @@ Další požadavky:
             \item Řídící jednotka musí zvládnout poskytnout dle vybraných komponent, alespoň 0,7 A při 5 V, optimálně 1,2 A, pro případ rozšíření systému o další komponenty.
             %\item Alespoň jeden GPIO pro ovládání pípáku
         \end{itemize}
-    \item Integrovaný Wi-Fi modul: Do budoucna je cílem bezdrátová konektivita s měřícím systémem pomocí mobilní aplikace nebo připojení se k ERP systémům
+    \item Integrovaný Wi-Fi modul: Do budoucna je cílem bezdrátová konektivita s měřícím systémem pomocí mobilní aplikace nebo připojení k ERP systémům
     %\item napájení/odběr/příkon/spotřeba: ...
     %Výstupní proud 0,6 A (USB): Výkonově nejnáročnější komponentou připojené k řídící jednotce bude displej[] s proudovým odběr 0,6 A při 5 V. (Do budoucna bude měřicí systém bude obsahovat baterii, který může napájet jednotlivé komponenty.) Pro provoz displeje, který je proudově nejnáročnější je nutné, aby USB porty dokázaly poskytnout minimálně 0,6 A při 5 V. Řídící jednotka musí zvládnout poskytnout dle vybraných komponent, alespoň 0,7 A při 5 V, optimálně 1,2 A, pro případ rozšíření systému o další komponentu.
 \end{itemize}
 
 %Nevybírat model s konrétní velikost ram, ale určit více velikostí a pak podle toho dát rozsah ceny
 \subsection{Vybraný modul s výpočetní jednotkou}
-Na základě výše zmíněných požadavků byl vybrán jednodeskový počítač Raspberry Pi 4 ve verzi s 4 GB operační paměti. Kategorii mikrokontrolerů jsem úplně vynechal z důvodu nedostatečného výkonu a operační paměti pro chod OS s GUI aplikací a absence integrovaných periferií jako USB nebo HDMI. 
+Na základě výše zmíněných požadavků byl vybrán jednodeskový počítač Raspberry Pi 4 ve verzi s 4 GB operační paměti. Kategorii mikrokontrolérů jsem úplně vynechal z důvodu nedostatečného výkonu a operační paměti pro chod OS s GUI aplikací a absence integrovaných periférií jako USB nebo HDMI. 
 
 Mezi klíčové výhody Raspberry Pi patří široká komunita, kvalitní podpora i bohatá škála dokumentace a knihoven. Další z výhod je rozumný poměr cena výkon a spolehlivost. Základní technické parametry jsou přehledně uvedeny v tabulce č. \ref{raspbericko_spec}, zatímco kompletní specifikace lze nalézt v příslušné dokumentaci. \cite{Raspberry pi}
 
