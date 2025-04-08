@@ -182,48 +182,88 @@ Jelikož přechod mezi režimy nelze ovládat přímo příkazem, jedinou možno
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Zprovoznění dotykového displeje}
-Vybraný dotykový displej xxx, má rozlišení 1024x600 px s poměrem stran 128:75, což přibližně odpovídá poměru 17:10. Raspberry Pi OS vybírá rozlišení podle seznamu podporovaných rozlišení CEA (Consumer Electronics Association) a DMT (Display Monitor Timings), které jsou standardní a široce kompatibilní s většinou monitorů a televizí. Rozlišení vybraného displeje nespadá do žádné zmíněné kategorie a je nutné jej nastavit ručně prostřednictvím systémového souboru 'config.txt' .[z1][z2] Pokud by rozlišení displeje se neshodovalo s rozlišením obrazovky, tak by se obraz musel škálovat (upraven tak, aby se vešel na fyzický rozměr displeje, což znamená jeho zvětšení nebo zmenšení), což by vedlo ke snížení kvality obrazu, dále pokud by rozlišení obrazovky překročilo rozlišení displeje, tak by došlo k většímu vytížení GPU.
+%Vybraný dotykový displej JOY-IT, má rozlišení 1024 x 600 px s poměrem stran 128:75, což přibližně odpovídá poměru 17:10. Raspberry Pi OS vybírá rozlišení podle seznamu podporovaných rozlišení CEA (Consumer Electronics Association) a DMT (Display Monitor Timings), které jsou standardní a široce kompatibilní s většinou monitorů a televizí. Rozlišení vybraného displeje nespadá do žádné zmíněné kategorie a je nutné jej nastavit ručně prostřednictvím systémového souboru 'config.txt' .[z1][z2] Pokud by rozlišení displeje se neshodovalo s rozlišením obrazovky, tak by se obraz musel škálovat (upraven tak, aby se vešel na fyzický rozměr displeje, což znamená jeho zvětšení nebo zmenšení), což by vedlo ke snížení kvality obrazu, dále pokud by rozlišení obrazovky překročilo rozlišení displeje, tak by došlo k většímu vytížení GPU.
+
+Vybraný dotykový displej JOY-IT má rozlišení 1024×600 px a poměr stran 128:75, což přibližně odpovídá poměru 17:10. Systém Raspberry Pi OS automaticky volí rozlišení z nabídky standardizovaných režimů CEA (Consumer Electronics Association) a DMT (Display Monitor Timings), které jsou široce kompatibilní s většinou monitorů a televizorů. Rozlišení vybraného displeje nespadá do žádné zmíněné kategorie a je nutné jej nastavit ručně úpravou systémového souboru config.txt, konfiguračního souboru 10-monitor.conf. nebo využít utilit pro nastavení obrazu displeje, např. Xrandr.[z1][z2]
+Pokud by se skutečné rozlišení displeje neshodovalo s nastaveným rozlišením obrazovky, byl by obraz škálován (zvětšen nebo zmenšen na fyzickou velikost displeje), což by zhoršilo jeho kvalitu. V případě, že by rozlišení obrazovky překročilo nativní rozlišení displeje, došlo by současně k větší zátěži GPU.
 
 \subsection{Nastavení rozlišení obrazovky pomocí utility Xrandr}
 %Použijem příkaz "cvt" (Coordinated Video Timing), který pro zvolené rozlišení vypíše informaci, jako je obnovovací frekvence, horizontální frekvence synchronizace (hsync) a pixel clock (pclk). Tyto informace jsou nutné pro nastavení nového rozlišení pomocí Xrandr.
-Pro nastavení nového rozlišení využívám příkaz "cvt" (Coordinated Video Timing), který poskytuje podrobné informace o zvoleném rozlišení, včetně obnovovací frekvence, horizontální frekvence synchronizace (hsync) a pixel clock (pclk). Tyto údaje jsou nezbytné pro konfiguraci nového rozlišení pomocí nástroje Xrandr.
-\\
-\\
-\\
-Příklad něčeho:
-\begin{lstlisting}[language=bash, caption=none, frame=none]
+%Pro nastavení nového rozlišení využívám příkaz "cvt" (Coordinated Video Timing), který poskytuje podrobné informace o zvoleném rozlišení, včetně obnovovací frekvence, horizontální frekvence synchronizace (hsync) a pixel clock (pclk). Tyto údaje jsou nezbytné pro konfiguraci nového rozlišení pomocí nástroje Xrandr.
 
-\$ cvt 1024 600
-$ cvt 1024 600
-sudo ojoj
+Pro nastavení nového rozlišení (1024×600 px) využívám nástroj Xrandr, který vyžaduje znalost konkrétních časovacích parametrů – obnovovací frekvence, horizontální frekvence synchronizace (hsync) a pixel clocku (pclk). Tyto hodnoty získám z příkazu cvt (Coordinated Video Timing), který je dopočítá na základě požadovaného rozlišení.
 
-# Třída dědící z GUI knihovny Tkinter a třídy Tk
+%Pro konfiguraci nového rozlišení jsem  nového rozlišení využil jsem
+%Pro konfiguraci rozlišení v linuxovém prostředí exituje více druhů nástrojů, já jsem si zvolil Xrandr, který vyžaduje výše zmíněné informace z příkazu "cvt"
+
+%language = bash nebo sh
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\captionsetup[lstlisting]{labelformat=empty}
+\lstdefinelanguage{bashcolored}{
+  language=bash,
+  basicstyle=\ttfamily\small,
+  commentstyle=\color{gray},
+  keywordstyle=\color{blue},
+  moredelim=**[is][\color{gray}]{@}{@}, % výstup obarvíš pomocí @...@
+}
+\begin{lstlisting}[language=bashcolored, caption=Příklad použití příkazu cvt (Linux terminál):, frame=single, breaklines=true, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
+$cvt 1024 600
+# 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHzxa
+@Modeline "1024x600\_60.00"   49.00  1024 1072 1168 ... [1]@
+
 \end{lstlisting}
-Příklad použití příkazu cvt (terminál Linuxu):
+%\footnotemark
+\footnotetext[1]{Plné znění odpovědi: \texttt{Modeline "1024x600\_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync}}
 
-\$ cvt 1024 600
+\begin{lstlisting}[language=bash, caption=Na základě nově vygenerovaných parametrů vytvoříme nový režim pomocí Xrandr:, frame=single]
+$xrandr --newmode  "1024x600\_60.00" 49.00 1024 ... [2]
+\end{lstlisting}
+\footnotetext[2]{Plné znění příkazu: \texttt{\$xrandr --newmode  "1024x600\_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync}}
 
-\# 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHzxa
-Modeline "1024x600\_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
-\\
-\\
-Následně vytvoříme nový režim pomocí Xrandr:
+\begin{lstlisting}[language=bash, caption=Nově vytvořený režim přiřadíme k požadovanému video výstupu (např. HDMI-1):, frame=single]
+$xrandr --addmode HDMI-1 "1024x600\_60.00"
+\end{lstlisting}
 
-\$xrandr --newmode  "1024x600\_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
-\\
-\\
-Nově vytvořený režim přidáme k požadovanému video výstupu (HDMI-1):
+\begin{lstlisting}[language=bash, caption=Nyní změníme rozlišení obrazovky:, frame=single]
+$xrandr --output HDMI-1 --mode "1024x600\_60.00"
+\end{lstlisting}
+\captionsetup[lstlisting]{labelformat=default}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\$xrandr --addmode HDMI-1 "1024x600\_60.00"
-\\
-\\
-Nyní změníme rozlišení obrazovky pomocí:
 
-\$xrandr --output HDMI-1 --mode "1024x600\_60.00"
-\\
-\\
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Příklad použití příkazu cvt (terminál Linuxu):
+%
+%\$ cvt 1024 600
+%
+%\# 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHzxa
+%Modeline "1024x600\_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
+%\\
+%\\
+%Následně vytvoříme nový režim pomocí Xrandr:
+%
+%\$xrandr --newmode  "1024x600\_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
+%\\
+%\\
+%Nově vytvořený režim přidáme k požadovanému video výstupu (HDMI-1):
+%
+%\$xrandr --addmode HDMI-1 "1024x600\_60.00"
+%\\
+%\\
+%Nyní změníme rozlišení obrazovky pomocí:
+%
+%\$xrandr --output HDMI-1 --mode "1024x600\_60.00"
+%\\
+%\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Toto nastavení se neukládá a pokud chceme mít nově nastavené rozlišení i po opětovném spuštění raspberry pi je nutné jej uložit do souboru, který se spouští současně se systémem jako např. /etc/X11/xorg.conf.d/10-monitor.conf
-Toto nastavení není trvalé a aby zvolené rozlišení zůstalo zachováno i po opětovném spuštění Raspberry Pi, je třeba jej uložit do konfiguračního souboru, například /etc/X11/xorg.conf.d/10-monitor.conf.
+
+%Toto nastavení není trvalé a aby zvolené rozlišení zůstalo zachováno i po opětovném spuštění Raspberry Pi, je třeba jej uložit do konfiguračního souboru, například \textbf{/etc/X11/xorg.conf.d/10-monitor.conf.}
 
 
 
