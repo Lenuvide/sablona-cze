@@ -60,17 +60,17 @@ Z pohledu programu, ale stavový automat vypadá trochu jinak, protože někter�
 
 V hlavním souboru je zadefinováná třída \texttt{Automat}, která dědí ze třídy \texttt{Enum}, která umožňuje vytvoření jednotlivých stavů automatu jako konstanty nesoucí jejich název. Instance této třídy pak bude vždy rovná hodnotě, ve které se zrovna nachází stavový automat.
 
-\begin{lstlisting}[language=Python, caption=Hlavní okno, frame=single]
-from enum import Enum
-
-class Automat(Enum):
-    STARTING_INVENTORY = 0
-    CHECK_PORT = 1
-    FINDING_DISTILLATE = 3
-    SAME_DISDILLATE = 4
-    WEIGHING = 5
-    REMOVE_BOTTLE = 6
-\end{lstlisting}
+%\begin{lstlisting}[language=Python, caption=Hlavní okno, frame=single]
+%from enum import Enum
+%
+%class Automat(Enum):
+%    STARTING_INVENTORY = 0
+%    CHECK_PORT = 1
+%    FINDING_DISTILLATE = 3
+%    SAME_DISDILLATE = 4
+%    WEIGHING = 5
+%    REMOVE_BOTTLE = 6
+%\end{lstlisting}
 
 %Třída Automat je následně využita ve funkci state\_machine obsahující rozhodovací blok pomocí zřetězených podmínek if/elif. Funkci předáváme počáteční stav automatu tedy STARTING\_INVENTORY. Některé funkce stavového automatu mají incializační podmínku, která se vykoná pouze jednou při vstupu do nového stavu. Globální proměnná state\_pre si pamatuje předchozí stav automatu a pokud se nerovná aktuálnímu stavu, tak se globální proměnná set\_up nastaví na true, což způsobí povolení inicializační podmínky.
 
@@ -117,41 +117,41 @@ Metoda \texttt{app.after(20, state\_machine, state)} je součástí grafické t�
 
 %Aktuální verze Pythonu (3.9.21) nepodporuje žádný příkaz podobný "switch", jak je známo z jiných programovacách jazycích, tudíž logika pro volání jednotlivých stavů automatu je pomocí podmínek "if".
 
-\begin{lstlisting}[language=Python, caption=Funkce stavového automatu:, frame=single, breaklines=true, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
-state_pre: Automat = Automat.STARTING_INVENTORY
-set_up: bool = True
-
-def state_machine(state: Automat) -> None:
-    global state_pre
-    global set_up
-    
-    #switch statement by "if" condition (Python version 3.9.2)
-    if state == Automat.STARTING_INVENTORY:
-        state = starting_inventory()
-    elif state == Automat.CHECK_PORT:
-        state = check_port()
-    elif state == Automat.FINDING_DISTILLATE:
-        state = finding_distillate()
-    elif state == Automat.SAME_DISDILLATE:
-        state = same_distillate()
-    elif state == Automat.WEIGHING and app.unit_state == "ml":
-        state = weighing()
-    elif state == Automat.WEIGHING and app.unit_state == "ks":
-        state = quantity()
-    elif state == Automat.REMOVE_BOTTLE:
-        state = remove_bottle()
-
-    if state_pre == state:
-        set_up = False
-    else:
-        set_up = True
-    state_pre = state
-    
-    if state != Automat.STARTING_INVENTORY and state != Automat.WEIGHING and app.button_stop_pressed:
-        state = stop_inventory(state)
-
-    app.after(20, state_machine, state)
-\end{lstlisting}
+%\begin{lstlisting}[language=Python, caption=Funkce stavového automatu, frame=single, breaklines=false, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
+%state_pre: Automat = Automat.STARTING_INVENTORY
+%set_up: bool = True
+%
+%def state_machine(state: Automat) -> None:
+%    global state_pre
+%    global set_up
+%    
+%    #switch statement by "if" condition (Python version 3.9.2)
+%    if state == Automat.STARTING_INVENTORY:
+%        state = starting_inventory()
+%    elif state == Automat.CHECK_PORT:
+%        state = check_port()
+%    elif state == Automat.FINDING_DISTILLATE:
+%        state = finding_distillate()
+%    elif state == Automat.SAME_DISDILLATE:
+%        state = same_distillate()
+%    elif state == Automat.WEIGHING and app.unit_state == "ml":
+%        state = weighing()
+%    elif state == Automat.WEIGHING and app.unit_state == "ks":
+%        state = quantity()
+%    elif state == Automat.REMOVE_BOTTLE:
+%        state = remove_bottle()
+%
+%    if state_pre == state:
+%        set_up = False
+%    else:
+%        set_up = True
+%    state_pre = state
+%    
+%    if state != Automat.STARTING_INVENTORY and state != Automat.WEIGHING and app.button_stop_pressed:
+%        state = stop_inventory(state)
+%
+%    app.after(20, state_machine, state)
+%\end{lstlisting}
 
 
 
@@ -421,59 +421,73 @@ nevyhodou Pythonu je, že všechny interní proměnné třídy se musí iniciali
 
 //Ukazka kodu
 Hlavní třída GUI, dědí z třídy Tk, která vytváří hlavní okno programu. V hlavní okno je rozděleno do dvou rámců/framů pro jednoduší vkládání ovládacích prvků. Jedna z metod pro vkládání je grid(), která umožnuje prvky skládat do sloupců a řádku, které mezi sebou interagují a udržují symetrický vzhled. Tudíž třeba když jeden sloupec prvků roztáhnu, ostatní se smrští a prvky se nebudou překrývat přes sebe - dynamické nastavení. Třídy jsou velice rozsáhlé, proto jen vypíchnu to nejduležitějšší.
-\begin{lstlisting}[language=Python, caption=Funkce stavového automatu:, frame=single, breaklines=true, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
-
-class GUI(tk.Tk):
-    def __init__(self):
-        super().__init__()
-        # build ui
-        #self = tk.Tk(master, className="hmmm")
-        self.geometry("1024x600")
-                        .
-                        .
-                        .
-        self.start_window: tk.Toplevel = None
-        self.end_window: tk.Toplevel = None
-        self.same_dest: tk.Toplevel = None
-        self.delete_window: tk.Toplevel = None
-        self.settings: tk.Frame = None
-                        .
-                        .
-                        .
-    def entry_event(self, event=None)
-        if self.keyboard == None:
-            self.keyboard = Keyboard(self)
-        else:
-            self.keyboard.deiconify()
-
-        if self.scroll_listbox == None:
-            self.scroll_listbox = Scroll_listbox(self)
-            self.entry.delete("0", "end")
-            self.scroll_listbox.checkk()
-        elif self.scroll_listbox.winfo_viewable() == False:
-            self.scroll_listbox.deiconify()
-            self.entry.delete("0", "end")
-            self.scroll_listbox.checkk()
-                        .
-                        .
-                        .
-\end{lstlisting}
+%\begin{lstlisting}[language=Python, caption=Funkce stavového automatu, frame=single, breaklines=false]
+%
+%class GUI(tk.Tk):
+%    def __init__(self):
+%        super().__init__()
+%        # build ui
+%        #self = tk.Tk(master, className="hmmm")
+%        self.geometry("1024x600")
+%                        .
+%                        .
+%                        .
+%        self.start_window: tk.Toplevel = None
+%        self.end_window: tk.Toplevel = None
+%        self.same_dest: tk.Toplevel = None
+%        self.delete_window: tk.Toplevel = None
+%        self.settings: tk.Frame = None
+%                        .
+%                        .
+%                        .
+%    def entry_event(self, event=None)
+%        if self.keyboard == None:
+%            self.keyboard = Keyboard(self)
+%        else:
+%            self.keyboard.deiconify()
+%
+%        if self.scroll_listbox == None:
+%            self.scroll_listbox = Scroll_listbox(self)
+%            self.entry.delete("0", "end")
+%            self.scroll_listbox.checkk()
+%        elif self.scroll_listbox.winfo_viewable() == False:
+%            self.scroll_listbox.deiconify()
+%            self.entry.delete("0", "end")
+%            self.scroll_listbox.checkk()
+%                        .
+%                        .
+%                        .
+%\end{lstlisting}
 
 Ostatní třídy jsou definované stejným způsobem. Ukázka na třídě Keyboard. Třída keyboard dědí ze třídy Toplevel, což je vytváření sekundárních oken GUI, tato třída je provázána s třídou GUI pomocí parametru root. Toplevel, tedy Toplevely mohou odkazovat přímo na hlavní okno nebo jiný Toplevel, předání parametru je pomocí konstruktoru super().\_\_init\_\_(root)
 
-\begin{lstlisting}[language=Python, caption=Funkce stavového automatu:, frame=single, breaklines=true, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
-
-class Keyboard(tk.Toplevel):
-    def __init__(self, root:GUI):
-        super().__init__(root)
-        self.root = root
-        self.geometry("1024x600")
-\end{lstlisting}
+%\begin{lstlisting}[language=Python, caption=Funkce stavového automatu:, frame=single, breaklines=false, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
+%
+%class Keyboard(tk.Toplevel):
+%    def __init__(self, root:GUI):
+%        super().__init__(root)
+%        self.root = root
+%        self.geometry("1024x600")
+%        asd
+%        asd
+%        as
+%        da
+%        sd
+%        asd
+%        as
+%        da
+%        sda
+%        sd
+%        asd
+%        asd
+%        asd
+%        
+%\end{lstlisting}
 
 
 \section{Databáze}
 
-modul database je s modulem SQLAlchemy pro práci s databází jako obejekty. Pro účely měřícího systému byla použita databáze ve formátu sqlite, která je od sql [něco nevím].Databáze se skládá z tzv. table, který nese parametry... pro předpis každého table je využita separátní třída... Databáze je typu relační, protože xxx[nějak to vymysli]
+modul database je s modulem SQLAlchemy pro práci s databází jako obejekty. Pro účely měřícího systému byla použita databáze ve formátu sqlite, která je od sql [něco nevím].Databáze se skládá z tzv. table, který nese parametry... pro předpis každého table je využita separátní třída... Databáze je typu relační, tedy 
 %
 %\subsection{hledání dat}
 %\subsection{výpis dat}
@@ -488,20 +502,29 @@ Kamerová čtečka GM65 komunikuje prostřednictvím USBVcom. Čtečka je přep�
 
 Kod pro ovládání čtečky je zaobaleno do třídy \texttt{BarcodeSensor} obsažené v modulu \texttt{barcode\_sensor.py}. Třídá dědí ze třídy \texttt{Serial}, která zastřešuje veškerou seriovou komunikaci. Konstruktor třídy BarcodeSensor přebírá parametry pro adresu portu, rychlost seriové komunikace (baudrate) a timeout, který slouží k přerušení zápisu/čtení na daném portu po určitém čase. Tyto veškerý data se následně předají konstruktoru třídy Serial. 
 
-\begin{lstlisting}[language=Python,breaklines=true, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
-
-import serial
-class BarcodeSensor(serial.Serial):
-    def __init__(self, port='/dev/ttyACM0', baudrate=9600, timeout=1):
-        super().__init__(port=port, baudrate=baudrate, timeout=timeout)
-        ...
-\end{lstlisting}
+%\begin{lstlisting}[language=python,breaklines=false, frame=single]
+%
+%import serial
+%class BarcodeSensor(serial.Serial):
+%    def __init__(self, port='devttyACM0', baudrate=9600, timeout=1):
+%        super().__init__(port=port, baudrate=baudrate, timeout=timeout)
+%        sdf
+%        sdf
+%        s
+%        dfs
+%        df
+%        sdf
+%        sd
+%        fs
+%        df
+%        sdf    
+%\end{lstlisting}
 \bigskip
 Třída obsahuje metodu \texttt{open\_port}, která otevírá nastavený port pro komunikaci. 
 V případě úspěšné otevření vrátí \texttt{True}. 
 %Návratovou hodnotou je \texttt{bool} na základě toho, zda se otevření povedlo nebo ne.
 
-\begin{lstlisting}[language=Python,breaklines=true, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
+\begin{lstlisting}[language=Python,breaklines=false, frame=single]
 
 def open_port(self) -> bool:
 \end{lstlisting}
@@ -545,7 +568,7 @@ Metoda turn\_on\_sensor přepne čtečku do aktivního stavu, kde se rozsvítí 
     \label{tab:my_label}
 \end{table}
 
-%\begin{lstlisting}[language=Python, caption=Metoda turn\_on\_sensor, frame=single, breaklines=true, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
+%\begin{lstlisting}[language=Python, caption=Metoda turnooonoosensor, frame=single, breaklines=false, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
 %
 %def turn_on_sensor(self) -> bool:
 %
@@ -562,13 +585,18 @@ Metoda turn\_on\_sensor přepne čtečku do aktivního stavu, kde se rozsvítí 
 %        return True
 %    else:
 %        return False
+%        sdf
+%        sdf
+%        sdf
+%        sdf
+%        
 %\end{lstlisting}
 
 \bigskip
 Metoda \texttt{crc16\_ccitt} vykonává kontrolní 16 bitový součet z bloků \textit{Types} až \textit{Data}. Výstupem je 16 bitové číslo, které je následně rozděleno na 2 separátní bajty.[zdroj1]
 %https://srecord.sourceforge.net/crc16-ccitt.html
 
-\begin{lstlisting}[language=Python,breaklines=true, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
+\begin{lstlisting}[language=Python,breaklines=false, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
 
 def crc16_ccitt(self, data: bytes, poly=0x1021, crc=0x0000) -> int:
     for byte in data:
@@ -578,10 +606,20 @@ def crc16_ccitt(self, data: bytes, poly=0x1021, crc=0x0000) -> int:
                 crc = ((crc << 1) ^ poly) & 0xFFFF
             else:
                 crc = (crc << 1) & 0xFFFF
+                sdf
+                sdfs
+                df
+                sdf
+                sdf
+                sd
+                fs
+                dfs
+                df
+                
 \end{lstlisting}
 \bigskip
 Jako poslední metoda je \texttt{read\_sensor\_data} která posílá nazpět naskenovaná data uložená ve vstupním bufferu mikropočítače.
-\begin{lstlisting}[language=Python,breaklines=true, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
+\begin{lstlisting}[language=Python,breaklines=false, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
 
 def read_sensor_data(self) -> str:
     if self.in_waiting == 0:
@@ -592,7 +630,10 @@ def read_sensor_data(self) -> str:
 \section{Váha}
 Digitální váha G\&G E3000 komunikuje po linkách TX/RX standardu RS‑232 ve formátu 8 N 1 a baudrate 9600 Bd. Aby bylo možné váhu připojit k jednodeskovému počítači Raspberry Pi 4, je rozhraní převáděno adaptérem AXAGO ADS‑50 na virtuální COM port USB CDC (obr. 6‑3). Pro tuto váhu byla vytvořena třída Scale zastřešující veškero serivou komunikaci váhy s mikropočítačem. Konstruktor třídy přebírá parametry pro nastavení portu, baudrate a timeout který nastavuje, čtení na seriovém portu po dobu 1 s. Pokud do tohoto intervalu nejsou zaznamenány žádné příchozí data, čtení se ukončí. Třída dále dědí ze třídy serial, které předává všechny zmíněné parametry.
 
-Třída ukázkaxxx
+\begin{lstlisting}[language=Python,breaklines=false, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
+
+Chyba latexu
+\end{lstlisting}
 
 \subsection{Ověření komunikace s váhou}
 Aby bylo možno s váhou komunikovat je nutné otevřít port na kterém je připojena a to pomocí metody open\_port(), která je volána z druhého stavu v mainu. V případě chyby se vyvolá vyjímka xxxa meroda vrátí False.
@@ -633,15 +674,8 @@ Metoda open\_port() je volána z druhého stavu v mainu, která otevírá serivo
 Dále je metoda check\_conection(), která se volá po uspěšnem otevření portu a kontroluje zda váha komunikuje, tím že pošle příkaz na ve tvaru esc+p a váha odpoví kolik navážila, pokud jsou data přijata (je jedno co pošle), tak váha komunikuje.
 
 Nejduležitší metodou je print\_scale(), která odesílá požadavek na "tisk" dat. Tím, že váha neposílá paritní bit, děláme SW kontrolu, zda 3 poslední zprávy jsou shoné pomocí stavového diagramu obrč.x
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale=0.6]{obrazky/stavovy_automat_parita.jpg}
-    \end{center}
-    \caption{Interakce mezi okny GUI}
-    \label{Interakce mezi okny GUI}
-\end{figure}
 
-\begin{lstlisting}[language=Python, caption=Funkce stavového automatu:, frame=single, breaklines=true, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
+\begin{lstlisting}[language=Python, caption=Funkce stavového automatu:, frame=single, breaklines=false, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
 
 def print_scalee(self) -> str:
         try:
@@ -662,6 +696,231 @@ def print_scalee(self) -> str:
             if not self.open_port():
                 return "Err1" # Port se nepovedlo otevřít - Zkontrolovat připojení váhy
         return self.catch_data
+        asd
+        asd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        as
+        daasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        sda
+        sdaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        daasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        sda
+        sd
+        asd
+        asd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asd
+        as
+        dasdasd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asd
+        as
+        daasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        sd
+        asd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        as
+        daasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        sdaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        sd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        as
+        daasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        sda
+        sdaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        daasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        sdaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        sdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        dasdasd
+        asd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        daasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        sdasdasasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasddasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asd
+        asd
+        asasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        da
+        sdaasdasasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasddasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        sdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asd
+        asd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
+        asd
+        asd
+        asd
+        asd
+        as
+        da
+        sda
+        sda
+        da
+        sda
+        sd
+        asd
+        asd
+        asd
+        asd
+        as
+        dasdasd
+        asd
+        asd
+        as
+        da
+        sd
+        asd
+        asd
+        as
+        da
+        sda
+        sd
+        asd
+        asd
+        asd
+        asd
+        asd
+        asd
+        asd
+        asd
+        as
+        da
+        sda
+        sda
+        da
+        sda
+        sd
+        asd
+        asd
+        asd
+        asd
+        as
+        dasdasd
+        asd
+        asd
+        as
+        da
+        sd
+        asd
+        asd
+        as
+        da
+        sda
+        sd
+        asd
+        asd
+        asd
+        asd
+        asd
+        asd
+        asd
+        asd
+        as
+        da
+        sda
+        sda
+        da
+        sda
+        sd
+        asd
+        asd
+        asd
+        asd
+        as
+        dasdasd
+        asd
+        asd
+        as
+        da
+        sd
+        asd
+        asd
+        as
+        da
+        sda
+        sd
+        asd
+        asd
+        asd
+        asd
+        asd
+        asd
+        asd
+        asd
+        as
+        da
+        sda
+        sda
+        da
+        sda
+        sd
+        asd
+        asd
+        asd
+        asd
+        as
+        dasdasd
+        asd
+        asd
+        as
+        da
+        sd
+        asd
+        asd
+        as
+        da
+        sda
+        sd
+        asd
+        asd
+        asd
+        asd
+        asd
+        asd
+        asd
+        asd
+        as
+        da
+        sda
+        sda
+        da
+        sda
+        sd
+        asd
+        asd
+        asd
+        asd
+        as
+        dasdasd
+        asd
+        asd
+        as
+        da
+        sd
+        asd
+        asd
+        as
+        da
+        sda
+        sd
+        
 \end{lstlisting}
 
 \section{Spouštěcí script}
