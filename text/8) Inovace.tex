@@ -1,0 +1,23 @@
+\chapter{Inovace}
+Z časového hlediska stanoveného na bakalářskou práci jsem nemohl implementovat všechny funkce systému a proto byl vytvořen jen prototyp zvládající nejzákladnější funkcionalitu.
+V práci bylo několikrát na něnkolika místech zmíněno, že bude doděláno v budoucnu, protože jsem s těmito funkcemi počítal předem a proto byl tento měřící systém k tomu uzpůsobnen, např. při výběru komponent, jsem vybíral mikropičítač už s implementovaným wifi modulem, který aktuálně není možné využít, protože vše běží lokálně na raspberry pi.
+Zde zmínim věci, které bude nutné do budnoucna dodělat a možné inovace:
+
+- Wi-Fi dodělání databáze, která bude přístupná přes internet a měřící systém si ji bude jen aktualizovat
+- Vizuál: Nyní je systém ve stavu prototypu a je modulární do budoucna bude systém zaobalený jednou krabičkou - tedy vymyslet vlastní loadcell, který připojím na nejký AD převodník
+- Baterka, pro eliminaci napájení kabelem - možne system přenášet 
+- 1. úroveň inovace: po využití systému v provozu se zjistilo, že by bylo lepší mít displej oddelený od váhy, která zustane na baru, tedy tam kde je načatý alkohol, který je nutné navážit. Displej zas by se odnesl do skladu, kde by se zadaly zbylé kusy ze skladu - na to váhu nepotřebujem, protože není co vážit
+- 2. úroveň inovace: Teoreticky může zustat displej zabudovaný ve váze a budem propojení s váhou pomocí mobilní aplikace, takže do skladu bysme šli pouze s mobilem.
+    +neni nutné neustále odpojovat a připojovat displej
+    +Pokud by se nám displej rozbil, tak musime koupit druhý, což muže byt problém, ale aplikaci rozjedem na libovolném mobilu
+- Dodelání PC aplikace pro jednoduší správu databáze a její přehled, teoreticky tohle vsechno by melo jít aj z mobiílní aplikace, ale člověk proste bude mít na výběr 
+- Dodelat okno nastavení (ruzne jednotky hmotnosti, noční režim, atd) tohle přesunout uplne na horu listu
+- Nějak udělat, aby systém dokázal komunikovat s dalšími ERP sytému nebo si proste vyvinout svuj vlastní
+
+\section{Inovace kódu}
+
+Hlavní smyčka uvnitř GUI ne nnaopak -> obejdu problem s resetováním proměných jednotlivých tlačítek
+
+Třídy Barcode Reader a Scale by se dali napsat více obecně pro/multifunkčně. Obě zařízení totiž dokáží přijímat různá data ne jenom, které využivám já např. u čtečky nastavení čtení jiných kodu než EAN. U váhy třeba dodělat metodu na tarování, atd
+
+Do modulu database dodělat třídu pro jména pracovníku, heslo, obecné nastavení prostředí (jednotky, jazyk, barva prostředí)

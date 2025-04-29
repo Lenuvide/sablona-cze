@@ -9,8 +9,7 @@
 	unicode,						% Záložky a metainformace ve výsledném  PDF budou v kódování unicode
 ]{report}				    	% Dokument třídy 'zpráva', vhodná pro sazbu závěrečných prací s kapitolami
 
-\usepackage[utf8]		  %	Kódování zdrojových souborů je UTF-8
-	{inputenc}					% Balíček pro nastavení kódování zdrojových souborů
+\usepackage[utf8]{inputenc}			  %	Kódování zdrojových souborů je UTF-8				% Balíček pro nastavení kódování zdrojových souborů
 
 \usepackage[				% Nastavení geometrie stránky
 	bindingoffset=10mm,		% Hřbet pro vazbu
@@ -70,7 +69,7 @@
     tabsize=2,			% definice velikosti tabulátoru
     inputencoding=utf8,         % pro soubory uložené v kódování UTF-8
 		columns=fixed,  %fixed nebo flexible,
-		fontadjust=true %licovani sloupcu
+		fontadjust=true, %licovani sloupcu
     extendedchars=true,
     literate=%  definice symbolů s diakritikou
     {á}{{\'a}}1
@@ -113,6 +112,9 @@
 \usepackage{tablefootnote} %Přidal jsem já
 \usepackage{caption} %Přidal jsem já
 \usepackage{xcolor} %Přidal jsem já
+\usepackage{tikz} %Přidal jsem já, slouží k vykreslení stavového diagramu v 7. kapitole
+\usepackage{amsmath, amssymb, array} %vyhodilo AI, že to pomuže s errory: 233 err -> fix to 125 err (spravilo to 108 err)
+\usepackage{csquotes, siunitx} %vyhodilo AI, že to pomuže s errory: 125 err -> 124 err
 
 \usepackage[utf8]{inputenc}
 
@@ -173,7 +175,7 @@
 %	{\sffamily\Huge\centering ZDE VLOŽIT LIST ZADÁNÍ}%
 %	{\sffamily\centering Z~důvodu správného číslování stránek}
 %%
-\oddpage% při dvojstranném tisku se přidá prázdná stránka %%%%%%%%%%%%%%%%%%%%%%%%
+\oddpage % při dvojstranném tisku se přidá prázdná stránka %%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Vysázení stránky s abstraktem
 %\makeabstract
@@ -216,13 +218,15 @@
 %%% Vložení souboru 'text/cile.tex' s úvodem
 %\include{text/cile}
 
-\include{text/1) Inventura}
-\include{text/2) Dosavadní metody měření}
-\include{text/3) Výpočet objemu}
-\include{text/4) Sériová komunikace}
-\include{text/5) Nově navržený systém}
-\include{text/6) Zprovoznění jednotlivých komponent}
+%\include{text/1) Inventura}
+%\include{text/2) Dosavadní metody měření}
+%\include{text/3) Výpočet objemu}
+%\include{text/4) Sériová komunikace}
+%\include{text/5) Nově navržený systém}
+%\include{text/6) Zprovoznění jednotlivých komponent}
 \include{text/7) Vývoj firmwaru}
+%\include{text/8) Inovace}
+%\include{text/404) test}
 
 %%% Vložení souboru 'text/reseni' s popisem řešení práce
 % (rozdělte na více souborů či kapitol, pokud je vhodné)

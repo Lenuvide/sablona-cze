@@ -1,557 +1,1022 @@
-\chapter{Vývoj firmwaru}
-V této kapitole se budem zabívat návrhem firmwaru s grafickým rozhraním pro mikrokontroler Raspberry pi 4, výběrem programovacího jazyku a ošetření nežádoucích stavů.
+%\newcounter{keepage}
+%\setcounter{keepage}{\value{page}} % uložíme aktuální číslo
+%\pagenumbering{gobble}
+%
+%
+%\clearpage
+%\pagenumbering{arabic}
+%\setcounter{page}{\value{keepage}} % vrátíme 28
+%\addtocounter{page}{}             % posuneme na 29
 
-\section{Výběr programovacího jazyku}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Vývoj firmware a zprovoznění systému jako celek}
+%\addcontentsline{toc}{chapter}{Vývoj firmware a zprovoznění systému jako celek}
+
+V této kapitole se budu zabývat návrhem firmwaru s grafickým rozhraním pro mikropočítač Raspberry Pi 4, výběrem programovacího jazyka a ošetřením nežádoucích
+stavů. Kapitola je rozdělená do dvou částí, jedna se zabývá čistě vizuální stránkou a interakcí mezi jednotlivými okny firmwaru a druhá část se zabývá čistě programovým řešením a komunikací mezi jednotlivými soubory firmwaru. Výsledný systém se mírně liší od původního konceptu na základě jeho testování v praxi a postupného vylepšování.
+
+%-----
+\section{Výběr programovacího jazyku a grafického modulu}
+Nějaký text 
+
 Jako programovací jazyk jsem zvolil Python na základě jednoduché syntaxe a čitelnosti kódu. Python má rozsáhlé množství knihoven pro vývoj GUI aplikací a je také velmi populární v komunitě Raspberry Pi, což přináší spoustu dostupných zdrojů a podpory.
 
-Další možností byly programovací jazyky C++ a C\#, které jsou výkonnější a vhodnější pro náročnější aplikace. Oproti Pythonu mají menší komunitní podporu a vývoj je pomalejší, což může byt velmi stěžejní pro vypracování této práce ve stanoveném termínu. C\# navíc není tolik platformě nezávislý jako Python a C++, proto pro některé aplikace, jako např. vývoj GUI není nejvhodnější.
-%Zdroj: ChatGPT
-%https://chat.openai.com/c/2b6bb45b-a5bb-4122-b076-c6c33868d2e9
-%https://chat.openai.com/share/e9bd7c89-0ffb-462b-99e9-853263e092ca
+%-----
+\section{Rozložení souborů a jejich vzájemná vazba}
 
+Celý program se skládá z 5 souborů obsahujících zdrojový kód v jazyce Python s příponou .py, z pravidla se těmto souborům říká "moduly".
 
-
-\section{Vývoj grafického uživatelského rozhraní}
-
-Grafické uživatelské rozhraní zkráceně GUI je prostředí díky kterému uživatel dokáže interagovat se zařízením prostřednictvím tlačítek, přepínačů, textových polí, ikon, zaškrtávacích políček a jiných grafických ovládacích prvků, které má vyobrazené na displeji zařízení.
-
-\subsection{Výběr GUI frameworku}
-Pro vývoj GUI jsem si vybral knihovnu s názvem Tkinter
-.
-.
-.
-
-\section{Hlavní okno}
-
-Na hlavním okně budou zobrazeny veškeré informace o destilátu a naměřená data. Hlavní okno se objeví po načtení operačního systému a následném a mikrokontroleru
-
-Při zapnutí mikrokontroleru a načtení operačního systému se firmware sám spustí a zobrazí se hlavní okno. Uživatel nemá možnost z tohoto okna "vyjet" do prostředí operačního systému. Zapnutí měřícího systému se provádí připojením napájecího kabelu, vypnutí následně přes vypínací tlačítko na displeji v sekci nastavení[č.x]
-\\\\
-
-\begin{figure}[!h]
-    \begin{center}
-        \includegraphics[scale=0.9]{obrazky/GUI.PNG}
-    \end{center}
-    \caption{GUI - Hlavní obrazovka}
-    \label{putty}
-\end{figure}
-
-Komponenty hlavní obrazovky:
 \begin{itemize}
-    \item Tlačítko pro spuštění/ukončení inventury, zrušení výběru destilátu
-    \item Tlačítko s ikonou ozubeného kolečka pro sekci nastavení
-    \item Canvas pro zobrazení vybraného destilátu
-    \item Entry(Text box) pro manuální vyhledávání destilátu
-    \item 8x Label pro zobrazení hlavních informacích o měřeném destilátu
+    \item main.py - Obsahuje stavový automat, který se opakovaně volán, díky hlavní smyčce, kterou vytváři  mnou vytvořená grafická třída GPU.py, která dále dědí z grafického modulu Tkinter.py. Tato problematika je podrobněji rozebrána v samotné sekci GPU
+    \item GPU.py - Obsahuje veškerý kód týkající se grafického vykreslení, viz sekce [...]
+    \item čtečka.py - zastřešuje veškerou komunikaci se čtečkou
+    \item Váha.py - zastřešuje veškerou komunikace s váhou
+    \item Databáze.py - zastřešuje veškerou komunikaci s databázi
 \end{itemize}
 
-%\begin{minipage}{\linewidth}
-%[frame=single,numbers=right,caption={Příklad %implementace první kanonické formy v~jazyce %C.},basicstyle=\ttfamily\small, %keywordstyle=\color{black}\bfseries\underbar,]
 
-%Zde je možnost i barevného oddělení:
-%https://www.overleaf.com/learn/latex/Code_listing
-\begin{lstlisting}[language=Python, caption=Hlavní okno, frame=single]
-import tkinter as tk
-from PIL import ImageTk, Image
+%-----
+\section{Stavový automat}
+Aby nám celý systém mohl fungovat, musí se řídit nějakou logikou a posloupností jednotlivých stavů, proto byl navržený stavový automat dle kterého je vytvořený celý program firmwaru. Tento stavový automat je reprezentovaný jako funkce opakovaně volající se funkce v hlavním souboru programu - main.py
 
-# Třída dědící z GUI knihovny Tkinter a třídy Tk
-class Gui(tk.Tk):
-    # Konstruktor
-    def __init__(self):
-        super().__init__()
-        # Rozlišení hlavního okna
-        self.geometry("1024x600")
-        # Nastavení ostatních parametrů hlavního okna
-                    .
-                    .
-                    .
-    # Detekce zmáčknutí tlačítka
-    def button_event_start_stop(self):
-        self.button_start_stop_pressed = True
-
-    # Otevře okno s nastavením
-    def button_event_settings(self):
-        exit()
-
-    # Otevře okno dotykové klávesnice
-    def entry_event(self, _event):
-        keyboard = Keyboard(self)
-
-
-\end{lstlisting}
-
-///Zde bude obrazek hlavniho okna///
-
-///Zde bude tabulka použitých komponent hlavního okna ///
-
-///Zde bude kód/třída hlavního okna///
-
-\subsection{Okno s nastavením}
-
-Okno s nastavením se spouští pomocí ikony ozubeného kolečka.
-
-///Zde bude obrázek okna s nastavením///
-
-///Zde bude tabulka použitých komponent ///
-
-///Zde bude kód/třída okna nastavení///
-
-\subsection{Dotyková klávesnice}
-
-Dotyková klávesa se otevře po kliknutí na textové pole s ikonou lupy. Slouží k vyhledání položky manuálně z důvodu poškozeného čárového kódu. Jednotlivé klávesy jsou tvořeny pomocí tk.button widgetu. Klávesnici je možné zavřít pomocí tlačítka close nebo kliknutím do prostoru mimo klávesnici.
-
-\begin{figure}[!h]
+\begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=0.45]{obrazky/klavesnice.PNG}
+        \includegraphics[scale=0.4]{obrazky/stavový automat_2.jpg}
     \end{center}
-    \caption{GUI - Dotyková klávesnice}
-    \label{putty}
+    \caption{Interakce mezi okny GUI}
+    \label{Interakce mezi okny GUI}
 \end{figure}
+//OBRÁZEK - Stavového automatu z pohledu uživatele
 
-\begin{lstlisting}[language=Python, caption=Hlavní okno, frame=single]
-class Keyboard(tk.Toplevel):,
-    def __init__(self, parent):
-        super().__init__(parent)
-        self.parent = parent
-        self.geometry("1024x300+0+300")  # Nastavení rozměrů a pozice okna na spodní polovinu obrazovky
-        self.overrideredirect(True)  # Odstraní vrchní lištu s tlačítky minimalizace, maximalizace a zavření
+Z pohledu programu, ale stavový automat vypadá trochu jinak, protože některé stavy jsou zaobalené do do jedné funkce programu, abysme nevytvářeli zbytečně mnoho funkcí kvůli vykonání jednoho příkazu (jeden řádek kódu). Níže je zobrazen stavový diagram z pohledu programu.
 
-        # Inicializace klávesnice
-        self.init_keyboard()
+//OBRÁZEK - Stavového automatu z pohledu programu
 
-    def init_keyboard(self):
-        # Funkce pro zachycení stisku klávesy
-        def press(key):
-            if key == "ENTER":
-                pass  # Potvrzení vyhledávání nebo tu může být zavření klávesnice...uvidím
-            elif key == "DEL":
-                current_text = self.parent.entry.get()
-                new_text = current_text[:-1]  # Odstranění posledního znaku
-                self.parent.entry.delete(0, tk.END)  # Vymazání současného textu
-                self.parent.entry.insert(0, new_text)  # Vložení upraveného textu
-            elif key == "Space":
-                self.parent.entry.insert(tk.END, " ")
-            elif key == "CLOSE":
-                self.wm_withdraw()
-            else:
-                self.parent.entry.insert(tk.END, key)
+\subsection{Main.py}
+%V hlavním souboru je zadefinováná třída \texttt{Automat}, která dědí ze třídy \texttt{Enum} pro vytvoření jednotlivých stavů automatu. Využití konstant nesoucí název daného stavu činí kód přehlednější než použití běžných číselných konstant.
 
-        # Definování velikosti písma pro klávesy
-        font_size = "20"
-
-        # Vytvoření rámce pro klávesy
-        frame = tk.Frame(self)
-        frame.pack(expand=True, fill='both')
-
-        # Layout kláves s přidanou numerickou řadou
-        keys = [
-            ['1', '2', '3', '4', '5', '6', '7', 
-            '8', '9', '0'],
-            ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 
-            'I', 'O', 'P'],
-            ['A', 'S', 'D', 'F', 'G', 'H', 'J', 
-            'K', 'L'],
-            ['Z', 'X', 'C', 'V', 'B', 'N', 'M', 
-            'DEL', 'ENTER', 'CLOSE'],
-            ['Space']
-        ]
-
-        # Vytvoření kláves
-        for row in keys:
-            row_frame = tk.Frame(frame)
-            row_frame.pack(
-                side='top', 
-                expand=True, 
-                fill='both')
-            for key in row:
-                if key == "Space":
-                    button = tk.Button(
-                    row_frame, 
-                    text=key, 
-                    command=lambda k=key: press(k), 
-                    height=2, 
-                    font=("Helvetica", font_size), 
-                    width=87)
-                    button.pack(
-                    side='left', 
-                    expand=True, 
-                    fill='both', 
-                    padx=3, 
-                    pady=3)
-                else:
-                    button = tk.Button(
-                    row_frame, 
-                    text=key, 
-                    command=lambda k=key: press(k), 
-                    height=2, 
-                    font=("Helvetica", font_size), 
-                    width=7)
-                    button.pack(
-                    side='left', 
-                    expand=True, 
-                    fill='both', 
-                    padx=3, 
-                    pady=3)
-
-
-\end{lstlisting}
-
-\section{Hlavní soubor} %\section{Stavový automat}
-
-%Hlavní soubor "main.py" se spouští jako první a následně na základě stavového automatu volá ostatní
-
-Hlavní soubor "main.py" je spouštěcí soubor, kde sekvence úkolů je závislá na stavovém automatu. Stavy stavového automatu jsou tvořeny enum třídou ve kterém je definován každý stav. Rozhodovácí část stavového automatu je ve funcki "state\_machine", která je volána z mainu s počátečním stavem pro spuštění inventury, na základě stavu jsou volané dílčí funkce určene pro každý stav. Tato funkce je dokola volána díky metody tkinter.after() z důvodu, že program běží na hlavní smyčce grafické třídy Tkinter a intervalu 100 je volána opakovaně funkce state\_machine.
-
-\begin{figure}[!h]
-    \begin{center}
-        \includegraphics[scale=0.45]{obrazky/stavový automat_2.jpg}
-    \end{center}
-    \caption{Stavový automat programu}
-    \label{putty}
-\end{figure}
+V hlavním souboru je zadefinováná třída \texttt{Automat}, která dědí ze třídy \texttt{Enum}, která umožňuje vytvoření jednotlivých stavů automatu jako konstanty nesoucí jejich název. Instance této třídy pak bude vždy rovná hodnotě, ve které se zrovna nachází stavový automat.
 
 \begin{lstlisting}[language=Python, caption=Hlavní okno, frame=single]
 from enum import Enum
 
-class automat(Enum):
-    spusteni_inventury = 1
-    finding_the_distillate = 5
-    stav2 = 2
-    stav3 = 3
-    stav4 = 4
+class Automat(Enum):
+    STARTING_INVENTORY = 0
+    CHECK_PORT = 1
+    FINDING_DISTILLATE = 3
+    SAME_DISDILLATE = 4
+    WEIGHING = 5
+    REMOVE_BOTTLE = 6
 \end{lstlisting}
 
-\newpage
+%Třída Automat je následně využita ve funkci state\_machine obsahující rozhodovací blok pomocí zřetězených podmínek if/elif. Funkci předáváme počáteční stav automatu tedy STARTING\_INVENTORY. Některé funkce stavového automatu mají incializační podmínku, která se vykoná pouze jednou při vstupu do nového stavu. Globální proměnná state\_pre si pamatuje předchozí stav automatu a pokud se nerovná aktuálnímu stavu, tak se globální proměnná set\_up nastaví na true, což způsobí povolení inicializační podmínky.
 
-\begin{lstlisting}[language=Python, caption=Hlavní okno, frame=single]
-def state_machine(state: automat) -> None:
+%Některé funkce stavového automatu mají incializační podmínku, která se vykoná pouze jednou při vstupu do nového stavu, k povolení této podmínky slouží globální proměnná set\_up, která se nastaví na True v případě, že globální proměnná state\_pre, která uchovává předchozí stav automatu, se nerovná aktuálnímu stavu automatu.
+
+%Třída Automat je v kódu využita ve funkci state_machine, která pracuje s rozhodovacím blokem pomocí zřetězených podmínek if/elif. Této funkci se předává počáteční stav automatu, tedy STARTING_INVENTORY. Některé funkce stavového automatu obsahují inicializační podmínku, která se vykoná pouze jednou při vstupu do nového stavu. K jejímu povolení slouží globální proměnná set_up, jež se nastaví na True v případě, že globální proměnná state_pre (uchovávající předchozí stav automatu) se nerovná aktuálnímu stavu. Pokud se tedy state_pre liší od nového stavu, set_up se nastaví na True a dojde k provedení kódu, který se má spustit jen při přechodu do stavu.
+
+%V prezentovaném kódu stavového automatu se využívá třída Automat, jejíž hodnoty reprezentují jednotlivé stavy. Funkce state_machine využívá zřetězených podmínek if/elif pro rozhodování, který stav se má vykonat – výchozím je STARTING_INVENTORY. Při vstupu do každého nového stavu může nastat situace, kdy se provádí jednorázový inicializační kód (tzv. setup). K jeho spuštění slouží globální proměnná set_up, která se nastaví na True jen tehdy, když detekujeme přechod do nového stavu. To zajišťuje kontrola nad globální proměnnou state_pre: pokud se liší od aktuálního stavu, znamená to změnu a set_up se nastaví na True. Tím se umožní vykonání inicializačních kroků pouze jednou v okamžiku vstupu do daného stavu.
+
+%Třída Automat je využívána ve funkci state_machine, která implementuje stavový automat pomocí rozhodovacího bloku složeného ze zřetězených podmínek if/elif. Této funkci je při volání předán počáteční stav automatu, tedy STARTING_INVENTORY. Některé funkce jednotlivých stavů obsahují inicializační část, která se provede pouze jednou při vstupu do nového stavu. K řízení této inicializace slouží globální proměnná set_up, která se nastaví na hodnotu True, pokud se předchozí stav automatu uložený v globální proměnné state_pre liší od aktuálního stavu. Tímto způsobem je zajištěno, že inicializační část daného stavu je vykonána vždy právě jednou.
+
+Třída \texttt{Automat} je využívána ve funkci \texttt{state\_machine}, která implementuje stavový automat pomocí rozhodovacího bloku složeného ze zřetězených podmínek \texttt{if/elif}, které určují, který stav se má vykonat. Při prvním volání funkce se jí předá počáteční stav \texttt{STARTING\_INVENTORY}. 
+
+Některé funkce jednotlivých stavů obsahují inicializační podmínku, která se provede pouze jednou při vstupu do nového stavu. K řízení této inicializace slouží globální proměnná \texttt{set\_up}, která se nastaví na hodnotu \texttt{True}, pokud se předchozí stav automatu uložený v globální proměnné \texttt{state\_pre} liší od aktuálního stavu. Tímto způsobem je zajištěno, že inicializační část daného stavu je vykonána vždy právě jednou.
+
+
+
+%U poslední podmínky, předáváme funkci "stop\_inventory" aktuální stav automatu, protože tato funkce může být volána z vicero stavech a taky se vrátit do stavu z kama byla volána dle obrázku stavového diagramu a při možnosti vrácení se zpět je nutné si uchovat informaci o posledním stavu, aby se vrátila do toho původního
+
+%U poslední podmínky, předáváme funkci "stop\_inventory" aktuální stav automatu. Dle stavového diagramu můžeme ukončit inventuru z víceromíst, případně z ukončovacího stavu se vrátit do předchozího a abych se do tohoto stavu mohli vrátit je nutné si uchovat informace o stavu z kterého jsme přešli. V praxi to znamená, že zavřeme ukončovací obrazovku a to nás vrátí do předchozího stavu.
+
+U poslední podmínky je funkci \texttt{stop\_inventory} předáván aktuální stav automatu. Podle stavového diagramu je možné ukončit inventuru z více částí aplikace a případně se z ukončovacího stavu vrátit zpět do stavu předchozího. Aby byl návrat do původního stavu uskutečnitelný, je nezbytné uchovat informaci o tom, odkud byl přechod proveden. V praxi to znamená, že při zavření ukončovací obrazovky dojde k návratu do stavu, ve kterém se aplikace nacházela před přechodem do ukončovací fáze.
+
+%Metoda app.after() patří grafické třídě, více rozebráno v sekci xx, která spouští hlavní smyčku programu, kde po každých 20 ms volá metodu after. Tato třída spouští hlavní smyčku programu, obstarávající chod GUI, aby bylo možné z této smyčky vyskočit je využívána metoda after, kde její 1. argumentem je časový interval, za jak dlouho se tato funkce zavolá po spuštění hlavní smyčky a 2. argumentem je funkce state\_machine kterou bude volat, tzv. zpětné volání (callback function), dalším parametrem je *args, který reprezentuje libovolný počet parametrů libovolného datového typu, které budou předány jako parametr funkce z 2. argumentu funkce, tedy se zavolá funkce statemachine a předá se ji parametr state - Toto zapříčiní u funkce state\_machine opakované volání sebe sama, každých 20 ms.
+
+%1. argument je časový interval za jak dlouho se zavolá funkce, která je 2. argumentem, které se předá parametr, který je 3. argumentem, tedy metoda after zavolá každých 20 ms funkci state machine a předá ji parametr state.
+
+%Metoda app.after(20, state\_machine, state) patří grafické třídě viz sekce č.[bude doplněno]. Tato třída spouští hlavní smyčku programu, obstarávající chod GUI a aby bylo možné z ní vyskočit využívá se zmíněné metody, která konrétně v našem případě volá funkci state\_machine (druhý parametr metody), jedná se o tzv. zpětné volání (callback function) a předává ji parametr state (třetí parametr metody). Metoda se vykoná pouze jednou po spuštění hlavní smyčky, proto je opakovaně volána každých 20 ms(první parametr metody) na konci funkce.
+
+%Metoda app.after(20, state_machine, state) je součástí grafické třídy (viz sekce č. [bude doplněno]). Tato třída spouští hlavní smyčku programu, která zajišťuje chod uživatelského rozhraní (GUI). Aby bylo možné tuto smyčku v případě potřeby ukončit, využívá se právě uvedená metoda, která v daném případě volá funkci state_machine (druhý parametr) formou zpětného volání (callback function) a předává jí parametr state (třetí parametr). Vzhledem k tomu, že se metoda po spuštění hlavní smyčky provede pouze jednou, je na konci funkce naplánováno její opakované volání každých 20 ms (hodnota prvního parametru). Tím je zajištěn pravidelný cyklus, v němž se state_machine vykonává a zároveň je GUI průběžně aktualizováno.
+
+%Metoda app.after(20, state\_machine, state) je součástí grafické třídy GUI (viz sekce č. [bude doplněno]). Tato třída spouští hlavní smyčku programu, která zajišťuje chod uživatelského rozhraní (GUI). Aby bylo možné z této smyčky v případě potřeby vyskočit, využívá se právě uvedená metoda, která v daném případě volá funkci state\_machine (druhý parametr) formou zpětného volání (callback function) a předává jí parametr state (třetí parametr). Vzhledem k tomu, že se metoda po spuštění hlavní smyčky provede pouze jednou, je na konci funkce naplánováno její opakované volání každých 20 ms (první parametr). Tím je zajištěn pravidelný cyklus, v němž se state\_machine vykonává a zároveň je GUI průběžně aktualizováno.
+
+%Aby bylo možné opakovaně volat funkci state machine je nutné z této smyčky vyskočit 
+
+Metoda \texttt{app.after(20, state\_machine, state)} je součástí grafické třídy \texttt{GUI} (viz sekce č. [bude doplněno]), která opakovaně volá funkci \texttt{state\_machine} (druhý parametr) formou zpětného volání (callback function) každých 20 ms (první parametr) a předává jí parametr \texttt{state} (třetí parametr).
+
+
+%, protože tato funkce může být volána z vicero stavech a taky se vrátit do stavu z kama byla volána dle obrázku stavového diagramu a při možnosti vrácení se zpět je nutné si uchovat informaci o posledním stavu, aby se vrátila do toho původního
+
+%Tyto stavy dále jsou využitý ve funkci state\_machine, kde na základě aktuálního stavu předé jako aurgument funkce se vykoná příslušný stav
+
+%Na základě stavu (proměná state). Mnou využitá verze pythonu nepodporuje switch case funkci, tudíž 
+
+%Aktuální verze Pythonu (3.9.21) nepodporuje žádný příkaz podobný "switch", jak je známo z jiných programovacách jazycích, tudíž logika pro volání jednotlivých stavů automatu je pomocí podmínek "if".
+
+\begin{lstlisting}[language=Python, caption=Funkce stavového automatu:, frame=single, breaklines=true, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
+state_pre: Automat = Automat.STARTING_INVENTORY
+set_up: bool = True
+
+def state_machine(state: Automat) -> None:
+    global state_pre
+    global set_up
     
     #switch statement by "if" condition (Python version 3.9.2)
-    if state == automat.spusteni_inventury and
-    app.button_start_stop_pressed:
+    if state == Automat.STARTING_INVENTORY:
         state = starting_inventory()
-    elif state == automat.finding_distillate:
+    elif state == Automat.CHECK_PORT:
+        state = check_port()
+    elif state == Automat.FINDING_DISTILLATE:
         state = finding_distillate()
-    elif state == automat.weighing():
+    elif state == Automat.SAME_DISDILLATE:
+        state = same_distillate()
+    elif state == Automat.WEIGHING and app.unit_state == "ml":
         state = weighing()
-    elif state == automat.remove_() and 
-    vaha.print_scale().split()[0] == "0.0":
+    elif state == Automat.WEIGHING and app.unit_state == "ks":
+        state = quantity()
+    elif state == Automat.REMOVE_BOTTLE:
         state = remove_bottle()
 
-    if state != automat.spusteni_inventury and 
-    state != automat.stav3 and 
-    app.button_start_stop_pressed:
-        stop_inventory()
-        state = automat.spusteni_inventury
+    if state_pre == state:
+        set_up = False
+    else:
+        set_up = True
+    state_pre = state
+    
+    if state != Automat.STARTING_INVENTORY and state != Automat.WEIGHING and app.button_stop_pressed:
+        state = stop_inventory(state)
 
-    app.after(100, state_machine, state)
+    app.after(20, state_machine, state)
 \end{lstlisting}
 
-\subsection{Stav: Zahájení inventury}
-Zahájení inventury probíhá pomocí sepnutí tlačítka pro spuštění inventury. Tento stav kontroluje zda komunikační port váhy a čtečky čárového kódu je otevřený a vytváří novou tabulku v databázi pro ukládání dat navážených destilátů.
 
-\begin{lstlisting}
-    def starting_inventory() -> automat:
-\end{lstlisting}
 
-\newpage
-\subsection{Stav: Hledání destilátu}
+//KOD
 
-V tomto stavu se posílá opakovaně požadavek na skenování pomocí skeneru čárového kódu, dokud se ho nepovede přečíst. Získaný EAN kód se porovná s ostatními v databázi, při neshodě se vypíše chybové hlášení, že EAN kód se nenašel. Při shodě se zjistí, zda nebyl už evidován destilát s tímto EAN kódem z důvodu vyhnutí se duplicitní evidenci. Při shodě se vypíše chybové hlášení, že položka už byla evidována. Pokud byl EAN kód uspěšně načten, aktualizují se informace na dipsleji pro načtený destilát.
-
-\begin{lstlisting}
-    def finding_distillate() -> automat:
-\end{lstlisting}
-
-\subsection{Stav: Vážení}
-
-%Zrušení výběru je možné pomocí tlačítka
-Pokud naměřená hmotnost je větší než hmotnost plné láhve, vypíše se "MAX" místo hodnoty zbytkového objemu. Jedná se o ošetření chyby pokud by na váhu byla položena špatná láhev nebo jiný objekt s větší hmotností, než je hmotnost plné lahve. Pokud váha je stabilizovaná, posílá po sériové lince naměřenou hmotnost včetně jednotky[tab. č.\ref{jouu}], pokud tedy je přijata jednotka hmotnosti a hmotnost je současně vyšší než hmotnost prázdné láhve, tak se podbarví zeleně jednotka zbytkového objemu, jako signalizace stabilizované váhy a destilát se nám eviduje do databáze.
-
-\begin{lstlisting}
-    def weighing() -> automat:
-\end{lstlisting}
-
-\subsection{Stav: Odebrání láhve}
-
-Pokud naměříme nulovou hmotnost na váze, tak se nám vynuluje zbytkový objem a systém se dostane do stavu pro hledání
-
-\begin{lstlisting}
-    def remove_bottle() -> automat:
-\end{lstlisting}
-
-\subsection{Stav: Ukončení inventury}
-
-Tento stav nastane, když je aktivováno tlačítko pro ukončení inventury a zároveň nejsme ve stavu vážení ani spuštění inventury. Po dokončení inventury je možné zahájit další inventuru. Pokud uživatel zamýšlí zahájit novou inventuru bez restartování zařízení, systém se ho zeptá, zda si přeje smazat předchozí inventuru(viz obrázek č.). Důvodem pro zahájení nové inventury může být chyba v předchozí inventuře.
-
-\begin{lstlisting}
-    def stop_inventory() -> automat:
-\end{lstlisting}
+%-----
+\section{Stav 1 - Start}
+Při spuštění firmwaru se prvně zobrazí úvodní okno, díky kterému jsme schopni spustit samotnou inventuru. Je zde pouze viditelné tlačítko start a nastavení. Tlačítko strat jednoduše spustí celý systém a kdy je možné započít inventuru. Tlačítko nastavení na uvodni obrazovce je zdůvodu, pokud uživatel se chce podívat nebo nastavit aplikaci bez toho, aby musel spouštět inventuru, tato část je vice rozberáno v sekci [x]
 
 \begin{figure}[!h]
     \begin{center}
-        \includegraphics[scale=0.45]{obrazky/mazani_inventury.PNG}
+        \includegraphics[scale=0.4]{obrazky/GUI Spuštění inventury.png}
     \end{center}
-    \caption{Systémové okno pro vymazání poslední inventury}
-    \label{putty}
+    \caption{Interakce mezi okny GUI}
+    \label{Interakce mezi okny GUI}
 \end{figure}
 
-\section{Třída váhy}
+//OBRÁZEK
 
-Třída váhy "scale" zastřešuje sériovou komunikaci s váhou. 
+\section{Stav 2 - Ověření komunikace}
+Po spuštění celého systému provedu ověření zda komunikuje čtečka a váha, to udělám pomocí funkce 
+xx 
+xx 
 
-V konstruktoru je vytvořena instance třídy pro sériovou komunikaci s parametrim timeou=1, který nastavuje, čtená na seriovém portu po dobu 1 s. Pokud do tohoto intervalu nejsou zaznamenány žádné příchozí data, čtení se ukončí. 
+V případě uspěšné inicializace seriové komunikace funkce vráti True v opačném případě False. Toto chybové hlášení nám aplikace zobrazí v Proces labelu v hlavním okně aplikace (Hlavní okno je rozebráno o stav níže). Tyto metody spadají pod vytvořenou třídy Senzor a Scale, které jsou více rozebrýny v sekci č.x a č.y. 
 
-Metoda "open\_port" otevírá port pro komunikaci, pokud už port nebyl otevřen nebo neselže jeho otevření. Výjimka "serial.SerilException" se vyvolá pokud na portu není fyzicky připojený kabel. Návratovou hodnotou je bool zda se povedlo otevřít port.
+\section{Stav 3 - Vyhledání produktu}
 
-Metoda "print\_scale" posílá váze požadavek pro zpětné odeslání navážené hmotnosti. Váha přijíma a odesíla data v ASCII formátu. Pokud do 1s nepřijmeme data, funkce vrátí "Err0". Tato funkce stále kontroluje zda je port otevřený, v případě uzavřeného portu vrací hodnotu "Err1". Při úspěšném přečtení dat na portu vrátí funkce přečtená data
+Za předpokladu, že v předchozím stavu nedošlo k chybě se zde uživatel poprvé setkává s hlavním oknem aplikace v kterém je schopen vyhledat konkrétní produkt na základě naskenování jeho EAN kódu nebo ručního vyhledání pomocí klávesnice.
 
-Metoda is\_open" kontroluje zda je port otevřený pomocí proměnné "is\_open" třídy "serial". Návratová hodnota je bool na základě zda port je otevřený nebo ne.
+\subsection{Hlavní okno}
+Hlavní okno jsem navrhoval s myšlenkou, aby uživatel mohl většinu interakcí vykonávat z jednoho místa bez nutnosti přepínání mezi více okny, čímž jsem chtěl ulehčit orientaci a rychlost práce s grafickým prostředím. Hlavní stránka ovšem mění své rozložení komponent s každým stavem nebo využitím pomocných tlačítek, ale celková struktura okna zůstává stejná. Tyto jednotlivé změny jsou rozebrány zvlášť v jednotlivých stavech automatu.
 
--------------------------
+%V některých stavech nejsou přístupné některé ovládací prvky(tlačítka, text boxy, scrollovací lišta), v oblasti vývoje GUI se často používá anglický název widgety. Pokud ovládací prvek není dostupný pro daný stav, tak je zašedlý.
 
-Třída Scale zastřešuje sériovou komunikaci s váhou.
-
-V konstruktoru se vytváří instance třídy serial.Serial pro sériovou komunikaci s parametrem timeout=1, který nastavuje, že čtení na sériovém portu bude probíhat po dobu 1 sekundy. Pokud během této doby nejsou zaznamenána žádná příchozí data, čtení se ukončí.
-
-Metoda open\_port otevírá port pro komunikaci, pokud již není otevřen, a pokud jeho otevření neproběhne úspěšně. Výjimka serial.SerialException je vyvolána, pokud na portu není fyzicky připojený kabel. Návratovou hodnotou je bool, který indikuje, zda se podařilo port otevřít.
-
-Metoda print\_scale posílá váze požadavek pro zpětné odeslání navážené hmotnosti. Váha přijímá a odesílá data v ASCII formátu. Pokud do 1 sekundy nepřijmeme data, funkce vrátí "Err0". Tato funkce také kontroluje, zda je port otevřený, a v případě uzavřeného portu vrací hodnotu "Err1". Při úspěšném přečtení dat na portu vrátí funkce přečtená data.
-
-Metoda is\_open kontroluje, zda je port otevřený pomocí proměnné is\_open třídy serial. Návratová hodnota je bool na základě toho, zda je port otevřený nebo ne.
+V některých stavech mohou být určité ovládací prvky (jako tlačítka, textová pole nebo posuvníky – tzv. widgety) nedostupné. Tyto prvky jsou v takovém případě vizuálně označeny jako neaktivní (zašedlé).
 
 \begin{figure}[!h]
     \begin{center}
-        \includegraphics[scale=0.8]{obrazky/stavovy_automat_parita.jpg}
+        \includegraphics[scale=0.5]{obrazky/Interakce napříč okny GUI.png}
     \end{center}
-    \caption{Systémové okno pro vymazání poslední inventury}
-    \label{putty}
+    \caption{Interakce mezi okny GUI}
+    \label{Interakce mezi okny GUI}
 \end{figure}
 
-\begin{lstlisting}[language=Python, caption=Hlavní okno, frame=single]
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.4]{obrazky/GUI Vyhledávání.png}
+    \end{center}
+    \caption{Interakce mezi okny GUI}
+    \label{Interakce mezi okny GUI}
+\end{figure}
+
+
+//OBRAZEK - HL. MENU S PRVKY VE ZKRACENEM SEZNAMU
+//Obrázek - komunikace mezi komponentami
+
+\subsection{Proces vyhledání}
+
+%Jak bylo řečeno vyhledání produktu probíhá naskenováním jeho EAN kódu. V přípdě neuspěšného scanu z důvodu poškozeného čárového kódu nebo že daný čárový kód není veden v databázi, systém vypíše do "label_proces" chybové hláčení "[bude doplěno]". V případě, že by byl čárový kód tak moc poškozen, že by nešel přečíst je možnost ho vyhledat ručně pomocí Entry pole. Po kliknutí na Entry pole vyjede seznam (list box) destilátů a ze spodní části obrazovky vyjede klávesnice pro rychlejší vyhledání pomocí zadání názvu.
+
+%nebo ručním vyhledáním pomocí entry(text boxu), kdy po kliknutí na něj nám vyjede seznam se všemi produkty a ve spodní části obrazovky se ukáže klávesnice pro vyhledání
+
+%V tomto stavu jsme schopni už vyhledávat požadovaný produkt buď naskenováním jeho EAN kodu nebo jeho ručním vyhledáním. Pokud se rozhodneme vyhledat produkt pomocí naskenování jeho kodu, ale ten se nepovede najít  případě, že by se nepovedlo vyhledat EAN kod, tak nas aplikace upozorní přes Proces label, že došlo k chybě. V případě ručního vyhledání využijeme Entry(textové pole), kdy na něj stačí kliknout a současně nám vyjede i klávesnice.
+
+Vyhledávání produktu probíhá primárně naskenováním jeho EAN kódu. Pokud je kód nečitelný nebo v databázi neexistuje, zobrazí se chybová hláška [sdsd] v prvku label\_proces. V případě, že je kód natolik poškozený, že jej nelze načíst, je možné produkt dohledat ručně. Kliknutím do vstupního pole (Entry) se zobrazí seznam dostupných destilátů a zároveň se ve spodní části obrazovky otevře klávesnice pro rychlé zadání názvu.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.4]{obrazky/GUI Klavesnice + list_box + filr.png}
+    \end{center}
+    \caption{Interakce mezi okny GUI}
+    \label{Interakce mezi okny GUI}
+\end{figure}
+//OBRÁZEK - JAK VYPADÁ RUČNÍ VYHLEDÁNÍ = LISTBOX + KBW
+
+%Do prvku canvas po levé straně se nám začnou ukládat jednotlivé evidované položky ve formě seznamu, kde v závorce za názvem položky máme uvedený jeho maximální objem pro přehled z důvodu kdybysme evidovali stejný druh destilátu, ale v jiné velikosti objemu. V tomto stavu jsme schopni tuto tabulku rozšířit pomocí tlačítka btn. Seznam, kde se nám ukažou podrobné informace jako hmotnost, naměřený objem nebo zadaný počet kusů, taky se nám po pravé straně se nám ukážou tlačítka pro odebraní produktu, snážení/zvýšená počet kusů.
+
+Do seznamu (tree wiev) po levé straně se ukládají již evidované destiláty. V závorce za názvem produktu je uveden jeho maximální objem, což umožňuje odlišit varianty se shodným názvem, ale rozdílnou velikostí balení. Tabulku lze rozšířit kliknutím na tlačítko \texttt{btn.Seznam}, které zobrazí detailní informace jako hmotnost, aktuálně naměřený objem nebo počet evidovaných kusů. Na pravém okraji obrazovky jsou rovněž svisle umístěna ovládací tlačítka pro úpravu množství (přidání/odebrání kusů) a odstranění položky ze seznamu.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.4]{obrazky/GUI Rošířený seznam.png}
+    \end{center}
+    \caption{Interakce mezi okny GUI}
+    \label{Interakce mezi okny GUI}
+\end{figure}
+//OBRÁZEK - ROZTAŽENÝ SEZNAM
+
+V případě naskenování či vyhledání již evidovaného alkoholu program přejde do stavu "duplicidity".
+%Pokud se pokusíme naskenovat nebo ručně vyhledat produkt, který už byl zaevidován, systém automaticky přejde do stavu \textit{duplicity}.
+
+
+%Nežádoucí stavy:
+%\begin{itemize}
+%    \item Chyba EAN kódu - Při načtení EAN kódu, který není uložen v databázi nás program upozornění pomocí \textit{proces} labelu, že EAN kod je chybný a ať to zkusíme znovu
+%    \item Duplicidní produkt - Pokud se snažíme vyhledat už evidovaný produkt, tak program přejde do stavu duplicidity, tento stav je rozebrán níže. 
+%\end{itemize}
+
+\section{Stav - Duplicidita}
+
+%Do tohoto stavu jsme se schopni dostat pouze ze stavu vyhledávání a to díky opětovnému vyhledání již evidovaného produktu. V tomto stavu se nám otevře nové okno ve kterém si můžeme vybrat zda zrušíme aktuální výběr(např. kliknutí vedle v seznamu produktů) a vrátíme se do stavu vyhledání nebo produkt budem evidovat i na dále.
+
+Do tohoto stavu se dostaneme pouze prostřednictvím opětovného vyhledání produktu, který již byl jednou zaevidován. Systém následně otevře nové okno, ve kterém má uživatel na výběr: zrušit aktuální výběr (omylem vybral stejný produkt) a vrátit se zpět do stavu vyhledávání, nebo pokračovat do stavu "Vážení".
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.4]{obrazky/GUI Duplicidita.png}
+    \end{center}
+    \caption{Interakce mezi okny GUI}
+    \label{Interakce mezi okny GUI}
+\end{figure}
+//OBRÁZEK - DUPLICIDITA ZBOŽÍ
+
+Opětovná evidence již zaevidovaného produktu má své opodstatnění ve dvou případech:
+\begin{itemize}
+    \item Pokud máme více rozpitých lahví stejného druhu.
+    \item Pokud chceme kromě zbytku z lahve zaevidovat také stav skladu, konkrétně počet neotevřených kusů. K tomu slouží tlačítko pro evidenci kusového zboží s označením btn.stav[xx]
+\end{itemize}
+%1) Máme více rozpitých lahví
+%2) Nechceme evidovat pouze zbytkový objem jedne lahve, ale i stav dané položky ve skladu, tedy počet nenačatých lahví. K tomu slouží tlačítko pro evidenci kusového zboží "btn.stav"[xx]
+
+%Zde muže byt ojeb: Říct že to program hlasí za dvou stavů, když je duplicitní alkohol pouze při zbytkovém objemu ap ak sparatně duplicitní alkohol při kusovém zadávání. Tedy pokud mam alkohol evidovaný pod objemem a chcu ho zadat kusově, tak na tohle nebudu upozorněn protože jsem ho kusově ještě nezadával a to stejný i naopak.
+
+%Chybové hlášení duplicidity:
+%Tím, že jsem doposud nechal čtečku běžet v continual modu, tak neustale skenovala a jen při vstrupu od stavu vyhledani jsem čistil vstupní buffer. Ted přepinam mezi countinual a manual režimem, tedy kdžy se dostan do chybové hlašení, tak musím čtečku vypnout protože by četla dal, ale už bych nečistil buffer, takže by se možná hodil novy stav ve kterem bych při zapinal a vypinal čtečku čarovoho kodu, ale to je jen den řadek kodu vlastně no.  
+
+//OBRAZEK - HL. MENU S PRVKY VE ZKRACENEM SEZNAMU
+//OBRAZEK - HL. MENU S ROZTAŽENÝM SEZNAMEM
+//OBRÁZEK - JAK VYPADÁ RUČNÍ VYHLEDÁNÍ = LISTBOX + KBW
+//OBRÁZEK - DUPLICIDITA ZBOŽÍ
+
+\section{Stav 4 - Vážení}
+% Obecny popis
+Vstupem do tohoto stavu je potvrzena úspěšná identifikace destilátu – buď načtením pomocí EAN kódu, nebo jeho ručním vyhledáním. Zobrazí se detailní informace o daném alkoholickém nápoji:
+\begin{itemize}
+    \item label Název - Název vyhledaného produktu.
+    \item label Hmotnost - Celková hmotnost lahve.
+    \item label Max. objem - Maximální objem lahve. Tato informace slouží rozeznat stejný typ destilátu v různých velikostech (0,5 l; 0,7 l; 1 l).
+    \item Zbytkový objem - Přepočítaná hmotnost na zbytkový objem v láhvi.
+    \item Canvas nyní ukazuje obrázek vybraného produktu. Důvodem je že prodejci, i když né často, mění designe svých lahví a to sebou nese i změnu jejich hmotnosti, v takovém případě je nutné aktualizovat databázi pro daný produkt.
+\end{itemize}
+\bigskip
+Tlačítko pro ukončení inventury se změnilo na "Vrátit zpět" pro případ, že uživatel zvolil špatný produkt.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.4]{obrazky/GUI Odeberte láhev.png}
+    \end{center}
+    \caption{Interakce mezi okny GUI}
+    \label{Interakce mezi okny GUI}
+\end{figure}
+
+\subsection{Podmínky vážení}
+% Podmínky a omezení - Špatná lahev
+Důležitou podmínkou pro správné zvážení je použít správnou láhev. Krom názvu a obrázku produktu je uživatel informován pokud:
+\begin{itemize}
+    \item \textbf{naměřená hmotnost < hmotnost prázdné láhve} - Proto aby se mohl uložit nově naměřený objem do databáze je nutné, aby naměřená hmotnost byla větší nebo rovna než hmotnost prázdné láhve v opačném případě vyjde objem záporný (na displeji se zobrazí jako nulový) a systém čeká než se hmotnost dostane do požadovaného rozsahu.
+    \item \textbf{naměřená hmotnost > hmotnost plné láhve} - V moment kdy je naměřená hmotnost vyšší než hmotnost plné láhve se nám do Proces labelu vypíše chybové hlášení: "a.. Maximální hmotnost plné lahve byla překročena." a Label pro zbytkový objem vypíše: "MAX". V tento moment na váze je položená špatná láhev nebo cizí těleso a systém opětovně čeká než se hmotnost dostane do požadovaného rozsahu.
+\end{itemize}
+
+\subsection{Stabilizace váhy}
+%Stabilizace váhy
+Dalším z důležitých faktorů pro určení finálního naměřeného objemu je stabilizovaná váha. Váha sama o sobě signalizuje svou stabilitu tím, že k posílaným datům přes sériovou linku přidá jednotku hmotnosti [X]. V momentě, kdy je váha stabilizovaná a je v požadovaném rozsahu se text objem uloží do databáze a program se přesune do stavu \textit{"remove\_bottle"}. Uživatel je také o úspěšné stabilizaci váhy informován tím, že pozadí labelu zbytkového objemu se obarví do zelena. 
+
+\subsection{Zadání kusového zboží}
+%Zadání kusového zboží
+Další z funkcí tohoto systému je evidence neotevřených lahví ve skladu, pomocí tlačítka "kusové zboží" nebo také "sklad". Tato funkce nebyla puvodne zamýšlena, ale po otestování systému v praxi se zjistilo, že je nepraktické některé informace vést do systému (naměřený zbytkový objem) a některé na papír - v praxi to znamená, že člověk krom zbytkového alkoholu uvádí i aktuální stav ve skladu. Proto přibilo toto tlačítko. Po jeho stisknutí se nám oblast s informacemi o zbytkovém objemu (label č1, label č2) překryje numerickou klávesnicí pro zadání počtu kusového zboží. %(možné použít pouze ve stavu vyhledání sortimentu, ale nesmí být aktivovaná rozšířená tabulka)
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.4]{obrazky/GUI Numericka klavesnice.png}
+    \end{center}
+    \caption{Interakce mezi okny GUI}
+    \label{Interakce mezi okny GUI}
+\end{figure}
+
+//OBRázek
+
+%Tato funkce nebyla původně zamýšlená, ale z praktického hlediska jsem ji dodal, protože po otestování systému v praxi vyzněla myš
+
+\subsection{Použití nalévačů}
+% Nevyuití nalévačů
+%Další úprava která mě dovedla po otestování systému bylo odstranění původně zamýšlené databáze nalévačů.
+%Po otestování systému v praxi se ukázalo, že je nepraktické vést databázi s hmotnostmi různých nalévačů a snažit se převést schopnost v jejich výběru pomocí GUI. Implementace nalévačů do programu, proběhlo dvoumi způsobi:
+%1) V hlavním okně jsem vytvořil zaškrtávací políčko, které informovalo zda nalévač je na lahvi či nikoli a každý alkohol měl přidělený ve své databázi svůj nalávač, pokud to bylo nutné změnit přiřazení nalévače dělalo se to přes databázi. bohužel se ukázalo, že s každou inventurou se nalévače na lahvích mění nebo tam nejsou vůbec, proto bylo nepraktické nastavit fixně jeden typ nalevače na jednu láhev. Jednou z možných řešení bylo mít na každou lahev stejný tyto nalévače, ale to pro personal bylo nepraktické a tak je začali sundávat.
+%2) Udělal jsem inovaci v tom, že před každou evidenci lahve tedy před jeho navážením zaměstnanec musel vybrat typ nalévače pro danou lahev ze seznamu, který mu vyjel pod Entry oknem, kde bylo přidáno přepínací tlačítko mezi seznamem produktů a nalévačů. Tato metoda se nakonec ukázala jakou zdlouhavá a proto byla odstraněna. Mnohem rychlejší bylo nalévač sthrnout z hrdla lahve a navážit bez něj než ho hledat v seznamu kvuli kompenzaci jeho hmotnosti. Tudíž na základě tohoto všecho jsem odstranil i databázi veškerých nalévačů.
+
+%Po otestování systému v praxi se ukázalo, že je nepraktické vést databázi s hmotnostmi různých nalévačů. V provopočátku některé detiláty měli přiřazený svůj nalévač fixně a uživatel mohl použít zašktrtávací tlačíko pro važení s nalévačem či bez. Bohužel s každou inventurou se nalávače na láhvích pravidelně měnily, proto jsem přidal možnost v uživatli si pro daný alkohol za chodu inventury vybrat ze seznamu konrétní nalévač. Toto řešení se moc neosvědčilo a zaměstnanci raději zvolili vážení bez nalévače a raději ho strhly, protože to pro ně bylo rychlejší než jej hledat v seznamu nebo kontrolovat zda použitý nalévač na láhvi odpovídá nalévači přiřazeného k danému destilátu. Na základě této zkušenosti jsem odebral tuto databázi a možnost vážit s nalévačem. Využití vážení s nalévačem by bylo za předpokladu, že by podnik měl na všechny láhve stejný typ nalévače a nemusel by se zdržovat kontrolou správného typu, pouze voulbou možnosti vážení s nalévačem či bez. Tato řešení se ale neosvěčilo, protože pro zamestnavatele bylo přivětivější nákup nalévačů, které byly zrovna cenově dostupné než řešit nepatrný rozdíl hmotnosti zpusobené špatným nalévačem.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Po otestování systému v provozu se ukázalo, že vedení databáze nalévačů s jejich hmotnostmi je nepraktické. Původní návrh systému zahrnoval pevné přiřazení konkrétního typu nalévače k jednotlivým produktům a umožňoval uživateli pomocí přepínacího prvku zvolit, zda bude vážit s nalévačem či bez něj. Tato implementace však narážela na časté změny v rozmístění nalévačů – během každé inventury se nalévače měnily, nebo na lahvích zcela chyběly.
+
+Jako alternativní řešení jsem implementoval možnost dynamického výběru nalévače přímo při vážení. Zaměstnanec si mohl pro daný produkt vybrat konkrétní nalévač ze seznamu, který se zobrazil pod vstupním polem (Entry), přičemž bylo možné přepínat mezi seznamem produktů a nalévačů (List box). Přestože toto řešení umožňovalo vyšší přesnost měření při vážení s nalévačem, z pohledu obsluhy se ukázalo jako časově nepraktické. V praxi se zaměstnanci přiklonili k odstranění nalévače z hrdla lahve před jejich zvážením.
+
+Po této zkušenosti mě napadlo, že použití nalévačů by dávalo smysl, jen v případě, že by podnik standardizoval typ nalévačů napříč sortimentem. Tato strategie však neobstála, neboť provoz preferoval flexibilní nákup dle aktuálních cenových a skladových možností na trhu. Z těchto důvodů byla databáze nalévačů i s příslušnou funkcionalitou odstraněna z finální verze systému a zaměstnanec musí láhev vážit bez nalévače, ale s nasazeným víčkem.
+
+
+%Závěrem lze konstatovat, že evidence a kompenzace hmotnosti nalévačů by mohla být funkční pouze v případě, že by podnik standardizoval typ nalévačů napříč sortimentem. Tato strategie však nebyla reálná, neboť provoz preferoval flexibilní nákup dle aktuálních cenových a skladových možností. Z těchto důvodů byla databáze nalévačů i s příslušnou funkcionalitou odstraněna z finální verze systému.
+
+
+
+%V tomto stavu nám zbývá navážit zbytkový objem a nebo zadat počet kusů. V tomto satvu jak vidite nam se přejmenovalo tlačítko z ukončení inventury na zpět, tedy mlžeme zrušit náš výběr destilátu v případě chybného zadání ručně např. nebo jsme prostě naskenovali něco co jsme evidovat nechteli.
+
+//obrazek - vážení destilátu
+//obrázek - zadávání kůsů
+
+
+\section{Stav 5 - Nastavení}
+Do nastavení se dá dostat v libovolném stavu programu pomocí ozubeného tlačítka. V teto fázi jeste neni dodelane veskre funkce nastavení pouze její vizuál.
+
+Nastavení by mělo poté umožňovat:
+Ve finální verzi by nastavení mělo umožňovat:
+-Doplneni databaze
+-Zpetna kontrola inventury
+-nastaveni hesla pro administratorsky pristup
+-Nastavení jednotek hmotnosti a objemu
+-nastavení jazyku
+-nastavení nočního režimu
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.4]{obrazky/GUI Nastavení.png}
+    \end{center}
+    \caption{Interakce mezi okny GUI}
+    \label{Interakce mezi okny GUI}
+\end{figure}
+
+//OBRAZEK
+
+\section{Stav 6 - Konec}
+
+%Pro ukončení inventury je nutné, aby uživatel zadal jméno zaměstnance ze seznamu (dropboxu), kde jsou evidovaní všichni zaměstanci, co můžou vykonávat inventůru, tedy tímto se zaměstnanec podepíše pod svou vlastní inventutu, kterou vykonal, jedná se o bezpečnostní prvek, aby bylo možné v případě nejasností v inventuře dohledat, kdo danou inventuru vykonal. Pokud jmeno nezadáme aplikace nás vyzve k jeho zadání a nepustí nás dál, v opačném případě nás přesměruje na obrazovku, kde se nás zeptá zda jsme si jistí tím, že chceme inventuru ukončit (bezpečností prvkek, kdyby jjsme omilem klikli na ukočení inventury). Po uspěšném ukončení inventury se nám obrazovka přene zpátky na výchozí obrazovku[xx]
+
+%Pro ukončení inventury je nutné, aby uživatel zadal jméno zaměstnance ze seznamu (dropboxu), kde jsou evidovaní všichni zaměstanci, co můžou vykonávat inventůru, tedy tímto se zaměstnanec podepíše pod svou vlastní inventutu, kterou vykonal, jedná se o bezpečnostní prvek, aby bylo možné v případě nejasností v inventuře dohledat, kdo danou inventuru vykonal. Pokud jmeno nezadáme aplikace nás vyzve k jeho zadání a nepustí nás dál. Aktuálně spuštěnou inventuru lze i vymazat např. z důvodu milného spuštění, následně čeká ověřovací okno zda jsem si jistí tímto rozhodnutím. Ať při ukončrní inventury nebo jejího vymazání nás applikace přesměruje zpátky na úvodní obrazovku.
+
+Před samotným ukončením inventury musí uživatel vybrat jméno zaměstnance ze seznamu (rozbalovacího pole), který obsahuje všechny pracovníky oprávněné k provádění inventur. Tento krok slouží jako forma elektronického podpisu – určuje, kdo konkrétní inventuru provedl, což je důležité pro zpětnou dohledatelnost v případě jakýchkoliv nesrovnalostí. Pokud jméno není zadáno, aplikace na tuto skutečnost upozorní a nepovolí pokračovat dále.
+
+V případě, že byla inventura spuštěna omylem, je možné ji zcela vymazat. Před provedením tohoto kroku se zobrazí potvrzovací dialog, který slouží k ověření, zda je uživatel smazáním skutečně jistý.
+
+Po ukončení nebo smazání inventury je uživatel automaticky přesměrován zpět na úvodní okno aplikace (Stav 1).
+
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.4]{obrazky/GUI Konec inventury.png}
+    \end{center}
+    \caption{Interakce mezi okny GUI}
+    \label{Interakce mezi okny GUI}
+\end{figure}
+//OBRÁZEK - UKONČOVACÍ OBRAZOVKA
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.4]{obrazky/GUI Vymazání inventury.png}
+    \end{center}
+    \caption{Interakce mezi okny GUI}
+    \label{Interakce mezi okny GUI}
+\end{figure}
+//OBRÁZEK - POTVRZOVACÍ OKNO O UKONČENÍ
+
+\section{GUI}
+V této sekci se zaměříme na programové řešení modulu GUI.py. Pro vytvoření gui jsem si vytvořil 3 třídy, jedna co ma nastarost vykreslování veškerých oken a další kod, co byl více komplexnejsi, tak jsem zaobalil do vlastní třídy a to třídu pro klavesnici a listbox obsahující seznam destilátů, protože samy o sobě obsahuji dosti kodu, ktery by delal hlavní třídu nepřehlednou. Tyto třídy jsou navzájem provázané pomocí klíčového slova Parent, neboli třida Keyboard a Listbox dědí z hlavní třídy pomocí toho klíčového slova. Parent předává není přímo objekt, je pouze proměná s adresou v paměti na naši hlavní třídu, tedy mužeme skrz toto slovo přistupovat do existujícího objektu.. Nástroj/třída/modul tkinter může vytvořit pouze jedno hlavní okno pomocí klíčového slova tk, tk je třída hlavního okna v programu může být vytvořena jen jednou mé tříde dědím právě ne z třídy, ale modulu..hovno přímo z třídy tk, tudíž mi klíčové slovo self. umožnuje přistupovat k proměným dané třídy tedy i k proměným děděné třídy. tedy pro vytvořeí hlavního okna..ho musím prvně setupunout a pak metodou .mainloop() spusttí hlavní smyčku programu, abych ale mohl komunikovat s dalšími i s jinými třídami a stavovým automatem jako čtečkou a váhou, tak musím z této smyčky i vyskočit, pro tyto účely je metoda after(), proto v mainu ve funkci stavového automatu, opakovaně volám funkci sebe samou
+
+nevyhodou Pythonu je, že všechny interní proměnné třídy se musí inicializovat uvnitř konstruktoru což v nšem případě, kde máme hromadu ovladacích prvků činí samotnou třídu nepřehlednou a v případě deklarovani promenné v blízkosti metody by se z ní stala statická proměnná. 
+
+//Ukazka kodu
+Hlavní třída GUI, dědí z třídy Tk, která vytváří hlavní okno programu. V hlavní okno je rozděleno do dvou rámců/framů pro jednoduší vkládání ovládacích prvků. Jedna z metod pro vkládání je grid(), která umožnuje prvky skládat do sloupců a řádku, které mezi sebou interagují a udržují symetrický vzhled. Tudíž třeba když jeden sloupec prvků roztáhnu, ostatní se smrští a prvky se nebudou překrývat přes sebe - dynamické nastavení. Třídy jsou velice rozsáhlé, proto jen vypíchnu to nejduležitějšší.
+\begin{lstlisting}[language=Python, caption=Funkce stavového automatu:, frame=single, breaklines=true, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
+
+class GUI(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        # build ui
+        #self = tk.Tk(master, className="hmmm")
+        self.geometry("1024x600")
+                        .
+                        .
+                        .
+        self.start_window: tk.Toplevel = None
+        self.end_window: tk.Toplevel = None
+        self.same_dest: tk.Toplevel = None
+        self.delete_window: tk.Toplevel = None
+        self.settings: tk.Frame = None
+                        .
+                        .
+                        .
+    def entry_event(self, event=None)
+        if self.keyboard == None:
+            self.keyboard = Keyboard(self)
+        else:
+            self.keyboard.deiconify()
+
+        if self.scroll_listbox == None:
+            self.scroll_listbox = Scroll_listbox(self)
+            self.entry.delete("0", "end")
+            self.scroll_listbox.checkk()
+        elif self.scroll_listbox.winfo_viewable() == False:
+            self.scroll_listbox.deiconify()
+            self.entry.delete("0", "end")
+            self.scroll_listbox.checkk()
+                        .
+                        .
+                        .
+\end{lstlisting}
+
+Ostatní třídy jsou definované stejným způsobem. Ukázka na třídě Keyboard. Třída keyboard dědí ze třídy Toplevel, což je vytváření sekundárních oken GUI, tato třída je provázána s třídou GUI pomocí parametru root. Toplevel, tedy Toplevely mohou odkazovat přímo na hlavní okno nebo jiný Toplevel, předání parametru je pomocí konstruktoru super().\_\_init\_\_(root)
+
+\begin{lstlisting}[language=Python, caption=Funkce stavového automatu:, frame=single, breaklines=true, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
+
+class Keyboard(tk.Toplevel):
+    def __init__(self, root:GUI):
+        super().__init__(root)
+        self.root = root
+        self.geometry("1024x600")
+\end{lstlisting}
+
+
+\section{Databáze}
+
+modul database je s modulem SQLAlchemy pro práci s databází jako obejekty. Pro účely měřícího systému byla použita databáze ve formátu sqlite, která je od sql [něco nevím].Databáze se skládá z tzv. table, který nese parametry... pro předpis každého table je využita separátní třída... Databáze je typu relační, protože xxx[nějak to vymysli]
+%
+%\subsection{hledání dat}
+%\subsection{výpis dat}
+%\subsection{sdsds}
+
+
+
+
+\section{Ctecka}
+
+Kamerová čtečka GM65 komunikuje prostřednictvím USBVcom. Čtečka je přepínána mezi čtecími režimi continual a manual viz kapitola č.XXX. 
+
+Kod pro ovládání čtečky je zaobaleno do třídy \texttt{BarcodeSensor} obsažené v modulu \texttt{barcode\_sensor.py}. Třídá dědí ze třídy \texttt{Serial}, která zastřešuje veškerou seriovou komunikaci. Konstruktor třídy BarcodeSensor přebírá parametry pro adresu portu, rychlost seriové komunikace (baudrate) a timeout, který slouží k přerušení zápisu/čtení na daném portu po určitém čase. Tyto veškerý data se následně předají konstruktoru třídy Serial. 
+
+\begin{lstlisting}[language=Python,breaklines=true, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
+
 import serial
+class BarcodeSensor(serial.Serial):
+    def __init__(self, port='/dev/ttyACM0', baudrate=9600, timeout=1):
+        super().__init__(port=port, baudrate=baudrate, timeout=timeout)
+        ...
+\end{lstlisting}
+\bigskip
+Třída obsahuje metodu \texttt{open\_port}, která otevírá nastavený port pro komunikaci. 
+V případě úspěšné otevření vrátí \texttt{True}. 
+%Návratovou hodnotou je \texttt{bool} na základě toho, zda se otevření povedlo nebo ne.
 
-class scale:
+\begin{lstlisting}[language=Python,breaklines=true, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
 
-    def __init__(self) -> None:
-        self.vaha = serial.Serial(timeout=1)
+def open_port(self) -> bool:
+\end{lstlisting}
 
-    def open_port(self) -> bool:
-        if not self.vaha.is_open:    
-            try:
-                self.vaha.port = '/dev/ttyUSB0'
-                self.vaha.open()
-            except serial.SerialException:
-                return False
-        return True
+\bigskip
+Metoda turn\_on\_sensor přepne čtečku do aktivního stavu, kde se rozsvítí LED dioda, povolí bzučák pro případ naskenování čárového kódu a čtečka přejde do contianul režimu. Opakem této metody je metoda turn\_off\_sensor, kdy čtečka se přepně do manuálního režimu. Předpis datového packetu odesilaného do čtečky se skládá z:
 
-    def print_scale(self) -> str:
+\begin{itemize}
+    \item hlavička (head) - Značí odesílatele dat (0xEA 0x00: řídící jednotka → čtečka)
+    \item Zone byte (types) – Typ operace (zápis do čtečky, výpis nastavení, ...)
+    \item lens – délka bloku \textit{data} v bajtech
+    \item adress – oblast nastavení (typ čtení, rychlost čtení, typ kódu)
+    \item data – konkrétní nastavení dané oblasti (zapnutí LED diody, čtecí režim, ...)
+    \item CRC – kontrolní součet (XOR) detekující chybnou zprávu. 
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+         \hline
+         Head & Types & Lens & Adress & Data & CRC\\ \hline
+         0x7E 0x00 & 0x08 & 0x01 & 0x00 0x00 & 0xEA & 0x?? 0x??\\
+         \hline
+    \end{tabular}
+    \caption{Předpis datového packetu pro aktivaci čtečky}
+    \label{tab:my_label}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+         \hline
+         Pořadí bitu & Hodnota bitu & Funkce \\ \hline
+         7. & 1 & Probliknutí při přečtení kódu \\ \hline
+         6. & 1 & Zapnutí bzučáku \\ \hline
+         5-4. & 10 & Nastaví se stejně jako 2-3. bit \\ \hline
+         3-2. & 10 & Zapnutí LED \\ \hline
+         1-0. & 10 & Continual mode (Čtecí režim)\\ \hline
+    \end{tabular}
+    \caption{Výpis funkcí jednotlivých bitů bloku "Data". 0xEA (HEX) = 11101010 (binary)}
+    \label{tab:my_label}
+\end{table}
+
+%\begin{lstlisting}[language=Python, caption=Metoda turn\_on\_sensor, frame=single, breaklines=true, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
+%
+%def turn_on_sensor(self) -> bool:
+%
+%    data_on = bytes([0x08, 0x01, 0x00, 0x00, 0xEA])
+%    crc_on = self.crc16_ccitt(data_on)
+%    crc_on_high = (crc_on >> 8) & 0xFF
+%    crc_on_low = crc_on & 0xFF
+%           
+%    scan_command:bytes = bytes([0x7E, 0x00]) + data_on + bytes([crc_on_high, crc_on_low])
+%    self.write(scan_command)
+%    ack:bytes = self.read(7)
+%
+%    if ack == bytes([0x02, 0x00, 0x00, 0x01, 0x00, 0x33, 0x31]):
+%        return True
+%    else:
+%        return False
+%\end{lstlisting}
+
+\bigskip
+Metoda \texttt{crc16\_ccitt} vykonává kontrolní 16 bitový součet z bloků \textit{Types} až \textit{Data}. Výstupem je 16 bitové číslo, které je následně rozděleno na 2 separátní bajty.[zdroj1]
+%https://srecord.sourceforge.net/crc16-ccitt.html
+
+\begin{lstlisting}[language=Python,breaklines=true, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
+
+def crc16_ccitt(self, data: bytes, poly=0x1021, crc=0x0000) -> int:
+    for byte in data:
+        crc ^= (byte << 8)
+        for _ in range(8):
+            if (crc & 0x8000):
+                crc = ((crc << 1) ^ poly) & 0xFFFF
+            else:
+                crc = (crc << 1) & 0xFFFF
+\end{lstlisting}
+\bigskip
+Jako poslední metoda je \texttt{read\_sensor\_data} která posílá nazpět naskenovaná data uložená ve vstupním bufferu mikropočítače.
+\begin{lstlisting}[language=Python,breaklines=true, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
+
+def read_sensor_data(self) -> str:
+    if self.in_waiting == 0:
+        return ''
+    return self.read(15).decode()
+\end{lstlisting}
+
+\section{Váha}
+Digitální váha G\&G E3000 komunikuje po linkách TX/RX standardu RS‑232 ve formátu 8 N 1 a baudrate 9600 Bd. Aby bylo možné váhu připojit k jednodeskovému počítači Raspberry Pi 4, je rozhraní převáděno adaptérem AXAGO ADS‑50 na virtuální COM port USB CDC (obr. 6‑3). Pro tuto váhu byla vytvořena třída Scale zastřešující veškero serivou komunikaci váhy s mikropočítačem. Konstruktor třídy přebírá parametry pro nastavení portu, baudrate a timeout který nastavuje, čtení na seriovém portu po dobu 1 s. Pokud do tohoto intervalu nejsou zaznamenány žádné příchozí data, čtení se ukončí. Třída dále dědí ze třídy serial, které předává všechny zmíněné parametry.
+
+Třída ukázkaxxx
+
+\subsection{Ověření komunikace s váhou}
+Aby bylo možno s váhou komunikovat je nutné otevřít port na kterém je připojena a to pomocí metody open\_port(), která je volána z druhého stavu v mainu. V případě chyby se vyvolá vyjímka xxxa meroda vrátí False.
+
+%KOD
+
+Po úspěšném otevření portu se zkontroluje zda váha komunikuje (není vypnutá) pomocí metody check\_conection() tím že pošle příkaz \textbf{0xBH 0x70} a váha odpoví kolik navážila, předpis ACK zprávy je ve tvaru [sss].
+
+%KOD
+
+\subsection{Komunikace s váhou po sériové lince}
+
+Ke komunikaci slouží metoda def xxx(), která odesílá stejnou zprávu jako metoda check\_conection, pokud ale váha nedopoví do stanoveného času pomocí timeoutu zkontroluje se zda je port otevřený, pokud není metoda vrátí Err1 a pokud je metoda vrátí Err0.
+
+Problém je že váha neposílá žádný kontrolní znak a ani neobsahuje paritu, proto abychom se ujistili, že příchozí data nejsou poškozena budem kontrolovat zda poslední 3 přijaté zprávy jsou shodné dle stavového diagramu č.x. Kontrolovat budem pouze zprávy které došli s jednotkou hmotnosti, čímž váha říká, že je stabilizovaná. Důvodem je, že pokud zatížíme váhu, tak její naměřená hmotnost se velice rychle mění, proto bysme nedokázali přijmout v této fázi 2 stejné hodnoty hmotnosti posobě(následkem je probliknutí špatně naměřené hodnoty, kterou nijak nezpracováváme) v rámci kodu jsou zpracovávána pouze stabilizovaná data.
+
+%% NÍŽE VYMAZAT VŠE
+
+%stavák ošetření stavového automatu
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.6]{obrazky/stavovy_automat_parita.jpg}
+    \end{center}
+    \caption{Kontrola příchozích zpráv z váhy}
+    \label{ošetření parity}
+\end{figure}
+
+
+navíc do databáze se ukládají až stabilizované hodnoty, proto
+
+
+
+
+Tok dat směřuje obousměrně – váha odesílá měřené hodnoty, řídicí jednotka je v intervalech \~200 ms vyžaduje řídicím párem znaků ESC 'p'. Třída Scale zastřešuje veškero serivou komunikaci váhy s Raspberry Pi. Třída dědí ze třídy Serial, kde v jejím konstruktoru nastavujeme baudrate 9600 a timeout=5s. 
+
+Metoda open\_port() je volána z druhého stavu v mainu, která otevírá serivový port pro komunikaci v případě selhání vyhodí vyjímku vrátí hodnotu False.
+
+Dále je metoda check\_conection(), která se volá po uspěšnem otevření portu a kontroluje zda váha komunikuje, tím že pošle příkaz na ve tvaru esc+p a váha odpoví kolik navážila, pokud jsou data přijata (je jedno co pošle), tak váha komunikuje.
+
+Nejduležitší metodou je print\_scale(), která odesílá požadavek na "tisk" dat. Tím, že váha neposílá paritní bit, děláme SW kontrolu, zda 3 poslední zprávy jsou shoné pomocí stavového diagramu obrč.x
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.6]{obrazky/stavovy_automat_parita.jpg}
+    \end{center}
+    \caption{Interakce mezi okny GUI}
+    \label{Interakce mezi okny GUI}
+\end{figure}
+
+\begin{lstlisting}[language=Python, caption=Funkce stavového automatu:, frame=single, breaklines=true, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
+
+def print_scalee(self) -> str:
         try:
-            data = chr(27).encode('utf-8')
-            +chr(112).encode('utf-8')
-            self.vaha.write(data)
-            self.catch_data = self.vaha.readline().decode()
-            if self.catch_data == '':
-                return "Err0"
+            count:int = 1
+            catch_data = [0] #catch_data:vector[3]
+            while True: #len(catch_data) == 3: #True
+                data = chr(27).encode('utf-8')+chr(112).encode('utf-8')
+                self.vaha.write(data)
+                catch_data[count] = self.vaha.readline().decode()
+                if catch_data[0] == catch_data[1] == catch_data[2]:
+                    return catch_data[0]
+                elif count == 4:
+                    return "Err2"
+                if self.catch_data == '':
+                    return "Err0" # Nejsou přijímána data - Zkontrolovat připojení váhy
+                count = count + 1
         except serial.SerialException:
             if not self.open_port():
-                return "Err1"
+                return "Err1" # Port se nepovedlo otevřít - Zkontrolovat připojení váhy
         return self.catch_data
-    
-    def is_open(self) -> bool:
-        if self.vaha.is_open:
-            return True
-        else:
-            return False
 \end{lstlisting}
 
-\section{Třída čtečky čárového kódu}
+\section{Spouštěcí script}
+\section{Splash obrazovka}
+\section{Praktická úkázka}
+Hodit sem fotku celého systému
 
-%Ve funkci print\_sensor třídy sensor pošlem senzoru zprávu xxx
-Metoda print\_sensor funguje na základě trigger modu čtečky čárového kódu viz kapitola č. \ref{zprovozeni_ctecky}. Senzoru pošlem zprávu xxx, po jeho přijetí senzor pošle zpět zprávu "31" v ASCII a začne skenovat po dobu xxx s. Ve while smyčce kontrolujeme zda došel poslední znak "1". Následně začnem do bufferu načítat data, dokud nenarazíme na koncový znak "\r". Návratová hodnota je str obsahující data z bufferu.
+Pak sem hodit fotku malého odměrného válce s vysokou přesností a porovnat to s fotkou kde jsem navážil stejný objem - at jde vydet hlavne lahev na váze + displej váhy, pak celý displej, jestli ukazuje stejnou hmotnost + nove vypočítaný objem.
 
-\begin{lstlisting}[language=Python, caption=Ukázka třídy pro čtečku čárového kódu, frame=single]
-import serial
-import time
+Mozna udelat aj nejaký výpočet
+sdf
+s
+df
+sdf
+sdf
+sd
+fs
+df
+sdf
+sdf
+s
+dfs
+df
+sdf
+sdf
+sd
+fs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sdf
+s
+dfs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sdf
+s
+dfs
+dfs
+f
+sf
+sf
+sf
+sdf
+s
+df
+sdf
+sdf
+sd
+fs
+df
+sdf
+sdf
+s
+dfs
+df
+sdf
+sdf
+sd
+fs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sdf
+s
+dfs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sdf
+s
+dfs
+dfs
+f
+sf
+sf
+sf
 
-class sensor:
+sdf
+s
+df
+sdf
+sdf
+sd
+fs
+df
+sdf
+sdf
+s
+dfs
+df
+sdf
+sdf
+sd
+fs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sdf
+s
+dfs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sdf
+s
+dfs
+dfs
+f
+sf
+sf
+sf
 
-    def __init__(self) -> None:
-        self.senzor = None
-        self.scan_duration = 5
-        try:
-            self.senzor = serial.Serial(
-            '/dev/ttyACM0', 
-            9600, 
-            timeout=0)
-        except serial.SerialException:
-            print("Port se nepovedl otevřít - ČTEČKA")
-    
-    #Senzor s trigger modem
-    def print_sensor(self):
-        
-        scan_command = b'\x7E\x00\x08\x01\x00\x02\x01\xAB\xCD' #Požadavek pro čtení    
-        self.senzor.write(scan_command)
-        time.sleep(0.1)
+sdf
+s
+df
+sdf
+sdf
+sd
+fs
+df
+sdf
+sdf
+s
+dfs
+df
+sdf
+sdf
+sd
+fs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sdf
+s
+dfs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sdf
+s
+dfs
+dfs
+f
+sf
+sf
+sf
+sdf
+s
+df
+sdf
+sdf
+sd
+fs
+df
+sdf
+sdf
+s
+dfs
+df
+sdf
+sdf
+sd
+fs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sdf
+s
+dfs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sdf
+s
+dfs
+dfs
+f
+sf
+sf
+sf
+sdf
+s
+df
+sdf
+sdf
+sd
+fs
+df
+sdf
+sdf
+s
+dfs
+df
+sdf
+sdf
+sd
+fs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sdf
+s
+dfs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sdf
+s
+dfs
+dfs
+f
+sf
+sf
+sf
 
-        while True:
-           if self.senzor.read().decode() == '1' 
-           or self.senzor.read().decode() == ''
-                break
+sdf
+s
+df
+sdf
+sdf
+sd
+fs
+df
+sdf
+sdf
+s
+dfs
+df
+sdf
+sdf
+sd
+fs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sdf
+s
+dfs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sd
+fs
+dfs
+df
+sdf
+sdf
+s
+dfs
+dfs
+f
+sf
+sf
+sf
 
-        start_time = time.time()
-        data = ''
-
-        while (time.time() - start_time) <= self.scan_duration:
-            byte = self.senzor.read().decode()
-            if byte == '\r':
-                break
-            else:
-                data += byte
-
-        return data
-\end{lstlisting}
-
-\section{Modul pro práci s databází}
-
-Pro vytvoření databáze jsem si zvolil 
-
-\begin{lstlisting}[language=Python, caption=Ukázka třídy pro čtečku čárového kódu, frame=single]
-from sqlalchemy import Column, Integer, Numeric, String, create_engine, Table, MetaData, insert
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from datetime import datetime
-import logging
-
-Base = declarative_base()
-last_table:str = None
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-class Destilaty(Base):
-    __tablename__ = 'destilaty'
-    
-    name = Column(String, primary_key=True)
-    ean = Column(Integer)
-    max_volume = Column(Numeric)
-    weight_empty = Column(Numeric)
-    weight_full = Column(Numeric)
-    image = Column(String)
-
-class Nalevac(Base):
-    __tablename__ = 'nalevac'
-    
-    name = Column(String, primary_key=True)
-    manufacturer = Column(String)
-    weight = Column(Numeric)
-    image = Column(String)
-     
-class Inventory(Base):
-    __tablename__ = 'inventory'
-
-    name = Column(String, primary_key=True)
-    volume = Column(Integer)
-    #popripade pridani info o času a datu měření
-
-
-# Create an engine that stores data in the local directory's
-# sqlalchemy_example.db file.
-engine = create_engine('sqlite:///bakalarka.db')
-engine_inventory = create_engine('sqlite:///inventory.db')
-
-Base.metadata.create_all(engine_inventory, tables=[Inventory.__table__]) #Pokud už databáze a její tabulky existují, nemusíme volat tuto metodu 
-
-# create a configured "Session" class
-Session = sessionmaker(bind=engine)
-Session_inventory = sessionmaker(bind=engine_inventory)
-
-# create a Session
-session = Session()
-session_inventory = Session_inventory()
-
-def create_new_inventory_table() -> None:
-    try:
-        # Získání aktuálního data a času
-        current_time = datetime.now()
-        table_name = current_time.strftime("inventory_%Y_%m_%d_%H%M%S")
-
-        # Dynamické vytvoření nové třídy tabulky
-        attrs = {
-            '__tablename__': table_name,
-            #'id': Column(Integer, primary_key=True),
-            'name': Column(String, primary_key=True),
-            'volume': Column(Integer),
-            '__table_args__': {'extend_existing': True}
-        }
-        
-        # Dynamické vytvoření nové třídy pomocí type
-        NewTable = type(table_name, (Base,), attrs)
-        
-        # Vytvoření tabulky v databázi
-        Base.metadata.create_all(engine_inventory, tables=[NewTable.__table__])
-
-        global last_table
-        last_table = table_name
-        logging.info(f"Tabulka '{table_name}' byla úspěšně vytvořena.")
-    except Exception as e:
-        logging.error(f"Nastala chyba při vytváření tabulky: {e}")
-
-def get_info(ean: str) -> list[Destilaty]:
-    session = Session()
-    results = session.query(Destilaty).filter(Destilaty.ean == int(ean)).all()
-    session.close() #uzavření session, aby nedoslo k poškození dat nahodou
-    return results
-
-def find_data(aName: str) -> bool:
-    session = Session_inventory()
-    existing_entry = session.query(Inventory).filter_by(name=aName).first() #kontrola zda nepřídávám už existující prvek
-    session.close()
-    return existing_entry
-
-def write_data(aName, aVolume) -> None:
-    if last_table is None:
-        logging.error("Nebyla vytvořena žádná tabulka pro zápis dat.")
-        return
-    
-    try:
-        # Připojení k existující tabulce
-        metadata = MetaData()
-        metadata.reflect(bind=engine_inventory)
-        existing_table = metadata.tables[last_table]
-        
-        # Vložení dat do tabulky
-        stmt = insert(existing_table).values(name=aName, volume=aVolume)
-        with engine_inventory.connect() as connection:
-            connection.execute(stmt)
-            connection.commit()
-        
-        logging.info(f"Data byla úspěšně zapsána do tabulky '{last_table}'.")
-    except Exception as e:
-        logging.error(f"Nastala chyba při zápisu dat do tabulky '{last_table}': {e}")
-
-\end{lstlisting}
-
-\section{Nastavovací okno}
-Nastavovací okno se otvírá kliknutím na ozubené kolečko hlavního okna. Okno obsahuje nastavení jednotek jednotlivých měřených veličin viz obr. č.() a tlačítko pro vypnutí mikrokontroleru. Kod je definován třídou Settings\_window v modulu GUI.
-
-%Kod se nachátí v GUI modulu pod třídou 
-
-\begin{figure}[!h]
-    \begin{center}
-        \includegraphics[scale=2]{obrazky/settings_okno.PNG}
-    \end{center}
-    \caption{Nastavovací okno v defaultním stavu}
-    \label{putty}
-\end{figure}
-
-
-///Zde bude obrázek okna klávesnice///
-
-///Zde bude tabulka použitých komponent ///
-
-///Zde bude kód/třída okna klávesnice///
-
-jebebebebebebeadjhasdjasjdasd
-
-haha
-
-hiohi
+v

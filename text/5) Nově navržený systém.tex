@@ -1,7 +1,7 @@
 \chapter{Nově navržený systém}
 \label{Nově navržený systém}
 %V této kapitole se budem zabívat nově navrženým systémem, jejíma komponentama a... 
-Nově navržený systém se skládá z databáze a 5 hlavních komponent navzájem propojených: mikrokontrolér, váha, čtečka čárového kódu, displej a klávesnice. Dále je možnost připojit systém k počítači pro správu databáze a tisk dat. 
+Nově navržený systém se skládá z databáze a 5 hlavních komponent navzájem propojených: modul s výpočetní jednotkou, váha, čtečka čárového kódu a dotykový displej. Dále je možnost připojit systém k počítači pro správu databáze a tisk dat. 
 
 \section{Postup měření}%/Princip/funkcionalita
 Pro evidenci zůstatkového objemu jedné láhve je nutné naskenovat její čárový kód pomocí čtečky čárových kódů a zvážit ji. Mikrokontroler na základě získaného EAN vybere z databáze patřičná data, viz kapitola č. \ref{databaze} a přepočítá hmotnost na objem. V případě, že by čárový kód nebyl čitelný, je možné ho zadat ručně do systému prostřednictvím klávesnice. Veškeré důležité informace včetně zbytkového objemu se zobrazí na displeji. %Pro výpis všech naměřených dat je možné systém připojit k počítači a nechat si je vytisknout do formátu .xlsx pomocí navržené desktopové aplikace. Tato aplikace slouží i ke správě databáze.
@@ -15,7 +15,7 @@ Do budoucna bude vyvíjena desktopová aplikace pro editaci databáze[č.5.3] a 
 %Výpočetní jednotka Raspberry pi pracuje s databázi dat jednotlivých destilátů. V první řadě je nutné tuhle databází vytvořit a implementovat prostřednictvím desktopové aplikace. 
 \begin{figure}[!h]
     \begin{center}
-        \includegraphics[scale=0.7]{obrazky/Blokové schéma.png}
+        \includegraphics[scale=0.7]{obrazky/Blokové schéma.jpg}
     \end{center}
     \label{blokove_schema}
     \caption{Blokové schéma nově navrženého systému}
@@ -138,6 +138,15 @@ Nejdůležitější komponentou systému je váha pro výpočet zbytkového obje
 %A/D převodník převádí analogový signál z senzoru na digitální signál, který může být zpracován mikroprocesorem. Mikroprocesor pak zpracovává signál a zobrazuje výslednou hmotnost na displeji. [zdroj]
 %
 \subsection{Požadavky na váhu}
+
+%Dle výpočtů[], aby systém splnil toleranci +-5ml je nutné volit váhu s přesností menší jak 0,075g, tomu z dostupných vah na trhu odpovídá váha s přeností 0,01g, kde výsledná přesnost měřícího systému pro metodu x je pod limitem přesnosti válce třídy A a nebo přesnost 0,1g, kde jsem na hraně.
+%Další možností jak 
+
+%bude pro metodu č. x XY+-ml a pro metodu a nebo o něco méně přesná 0,1 g, kde výsledná přesnost vychází +-5,2 ml
+
+%Z komerčních důvodů byla vybrána váha s přesností 0,5g, kde přesnost celého systému 
+
+%Tabulka: metoda(A,B,C), přesnost váhy(C=2váhy), přesnost systému, cena
 
 Hlavním požadavkem je oboustranný otevřený komunikační port pro čtení dat a odesílání požadavku na jejich zaslání prostřednictvím sériové linky do řídící jednotky, je tedy nutné znát přesný popis přenosu dat. Tyto požadavky zpravidla splňují laboratorní a průmyslové váhy, kde se očekává, že data budou zpracovávána pomocí aplikačního softwaru.
 
