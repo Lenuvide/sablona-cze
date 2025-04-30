@@ -415,7 +415,7 @@ Po ukončení nebo smazání inventury je uživatel automaticky přesměrován z
 //OBRÁZEK - POTVRZOVACÍ OKNO O UKONČENÍ
 
 \section{GUI}
-V této sekci se zaměříme na programové řešení modulu GUI.py. Pro vytvoření gui jsem si vytvořil 3 třídy, jedna co ma nastarost vykreslování veškerých oken a další kod, co byl více komplexnejsi, tak jsem zaobalil do vlastní třídy a to třídu pro klavesnici a listbox obsahující seznam destilátů, protože samy o sobě obsahuji dosti kodu, ktery by delal hlavní třídu nepřehlednou. Tyto třídy jsou navzájem provázané pomocí klíčového slova Parent, neboli třida Keyboard a Listbox dědí z hlavní třídy pomocí toho klíčového slova. Parent předává není přímo objekt, je pouze proměná s adresou v paměti na naši hlavní třídu, tedy mužeme skrz toto slovo přistupovat do existujícího objektu.. Nástroj/třída/modul tkinter může vytvořit pouze jedno hlavní okno pomocí klíčového slova tk, tk je třída hlavního okna v programu může být vytvořena jen jednou mé tříde dědím právě ne z třídy, ale modulu..hovno přímo z třídy tk, tudíž mi klíčové slovo self. umožnuje přistupovat k proměným dané třídy tedy i k proměným děděné třídy. tedy pro vytvořeí hlavního okna..ho musím prvně setupunout a pak metodou .mainloop() spusttí hlavní smyčku programu, abych ale mohl komunikovat s dalšími i s jinými třídami a stavovým automatem jako čtečkou a váhou, tak musím z této smyčky i vyskočit, pro tyto účely je metoda after(), proto v mainu ve funkci stavového automatu, opakovaně volám funkci sebe samou
+V této sekci se zaměříme na programové řešení modulu \texttt{gui.py}. grafické prostředí aplikace jsem si rozdělil do x tříd z důvodu přehlednosti a orientaci v kódu. jedna co ma nastarost vykreslování veškerých oken a další kod, co byl více komplexnejsi, tak jsem zaobalil do vlastní třídy a to třídu pro klavesnici a listbox obsahující seznam destilátů, protože samy o sobě obsahuji dosti kodu, ktery by delal hlavní třídu nepřehlednou. Tyto třídy jsou navzájem provázané pomocí klíčového slova Parent, neboli třida Keyboard a Listbox dědí z hlavní třídy pomocí toho klíčového slova. Parent předává není přímo objekt, je pouze proměná s adresou v paměti na naši hlavní třídu, tedy mužeme skrz toto slovo přistupovat do existujícího objektu.. Nástroj/třída/modul tkinter může vytvořit pouze jedno hlavní okno pomocí klíčového slova tk, tk je třída hlavního okna v programu může být vytvořena jen jednou mé tříde dědím právě ne z třídy, ale modulu..hovno přímo z třídy tk, tudíž mi klíčové slovo self. umožnuje přistupovat k proměným dané třídy tedy i k proměným děděné třídy. tedy pro vytvořeí hlavního okna..ho musím prvně setupunout a pak metodou .mainloop() spusttí hlavní smyčku programu, abych ale mohl komunikovat s dalšími i s jinými třídami a stavovým automatem jako čtečkou a váhou, tak musím z této smyčky i vyskočit, pro tyto účely je metoda after(), proto v mainu ve funkci stavového automatu, opakovaně volám funkci sebe samou
 
 nevyhodou Pythonu je, že všechny interní proměnné třídy se musí inicializovat uvnitř konstruktoru což v nšem případě, kde máme hromadu ovladacích prvků činí samotnou třídu nepřehlednou a v případě deklarovani promenné v blízkosti metody by se z ní stala statická proměnná. 
 
@@ -485,9 +485,61 @@ Ostatní třídy jsou definované stejným způsobem. Ukázka na třídě Keyboa
 %\end{lstlisting}
 
 
-\section{Databáze}
+\section{Databázový modul - database.py}
 
-modul database je s modulem SQLAlchemy pro práci s databází jako obejekty. Pro účely měřícího systému byla použita databáze ve formátu sqlite, která je od sql [něco nevím].Databáze se skládá z tzv. table, který nese parametry... pro předpis každého table je využita separátní třída... Databáze je typu relační, tedy 
+Modul \textbf{database.py} zajišťuje trvalé ukládání a vyhledávání údajů o lahvích a inventurních měřeních do relačních databázích \textbf{database.db} a \textbf{inventory.db} uložených lokálně na SD kartě Raspberry Pi. Databáze se dále skládají z tabulek (table) stejně jako Excel se skládá z více listů. Soubory s příponou \textbf{.db} jsou čitelné pro databázový engine SQLite, který umí databázový jazyk SQL. Aby byla práce s daty v Pythonu přehlednější, je využit nástroj (modul) SQLAlchemy:
+\begin{itemize}
+    \item SQLAlchemy vytváří nad SQLite enginem objektovou vrstvu (ORM).
+    \item Každou tabulku mapuje na Python třídu – aplikace tak pracuje s atributy objektů místo ručního skládání příkazů SQL.
+    \item Umožňuje jednoduchý přechod na jiný databázový systém (např. \textit{PostgreSQL})
+\end{itemize}
+
+\begin{lstlisting}[language=Python,breaklines=false, frame=single, caption=Ukázka třídy database.db a inventory.db]
+Chyba latexu
+\end{lstlisting}
+
+\subsection{Práce se souborem database.db}
+Soubor database.db obsahuje 2 tabulky:
+\begin{itemize}
+    \item destilate - seznam destilátů a jejich parametry [č.x]
+    \item employee\_name - seznam jmen zaměstnanců možných vykonávat inventuru
+\end{itemize}
+Pro vyhledání konrétního destilátu se používají 2 funkce:
+\begin{itemize}
+    \item get\_info\_by\_ean - vyhledá produkt na základě jeho EAN kódu
+    \item get\_info\_by\_name - vyhledá produkt na základě jeho názvu
+\end{itemize}
+\begin{lstlisting}[language=Python,breaklines=false, frame=single]
+def get_info_by_ean(str:ean) -> Destilate
+\end{lstlisting}
+\begin{lstlisting}[language=Python,breaklines=false, frame=single]
+def get_info_by_name(str:name) -> Destilate
+\end{lstlisting}
+V obou případech je návratová hodnota \texttt{Destilate} objekt obsahující veškeré informace vyhledaného produktu.
+Pro manuální vyhledávání slouží funkce \texttt{get\_rows\_by\_name}, která prohledá tabulku destilátů na základě vloženého substringu a vrátí list polí 2x1 obsahující název destilátu a jeho maximální objem.
+\begin{lstlisting}[language=Python,breaklines=false, frame=single]
+def get_rows_by_name(substr:str)->list[tuple[str,float]]
+\end{lstlisting}
+
+\subsection{Práce se souborem inventory.db}
+Databáze inventory.db obsahuje tabulky, které dále obsahují veškeré naměřené data v rámci jedné inventury.
+
+Metoda \texttt{create\_new\_table} je volána po spuštění inventury a úspěšném průchodu stavem \texttt{check\_port} v mainu, kdy vytvoří novou tabulku s názvem inventory a přiřadí jí datum a čas vytvoření pro zpětnou kontrolu. V případě neuspěšného vytvoření tabulky je vyvolána vyjímka \texttt{Exception}.
+\begin{lstlisting}[language=Python,breaklines=false, frame=single]
+def create_new_inventory_table() -> None
+\end{lstlisting}
+\bigskip
+Metoda rename\_last\_table je volána při ukončení inventury, kdy za konec jména tabulky se přidá jméno pracovníka pro zpětnou kontrolu.
+\begin{lstlisting}[language=Python,breaklines=false, frame=single]
+def rename_last_table(name:str) -> None
+\end{lstlisting}
+\bigskip
+Poslední funkcí je delete\_last\_table, která vymaže poslední tabulku v inventory.db, např. z důvodu mylného spuštění inventury.
+%vytvořenou aktualně běžící inventuru.
+\begin{lstlisting}[language=Python,breaklines=false, frame=single]
+def delete_last_table() -> None
+\end{lstlisting}
+
 %
 %\subsection{hledání dat}
 %\subsection{výpis dat}
@@ -496,29 +548,35 @@ modul database je s modulem SQLAlchemy pro práci s databází jako obejekty. Pr
 
 
 
-\section{Ctecka}
-
+\section{Čtečka}
 Kamerová čtečka GM65 komunikuje prostřednictvím USBVcom. Čtečka je přepínána mezi čtecími režimi continual a manual viz kapitola č.XXX. 
 
 Kod pro ovládání čtečky je zaobaleno do třídy \texttt{BarcodeSensor} obsažené v modulu \texttt{barcode\_sensor.py}. Třídá dědí ze třídy \texttt{Serial}, která zastřešuje veškerou seriovou komunikaci. Konstruktor třídy BarcodeSensor přebírá parametry pro adresu portu, rychlost seriové komunikace (baudrate) a timeout, který slouží k přerušení zápisu/čtení na daném portu po určitém čase. Tyto veškerý data se následně předají konstruktoru třídy Serial. 
 
-%\begin{lstlisting}[language=python,breaklines=false, frame=single]
-%
-%import serial
-%class BarcodeSensor(serial.Serial):
-%    def __init__(self, port='devttyACM0', baudrate=9600, timeout=1):
-%        super().__init__(port=port, baudrate=baudrate, timeout=timeout)
-%        sdf
-%        sdf
-%        s
-%        dfs
-%        df
-%        sdf
-%        sd
-%        fs
-%        df
-%        sdf    
-%\end{lstlisting}
+\begin{lstlisting}[language=python,breaklines=true, frame=single]
+
+import serial
+class BarcodeSensor(serial.Serial):
+    def __init__(self, port='devttyACM0', baudrate=9600, timeout=1):
+        super().__init__(port=port, baudrate=baudrate, timeout=timeout)
+        sdf
+        sdfasdasdasdasdasdasdasdasdasdasdasdasd
+        sasdasdasdasdasdasdasdasda
+        dfsasdasdasdasdasdasdasdasdasd
+        dfasdasdasdasdasdasdasd
+        sdf
+        sd
+        fs
+        dfasdasdasdasdasdasdasdasd
+        sdfsadasdasdasdasdasdasdasd
+        asdasdasdasdasdasdasdas
+        asdasdasdasdasdasd
+        asdsdasdasdasdasdasdasdasd
+
+
+
+        
+\end{lstlisting}
 \bigskip
 Třída obsahuje metodu \texttt{open\_port}, která otevírá nastavený port pro komunikaci. 
 V případě úspěšné otevření vrátí \texttt{True}. 
@@ -591,56 +649,56 @@ Metoda turn\_on\_sensor přepne čtečku do aktivního stavu, kde se rozsvítí 
 %        sdf
 %        
 %\end{lstlisting}
-
 \bigskip
 Metoda \texttt{crc16\_ccitt} vykonává kontrolní 16 bitový součet z bloků \textit{Types} až \textit{Data}. Výstupem je 16 bitové číslo, které je následně rozděleno na 2 separátní bajty.[zdroj1]
 %https://srecord.sourceforge.net/crc16-ccitt.html
 
-\begin{lstlisting}[language=Python,breaklines=false, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
-
-def crc16_ccitt(self, data: bytes, poly=0x1021, crc=0x0000) -> int:
-    for byte in data:
-        crc ^= (byte << 8)
-        for _ in range(8):
-            if (crc & 0x8000):
-                crc = ((crc << 1) ^ poly) & 0xFFFF
-            else:
-                crc = (crc << 1) & 0xFFFF
-                sdf
-                sdfs
-                df
-                sdf
-                sdf
-                sd
-                fs
-                dfs
-                df
-                
-\end{lstlisting}
+%\begin{lstlisting}[language=Python,breaklines=false, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
+%
+%def crc16_ccitt(self, data: bytes, poly=0x1021, crc=0x0000) -> int:
+%    for byte in data:
+%        crc ^= (byte << 8)
+%        for _ in range(8):
+%            if (crc & 0x8000):
+%                crc = ((crc << 1) ^ poly) & 0xFFFF
+%            else:
+%                crc = (crc << 1) & 0xFFFF
+%                sdf
+%                sdfs
+%                df
+%                sdf
+%                sdf
+%                sd
+%                fs
+%                dfs
+%                df
+%                
+%\end{lstlisting}
 \bigskip
 Jako poslední metoda je \texttt{read\_sensor\_data} která posílá nazpět naskenovaná data uložená ve vstupním bufferu mikropočítače.
-\begin{lstlisting}[language=Python,breaklines=false, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
-
-def read_sensor_data(self) -> str:
-    if self.in_waiting == 0:
-        return ''
-    return self.read(15).decode()
-\end{lstlisting}
+%\begin{lstlisting}[language=Python,breaklines=false, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
+%
+%def read_sensor_data(self) -> str:
+%    if self.in_waiting == 0:
+%        return ''
+%    return self.read(15).decode()
+%\end{lstlisting}
 
 \section{Váha}
 Digitální váha G\&G E3000 komunikuje po linkách TX/RX standardu RS‑232 ve formátu 8 N 1 a baudrate 9600 Bd. Aby bylo možné váhu připojit k jednodeskovému počítači Raspberry Pi 4, je rozhraní převáděno adaptérem AXAGO ADS‑50 na virtuální COM port USB CDC (obr. 6‑3). Pro tuto váhu byla vytvořena třída Scale zastřešující veškero serivou komunikaci váhy s mikropočítačem. Konstruktor třídy přebírá parametry pro nastavení portu, baudrate a timeout který nastavuje, čtení na seriovém portu po dobu 1 s. Pokud do tohoto intervalu nejsou zaznamenány žádné příchozí data, čtení se ukončí. Třída dále dědí ze třídy serial, které předává všechny zmíněné parametry.
 
-\begin{lstlisting}[language=Python,breaklines=false, frame=single,postbreak=\mbox{\tiny$\hookrightarrow$}]
-
-Chyba latexu
+\begin{lstlisting}[language=Python,breaklines=false, frame=single]
+class Scale(serial.Serial):
+    def __init__(self) -> None:
+        super().__init__(baudrate = 9600, timeout=5)
 \end{lstlisting}
 
 \subsection{Ověření komunikace s váhou}
-Aby bylo možno s váhou komunikovat je nutné otevřít port na kterém je připojena a to pomocí metody open\_port(), která je volána z druhého stavu v mainu. V případě chyby se vyvolá vyjímka xxxa meroda vrátí False.
+Aby bylo možno s váhou komunikovat je nutné otevřít port na kterém je připojena a to pomocí metody \texttt{open\_port}, která je volána z druhého stavu v mainu. V případě chyby se vyvolá výjimka xxxa a metoda vrátí \texttt{False}.
 
 %KOD
 
-Po úspěšném otevření portu se zkontroluje zda váha komunikuje (není vypnutá) pomocí metody check\_conection() tím že pošle příkaz \textbf{0xBH 0x70} a váha odpoví kolik navážila, předpis ACK zprávy je ve tvaru [sss].
+Po úspěšném otevření portu se zkontroluje zda váha komunikuje (není vypnutá) pomocí metody \texttt{check\_conection()} tím že pošle příkaz \textbf{0xBH 0x70} a váha odpoví kolik navážila, předpis ACK zprávy je ve tvaru [sss].
 
 %KOD
 
