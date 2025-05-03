@@ -1,3 +1,6 @@
+%Zhodnoťte dosažené výsledky a navrhněte další možná vylepšení.
+
+
 \chapter{Inovace}
 Z časového hlediska stanoveného na bakalářskou práci jsem nemohl implementovat všechny funkce systému a proto byl vytvořen jen prototyp zvládající nejzákladnější funkcionalitu.
 V práci bylo několikrát na něnkolika místech zmíněno, že bude doděláno v budoucnu, protože jsem s těmito funkcemi počítal předem a proto byl tento měřící systém k tomu uzpůsobnen, např. při výběru komponent, jsem vybíral mikropičítač už s implementovaným wifi modulem, který aktuálně není možné využít, protože vše běží lokálně na raspberry pi.
@@ -16,10 +19,19 @@ Zde zmínim věci, které bude nutné do budnoucna dodělat a možné inovace:
 
 \section{Inovace kódu}
 
-Hlavní smyčka uvnitř GUI ne nnaopak -> obejdu problem s resetováním proměných jednotlivých tlačítek
+Hlavní smyčka uvnitř GUI ne nnaopak -> obejdu problem s resetováním proměných jednotlivých tlačítek. Halvní soubor by obsahoval třídu gui a smyčka after by volala třídu ve který by byl stavový automat.
 
 Třídy Barcode Reader a Scale by se dali napsat více obecně pro/multifunkčně. Obě zařízení totiž dokáží přijímat různá data ne jenom, které využivám já např. u čtečky nastavení čtení jiných kodu než EAN. U váhy třeba dodělat metodu na tarování, atd
 
 Do modulu database dodělat třídu pro jména pracovníku, heslo, obecné nastavení prostředí (jednotky, jazyk, barva prostředí)
 
 přesun databáze z lokálního prostotu mikropočítače na web - budu dělat správu, navíc lahve budou přesněji změřeny = menší chyba měření 
+
+Váha s rychlejší dobou stabilizace
+
+\section{Použití nalévačů}
+Po otestování systému v provozu se ukázalo, že vedení databáze nalévačů s jejich hmotnostmi je nepraktické. Původní návrh systému zahrnoval pevné přiřazení konkrétního typu nalévače k jednotlivým produktům a umožňoval uživateli pomocí přepínacího prvku zvolit, zda bude vážit s nalévačem či bez něj. Tato implementace však narážela na časté změny v rozmístění nalévačů – během každé inventury se nalévače měnily, nebo na lahvích zcela chyběly.
+
+Jako alternativní řešení jsem implementoval možnost dynamického výběru nalévače přímo při vážení. Zaměstnanec si mohl pro daný produkt vybrat konkrétní nalévač ze seznamu, který se zobrazil pod vstupním polem (Entry), přičemž bylo možné přepínat mezi seznamem produktů a nalévačů (List box). Přestože toto řešení umožňovalo vyšší přesnost měření při vážení s nalévačem, z pohledu obsluhy se ukázalo jako časově nepraktické. V praxi se zaměstnanci přiklonili k odstranění nalévače z hrdla lahve před jejich zvážením.
+
+Po této zkušenosti mě napadlo, že použití nalévačů by dávalo smysl, jen v případě, že by podnik standardizoval typ nalévačů napříč sortimentem. Tato strategie však neobstála, neboť provoz preferoval flexibilní nákup dle aktuálních cenových a skladových možností na trhu. Z těchto důvodů byla databáze nalévačů i s příslušnou funkcionalitou odstraněna z finální verze systému a zaměstnanec musí láhev vážit bez nalévače, ale s nasazeným víčkem.

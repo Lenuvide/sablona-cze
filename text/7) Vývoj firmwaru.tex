@@ -17,12 +17,14 @@
 
 V této kapitole se budu zabývat návrhem firmwaru s grafickým rozhraním pro mikropočítač Raspberry Pi 4, výběrem programovacího jazyka a ošetřením nežádoucích
 stavů. Kapitola je rozdělená do dvou částí, jedna se zabývá čistě vizuální stránkou a interakcí mezi jednotlivými okny firmwaru a druhá část se zabývá čistě programovým řešením a komunikací mezi jednotlivými soubory firmwaru. Výsledný systém se mírně liší od původního konceptu na základě jeho testování v praxi a postupného vylepšování.
+Většina kódu bude prezentována jen hlavičkou metod, funkcí a tříd z důvodu rozsáhlého obsahu.
 
 %-----
 \section{Výběr programovacího jazyku a grafického modulu}
-Nějaký text 
+Jako programovací jazyk jsem zvolil Python na základě jednoduché syntaxe a čitelnosti kódu. Python má rozsáhlé množství knihoven pro vývoj GUI aplikací a je také velmi populární v komunitě \textit{Raspberry Pi}, což přináší spoustu dostupných zdrojů a podpory.
 
-Jako programovací jazyk jsem zvolil Python na základě jednoduché syntaxe a čitelnosti kódu. Python má rozsáhlé množství knihoven pro vývoj GUI aplikací a je také velmi populární v komunitě Raspberry Pi, což přináší spoustu dostupných zdrojů a podpory.
+Grafická knihovna byla vybrána \textit{Tkinter} na základě rozsáhlé dokumentace, jednoduchosti na naučení, velkého množství ovládacích prvků (widgetů), ale hlavně licence PSFL, která dovoluje libovolné (vč. komerční) využití při zachování copyrightu a textu licence bez jakýchkoliv finančních nákladů. [z1]
+%https://docs.python.org/3/license.html
 
 %-----
 \section{Rozložení souborů a jejich vzájemná vazba}
@@ -117,48 +119,39 @@ Metoda \texttt{app.after(20, state\_machine, state)} je součástí grafické t�
 
 %Aktuální verze Pythonu (3.9.21) nepodporuje žádný příkaz podobný "switch", jak je známo z jiných programovacách jazycích, tudíž logika pro volání jednotlivých stavů automatu je pomocí podmínek "if".
 
-%\begin{lstlisting}[language=Python, caption=Funkce stavového automatu, frame=single, breaklines=false, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
-%state_pre: Automat = Automat.STARTING_INVENTORY
-%set_up: bool = True
-%
-%def state_machine(state: Automat) -> None:
-%    global state_pre
-%    global set_up
-%    
-%    #switch statement by "if" condition (Python version 3.9.2)
-%    if state == Automat.STARTING_INVENTORY:
-%        state = starting_inventory()
-%    elif state == Automat.CHECK_PORT:
-%        state = check_port()
-%    elif state == Automat.FINDING_DISTILLATE:
-%        state = finding_distillate()
-%    elif state == Automat.SAME_DISDILLATE:
-%        state = same_distillate()
-%    elif state == Automat.WEIGHING and app.unit_state == "ml":
-%        state = weighing()
-%    elif state == Automat.WEIGHING and app.unit_state == "ks":
-%        state = quantity()
-%    elif state == Automat.REMOVE_BOTTLE:
-%        state = remove_bottle()
-%
-%    if state_pre == state:
-%        set_up = False
-%    else:
-%        set_up = True
-%    state_pre = state
-%    
-%    if state != Automat.STARTING_INVENTORY and state != Automat.WEIGHING and app.button_stop_pressed:
-%        state = stop_inventory(state)
-%
-%    app.after(20, state_machine, state)
-%\end{lstlisting}
+\begin{lstlisting}[language=Python, caption=Funkce stavového automatu, frame=single, breaklines=true, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
+state_pre: Automat = Automat.STARTING_INVENTORY
+set_up: bool = True
+
+def state_machine(state: Automat) -> None:
+    global state_pre
+    global set_up
+    
+    #switch statement by "if" condition (Python v 3.9.2)
+    if state == Automat.STARTING_INVENTORY:
+        state = starting_inventory()
+                    ...
+    elif state == Automat.REMOVE_BOTTLE:
+        state = remove_bottle()
+
+    if state_pre == state:
+        set_up = False
+    else:
+        set_up = True
+    state_pre = state
+    
+    if state != Automat.STARTING_INVENTORY and state != Automat.WEIGHING and app.button_stop_pressed:
+        state = stop_inventory(state)
+
+    app.after(20, state_machine, state)
+\end{lstlisting}
 
 
 
 //KOD
 
 %-----
-\section{Stav 1 - Start}
+\section{Stav - Začátek inventury}
 Při spuštění firmwaru se prvně zobrazí úvodní okno, díky kterému jsme schopni spustit samotnou inventuru. Je zde pouze viditelné tlačítko start a nastavení. Tlačítko strat jednoduše spustí celý systém a kdy je možné započít inventuru. Tlačítko nastavení na uvodni obrazovce je zdůvodu, pokud uživatel se chce podívat nebo nastavit aplikaci bez toho, aby musel spouštět inventuru, tato část je vice rozberáno v sekci [x]
 
 \begin{figure}[!h]
@@ -171,14 +164,14 @@ Při spuštění firmwaru se prvně zobrazí úvodní okno, díky kterému jsme 
 
 //OBRÁZEK
 
-\section{Stav 2 - Ověření komunikace}
+\section{Stav - Ověření komunikace}
 Po spuštění celého systému provedu ověření zda komunikuje čtečka a váha, to udělám pomocí funkce 
 xx 
 xx 
 
 V případě uspěšné inicializace seriové komunikace funkce vráti True v opačném případě False. Toto chybové hlášení nám aplikace zobrazí v Proces labelu v hlavním okně aplikace (Hlavní okno je rozebráno o stav níže). Tyto metody spadají pod vytvořenou třídy Senzor a Scale, které jsou více rozebrýny v sekci č.x a č.y. 
 
-\section{Stav 3 - Vyhledání produktu}
+\section{Stav - Vyhledání produktu}
 
 Za předpokladu, že v předchozím stavu nedošlo k chybě se zde uživatel poprvé setkává s hlavním oknem aplikace v kterém je schopen vyhledat konkrétní produkt na základě naskenování jeho EAN kódu nebo ručního vyhledání pomocí klávesnice.
 
@@ -251,7 +244,7 @@ V případě naskenování či vyhledání již evidovaného alkoholu program p�
 %    \item Duplicidní produkt - Pokud se snažíme vyhledat už evidovaný produkt, tak program přejde do stavu duplicidity, tento stav je rozebrán níže. 
 %\end{itemize}
 
-\section{Stav - Duplicidita}
+\section{Stav - Duplicitní položka}
 
 %Do tohoto stavu jsme se schopni dostat pouze ze stavu vyhledávání a to díky opětovnému vyhledání již evidovaného produktu. V tomto stavu se nám otevře nové okno ve kterém si můžeme vybrat zda zrušíme aktuální výběr(např. kliknutí vedle v seznamu produktů) a vrátíme se do stavu vyhledání nebo produkt budem evidovat i na dále.
 
@@ -284,7 +277,7 @@ Opětovná evidence již zaevidovaného produktu má své opodstatnění ve dvou
 //OBRÁZEK - JAK VYPADÁ RUČNÍ VYHLEDÁNÍ = LISTBOX + KBW
 //OBRÁZEK - DUPLICIDITA ZBOŽÍ
 
-\section{Stav 4 - Vážení}
+\section{Stav - Vážení}
 % Obecny popis
 Vstupem do tohoto stavu je potvrzena úspěšná identifikace destilátu – buď načtením pomocí EAN kódu, nebo jeho ručním vyhledáním. Zobrazí se detailní informace o daném alkoholickém nápoji:
 \begin{itemize}
@@ -292,7 +285,7 @@ Vstupem do tohoto stavu je potvrzena úspěšná identifikace destilátu – bu�
     \item label Hmotnost - Celková hmotnost lahve.
     \item label Max. objem - Maximální objem lahve. Tato informace slouží rozeznat stejný typ destilátu v různých velikostech (0,5 l; 0,7 l; 1 l).
     \item Zbytkový objem - Přepočítaná hmotnost na zbytkový objem v láhvi.
-    \item Canvas nyní ukazuje obrázek vybraného produktu. Důvodem je že prodejci, i když né často, mění designe svých lahví a to sebou nese i změnu jejich hmotnosti, v takovém případě je nutné aktualizovat databázi pro daný produkt.
+    \item Canvas nyní ukazuje obrázek vybraného produktu. Důvodem je že prodejci, i když né často, mění designe svých lahví a to sebou nese i změnu jejich hmotnosti, v takovém případě je nutné aktualizovat databázi pro daný produkt. U značky a typu lahve \textit{Becherovka originál} (0,5 l) došlo k rozdílu hmotnosti 43 g, díky obměně designu. 
 \end{itemize}
 \bigskip
 Tlačítko pro ukončení inventury se změnilo na "Vrátit zpět" pro případ, že uživatel zvolil špatný produkt.
@@ -342,18 +335,6 @@ Další z funkcí tohoto systému je evidence neotevřených lahví ve skladu, p
 
 %Po otestování systému v praxi se ukázalo, že je nepraktické vést databázi s hmotnostmi různých nalévačů. V provopočátku některé detiláty měli přiřazený svůj nalévač fixně a uživatel mohl použít zašktrtávací tlačíko pro važení s nalévačem či bez. Bohužel s každou inventurou se nalávače na láhvích pravidelně měnily, proto jsem přidal možnost v uživatli si pro daný alkohol za chodu inventury vybrat ze seznamu konrétní nalévač. Toto řešení se moc neosvědčilo a zaměstnanci raději zvolili vážení bez nalévače a raději ho strhly, protože to pro ně bylo rychlejší než jej hledat v seznamu nebo kontrolovat zda použitý nalévač na láhvi odpovídá nalévači přiřazeného k danému destilátu. Na základě této zkušenosti jsem odebral tuto databázi a možnost vážit s nalévačem. Využití vážení s nalévačem by bylo za předpokladu, že by podnik měl na všechny láhve stejný typ nalévače a nemusel by se zdržovat kontrolou správného typu, pouze voulbou možnosti vážení s nalévačem či bez. Tato řešení se ale neosvěčilo, protože pro zamestnavatele bylo přivětivější nákup nalévačů, které byly zrovna cenově dostupné než řešit nepatrný rozdíl hmotnosti zpusobené špatným nalévačem.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Po otestování systému v provozu se ukázalo, že vedení databáze nalévačů s jejich hmotnostmi je nepraktické. Původní návrh systému zahrnoval pevné přiřazení konkrétního typu nalévače k jednotlivým produktům a umožňoval uživateli pomocí přepínacího prvku zvolit, zda bude vážit s nalévačem či bez něj. Tato implementace však narážela na časté změny v rozmístění nalévačů – během každé inventury se nalévače měnily, nebo na lahvích zcela chyběly.
-
-Jako alternativní řešení jsem implementoval možnost dynamického výběru nalévače přímo při vážení. Zaměstnanec si mohl pro daný produkt vybrat konkrétní nalévač ze seznamu, který se zobrazil pod vstupním polem (Entry), přičemž bylo možné přepínat mezi seznamem produktů a nalévačů (List box). Přestože toto řešení umožňovalo vyšší přesnost měření při vážení s nalévačem, z pohledu obsluhy se ukázalo jako časově nepraktické. V praxi se zaměstnanci přiklonili k odstranění nalévače z hrdla lahve před jejich zvážením.
-
-Po této zkušenosti mě napadlo, že použití nalévačů by dávalo smysl, jen v případě, že by podnik standardizoval typ nalévačů napříč sortimentem. Tato strategie však neobstála, neboť provoz preferoval flexibilní nákup dle aktuálních cenových a skladových možností na trhu. Z těchto důvodů byla databáze nalévačů i s příslušnou funkcionalitou odstraněna z finální verze systému a zaměstnanec musí láhev vážit bez nalévače, ale s nasazeným víčkem.
-
-
-%Závěrem lze konstatovat, že evidence a kompenzace hmotnosti nalévačů by mohla být funkční pouze v případě, že by podnik standardizoval typ nalévačů napříč sortimentem. Tato strategie však nebyla reálná, neboť provoz preferoval flexibilní nákup dle aktuálních cenových a skladových možností. Z těchto důvodů byla databáze nalévačů i s příslušnou funkcionalitou odstraněna z finální verze systému.
-
-
 
 %V tomto stavu nám zbývá navážit zbytkový objem a nebo zadat počet kusů. V tomto satvu jak vidite nam se přejmenovalo tlačítko z ukončení inventury na zpět, tedy mlžeme zrušit náš výběr destilátu v případě chybného zadání ručně např. nebo jsme prostě naskenovali něco co jsme evidovat nechteli.
 
@@ -361,7 +342,7 @@ Po této zkušenosti mě napadlo, že použití nalévačů by dávalo smysl, je
 //obrázek - zadávání kůsů
 
 
-\section{Stav 5 - Nastavení}
+\section{Stav - Nastavení aplikace}
 Do nastavení se dá dostat v libovolném stavu programu pomocí ozubeného tlačítka. V teto fázi jeste neni dodelane veskre funkce nastavení pouze její vizuál.
 
 Nastavení by mělo poté umožňovat:
@@ -383,7 +364,7 @@ Ve finální verzi by nastavení mělo umožňovat:
 
 //OBRAZEK
 
-\section{Stav 6 - Konec}
+\section{Stav - Konec inventury}
 
 %Pro ukončení inventury je nutné, aby uživatel zadal jméno zaměstnance ze seznamu (dropboxu), kde jsou evidovaní všichni zaměstanci, co můžou vykonávat inventůru, tedy tímto se zaměstnanec podepíše pod svou vlastní inventutu, kterou vykonal, jedná se o bezpečnostní prvek, aby bylo možné v případě nejasností v inventuře dohledat, kdo danou inventuru vykonal. Pokud jmeno nezadáme aplikace nás vyzve k jeho zadání a nepustí nás dál, v opačném případě nás přesměruje na obrazovku, kde se nás zeptá zda jsme si jistí tím, že chceme inventuru ukončit (bezpečností prvkek, kdyby jjsme omilem klikli na ukočení inventury). Po uspěšném ukončení inventury se nám obrazovka přene zpátky na výchozí obrazovku[xx]
 
@@ -414,50 +395,34 @@ Po ukončení nebo smazání inventury je uživatel automaticky přesměrován z
 \end{figure}
 //OBRÁZEK - POTVRZOVACÍ OKNO O UKONČENÍ
 
-\section{GUI}
-V této sekci se zaměříme na programové řešení modulu \texttt{gui.py}. grafické prostředí aplikace jsem si rozdělil do x tříd z důvodu přehlednosti a orientaci v kódu. jedna co ma nastarost vykreslování veškerých oken a další kod, co byl více komplexnejsi, tak jsem zaobalil do vlastní třídy a to třídu pro klavesnici a listbox obsahující seznam destilátů, protože samy o sobě obsahuji dosti kodu, ktery by delal hlavní třídu nepřehlednou. Tyto třídy jsou navzájem provázané pomocí klíčového slova Parent, neboli třida Keyboard a Listbox dědí z hlavní třídy pomocí toho klíčového slova. Parent předává není přímo objekt, je pouze proměná s adresou v paměti na naši hlavní třídu, tedy mužeme skrz toto slovo přistupovat do existujícího objektu.. Nástroj/třída/modul tkinter může vytvořit pouze jedno hlavní okno pomocí klíčového slova tk, tk je třída hlavního okna v programu může být vytvořena jen jednou mé tříde dědím právě ne z třídy, ale modulu..hovno přímo z třídy tk, tudíž mi klíčové slovo self. umožnuje přistupovat k proměným dané třídy tedy i k proměným děděné třídy. tedy pro vytvořeí hlavního okna..ho musím prvně setupunout a pak metodou .mainloop() spusttí hlavní smyčku programu, abych ale mohl komunikovat s dalšími i s jinými třídami a stavovým automatem jako čtečkou a váhou, tak musím z této smyčky i vyskočit, pro tyto účely je metoda after(), proto v mainu ve funkci stavového automatu, opakovaně volám funkci sebe samou
+\section{Modul grafického prostředí - gui.py}
+%V této sekci se zaměříme na programové řešení modulu \texttt{gui.py}. grafické prostředí aplikace je rozděleno do x tříd z důvodu přehlednosti a orientaci v kódu. jedna co ma nastarost vykreslování veškerých oken a další kod, co byl více komplexnejsi, tak jsem zaobalil do vlastní třídy a to třídu pro klavesnici a listbox obsahující seznam destilátů, protože samy o sobě obsahuji dosti kodu, ktery by delal hlavní třídu nepřehlednou. Tyto třídy jsou navzájem provázané pomocí klíčového slova Parent, neboli třida Keyboard a Listbox dědí z hlavní třídy pomocí toho klíčového slova. Parent předává není přímo objekt, je pouze proměná s adresou v paměti na naši hlavní třídu, tedy mužeme skrz toto slovo přistupovat do existujícího objektu.. Nástroj/třída/modul tkinter může vytvořit pouze jedno hlavní okno pomocí klíčového slova tk, tk je třída hlavního okna v programu může být vytvořena jen jednou mé tříde dědím právě ne z třídy, ale modulu..hovno přímo z třídy tk, tudíž mi klíčové slovo self. umožnuje přistupovat k proměným dané třídy tedy i k proměným děděné třídy. tedy pro vytvořeí hlavního okna..ho musím prvně setupunout a pak metodou .mainloop() spusttí hlavní smyčku programu, abych ale mohl komunikovat s dalšími i s jinými třídami a stavovým automatem jako čtečkou a váhou, tak musím z této smyčky i vyskočit, pro tyto účely je metoda after(), proto v mainu ve funkci stavového automatu, opakovaně volám funkci sebe samou
 
-nevyhodou Pythonu je, že všechny interní proměnné třídy se musí inicializovat uvnitř konstruktoru což v nšem případě, kde máme hromadu ovladacích prvků činí samotnou třídu nepřehlednou a v případě deklarovani promenné v blízkosti metody by se z ní stala statická proměnná. 
+%nevyhodou Pythonu je, že všechny interní proměnné třídy se musí inicializovat uvnitř konstruktoru což v nšem případě, kde máme hromadu ovladacích prvků činí samotnou třídu nepřehlednou a v případě deklarovani promenné v blízkosti metody by se z ní stala statická proměnná. 
 
-//Ukazka kodu
-Hlavní třída GUI, dědí z třídy Tk, která vytváří hlavní okno programu. V hlavní okno je rozděleno do dvou rámců/framů pro jednoduší vkládání ovládacích prvků. Jedna z metod pro vkládání je grid(), která umožnuje prvky skládat do sloupců a řádku, které mezi sebou interagují a udržují symetrický vzhled. Tudíž třeba když jeden sloupec prvků roztáhnu, ostatní se smrští a prvky se nebudou překrývat přes sebe - dynamické nastavení. Třídy jsou velice rozsáhlé, proto jen vypíchnu to nejduležitějšší.
-%\begin{lstlisting}[language=Python, caption=Funkce stavového automatu, frame=single, breaklines=false]
-%
-%class GUI(tk.Tk):
-%    def __init__(self):
-%        super().__init__()
-%        # build ui
-%        #self = tk.Tk(master, className="hmmm")
-%        self.geometry("1024x600")
-%                        .
-%                        .
-%                        .
-%        self.start_window: tk.Toplevel = None
-%        self.end_window: tk.Toplevel = None
-%        self.same_dest: tk.Toplevel = None
-%        self.delete_window: tk.Toplevel = None
-%        self.settings: tk.Frame = None
-%                        .
-%                        .
-%                        .
-%    def entry_event(self, event=None)
-%        if self.keyboard == None:
-%            self.keyboard = Keyboard(self)
-%        else:
-%            self.keyboard.deiconify()
-%
-%        if self.scroll_listbox == None:
-%            self.scroll_listbox = Scroll_listbox(self)
-%            self.entry.delete("0", "end")
-%            self.scroll_listbox.checkk()
-%        elif self.scroll_listbox.winfo_viewable() == False:
-%            self.scroll_listbox.deiconify()
-%            self.entry.delete("0", "end")
-%            self.scroll_listbox.checkk()
-%                        .
-%                        .
-%                        .
-%\end{lstlisting}
+%//Ukazka kodu
+%Hlavní třída GUI, dědí z třídy Tk, která vytváří hlavní okno programu. V hlavní okno je rozděleno do dvou rámců/framů pro jednoduší vkládání ovládacích prvků. Jedna z metod pro vkládání je grid(), která umožnuje prvky skládat do sloupců a řádku, které mezi sebou interagují a udržují symetrický vzhled. Tudíž třeba když jeden sloupec prvků roztáhnu, ostatní se smrští a prvky se nebudou překrývat přes sebe - dynamické nastavení. Třídy jsou velice rozsáhlé, proto jen vypíchnu to nejduležitějšší.
+
+Táto sekce je zaměřená na programové řešení modulu \texttt{gui.py}. Grafické prostředí aplikace je rozděleno do x tříd z důvodu přehlednosti a orientaci v kódu. Hlavní okno je reprezentováno třídou \texttt{MainWindow}, dědící ze třídy \texttt{Tk}, které spouští hlavní smyčku programu. MainWindow vytváří instanci ostatních tříd, které obsahují kód ostatních oken nebo jinou složitější část kódu. Pro vytvoření nového okna se používá třída \texttt{Toplevel}, které je prostřednictví parametru master přiřazen přídružné okno ke kterému se vztahuje. V případě vyvíjené aplikace jsou všechna Toplevel okna odkázána na hlavní okno. V praxi je spouštěno pouze jedno hlavní okno a libovolný počet Toplevel oken. Jak už bylo jednou zmíněno pro vyskočení z hlavní smyčky za účelem periodických operací(chod stavového automatu, obsluha portů, atd) se využívá metoda after[].
+
+Hlavní okno se skládá ze dvou grafických rámců (tk.Frame) horizontálně rozdělených, kde jeden obsahuje ovládací prvky Entry, a tlačítka pro nastavení, numerickou klávesnici a rozšíření seznamu evidovaných položek. Druhý rámec představuje zbytek okna. Pro vkládání ovládacích prvků do prostředí je využita metoda grid, která umožňuje rozdělit daný rámec na mřížku, kde jednotlivé řádky a sloupce mezi sebou interagují a udržují symetrický vzhled prostředí.
+
+
+
+\begin{lstlisting}[language=Python, caption=Funkce stavového automatu, frame=single, breaklines=false]
+class MainWindow(tk.Tk):
+    def __init__(self):
+        super().__init__()
+                        ...                       
+        self.StartWindow: tk.Toplevel = None
+        self.EndWindow: tk.Toplevel = None
+        self.SameDest: tk.Toplevel = None
+        self.DeleteWindow: tk.Toplevel = None
+        self.Settings: tk.Toplevel = None
+        self.Keyboard: tk.Toplevel = None
+        self.ListBox: tk.Toplevel = None
+                        ...
+\end{lstlisting}
 
 Ostatní třídy jsou definované stejným způsobem. Ukázka na třídě Keyboard. Třída keyboard dědí ze třídy Toplevel, což je vytváření sekundárních oken GUI, tato třída je provázána s třídou GUI pomocí parametru root. Toplevel, tedy Toplevely mohou odkazovat přímo na hlavní okno nebo jiný Toplevel, předání parametru je pomocí konstruktoru super().\_\_init\_\_(root)
 
@@ -485,7 +450,7 @@ Ostatní třídy jsou definované stejným způsobem. Ukázka na třídě Keyboa
 %\end{lstlisting}
 
 
-\section{Databázový modul - database.py}
+\section{Modul databáze - database.py}
 
 Modul \textbf{database.py} zajišťuje trvalé ukládání a vyhledávání údajů o lahvích a inventurních měřeních do relačních databázích \textbf{database.db} a \textbf{inventory.db} uložených lokálně na SD kartě Raspberry Pi. Databáze se dále skládají z tabulek (table) stejně jako Excel se skládá z více listů. Soubory s příponou \textbf{.db} jsou čitelné pro databázový engine SQLite, který umí databázový jazyk SQL. Aby byla práce s daty v Pythonu přehlednější, je využit nástroj (modul) SQLAlchemy:
 \begin{itemize}
@@ -548,34 +513,16 @@ def delete_last_table() -> None
 
 
 
-\section{Čtečka}
+\section{Modul čtečky čárového kódu - sensor.py}
 Kamerová čtečka GM65 komunikuje prostřednictvím USBVcom. Čtečka je přepínána mezi čtecími režimi continual a manual viz kapitola č.XXX. 
 
 Kod pro ovládání čtečky je zaobaleno do třídy \texttt{BarcodeSensor} obsažené v modulu \texttt{barcode\_sensor.py}. Třídá dědí ze třídy \texttt{Serial}, která zastřešuje veškerou seriovou komunikaci. Konstruktor třídy BarcodeSensor přebírá parametry pro adresu portu, rychlost seriové komunikace (baudrate) a timeout, který slouží k přerušení zápisu/čtení na daném portu po určitém čase. Tyto veškerý data se následně předají konstruktoru třídy Serial. 
 
 \begin{lstlisting}[language=python,breaklines=true, frame=single]
-
 import serial
 class BarcodeSensor(serial.Serial):
-    def __init__(self, port='devttyACM0', baudrate=9600, timeout=1):
+    def __init__(self, port=None, baudrate=9600, timeout=1):
         super().__init__(port=port, baudrate=baudrate, timeout=timeout)
-        sdf
-        sdfasdasdasdasdasdasdasdasdasdasdasdasd
-        sasdasdasdasdasdasdasdasda
-        dfsasdasdasdasdasdasdasdasdasd
-        dfasdasdasdasdasdasdasd
-        sdf
-        sd
-        fs
-        dfasdasdasdasdasdasdasdasd
-        sdfsadasdasdasdasdasdasdasd
-        asdasdasdasdasdasdasdas
-        asdasdasdasdasdasd
-        asdsdasdasdasdasdasdasdasd
-
-
-
-        
 \end{lstlisting}
 \bigskip
 Třída obsahuje metodu \texttt{open\_port}, která otevírá nastavený port pro komunikaci. 
@@ -583,7 +530,6 @@ V případě úspěšné otevření vrátí \texttt{True}.
 %Návratovou hodnotou je \texttt{bool} na základě toho, zda se otevření povedlo nebo ne.
 
 \begin{lstlisting}[language=Python,breaklines=false, frame=single]
-
 def open_port(self) -> bool:
 \end{lstlisting}
 
@@ -643,11 +589,6 @@ Metoda turn\_on\_sensor přepne čtečku do aktivního stavu, kde se rozsvítí 
 %        return True
 %    else:
 %        return False
-%        sdf
-%        sdf
-%        sdf
-%        sdf
-%        
 %\end{lstlisting}
 \bigskip
 Metoda \texttt{crc16\_ccitt} vykonává kontrolní 16 bitový součet z bloků \textit{Types} až \textit{Data}. Výstupem je 16 bitové číslo, které je následně rozděleno na 2 separátní bajty.[zdroj1]
@@ -663,16 +604,6 @@ Metoda \texttt{crc16\_ccitt} vykonává kontrolní 16 bitový součet z bloků \
 %                crc = ((crc << 1) ^ poly) & 0xFFFF
 %            else:
 %                crc = (crc << 1) & 0xFFFF
-%                sdf
-%                sdfs
-%                df
-%                sdf
-%                sdf
-%                sd
-%                fs
-%                dfs
-%                df
-%                
 %\end{lstlisting}
 \bigskip
 Jako poslední metoda je \texttt{read\_sensor\_data} která posílá nazpět naskenovaná data uložená ve vstupním bufferu mikropočítače.
@@ -684,302 +615,65 @@ Jako poslední metoda je \texttt{read\_sensor\_data} která posílá nazpět nas
 %    return self.read(15).decode()
 %\end{lstlisting}
 
-\section{Váha}
+\section{Modul váhy - scale.py}
 Digitální váha G\&G E3000 komunikuje po linkách TX/RX standardu RS‑232 ve formátu 8 N 1 a baudrate 9600 Bd. Aby bylo možné váhu připojit k jednodeskovému počítači Raspberry Pi 4, je rozhraní převáděno adaptérem AXAGO ADS‑50 na virtuální COM port USB CDC (obr. 6‑3). Pro tuto váhu byla vytvořena třída Scale zastřešující veškero serivou komunikaci váhy s mikropočítačem. Konstruktor třídy přebírá parametry pro nastavení portu, baudrate a timeout který nastavuje, čtení na seriovém portu po dobu 1 s. Pokud do tohoto intervalu nejsou zaznamenány žádné příchozí data, čtení se ukončí. Třída dále dědí ze třídy serial, které předává všechny zmíněné parametry.
 
 \begin{lstlisting}[language=Python,breaklines=false, frame=single]
 class Scale(serial.Serial):
     def __init__(self) -> None:
-        super().__init__(baudrate = 9600, timeout=5)
+        super().__init__(baudrate = 9600, timeout=1)
 \end{lstlisting}
 
 \subsection{Ověření komunikace s váhou}
 Aby bylo možno s váhou komunikovat je nutné otevřít port na kterém je připojena a to pomocí metody \texttt{open\_port}, která je volána z druhého stavu v mainu. V případě chyby se vyvolá výjimka xxxa a metoda vrátí \texttt{False}.
 
-%KOD
+\begin{lstlisting}[language=Python,breaklines=false, frame=single]
+def open_port(self) -> bool:
+\end{lstlisting}
 
-Po úspěšném otevření portu se zkontroluje zda váha komunikuje (není vypnutá) pomocí metody \texttt{check\_conection()} tím že pošle příkaz \textbf{0xBH 0x70} a váha odpoví kolik navážila, předpis ACK zprávy je ve tvaru [sss].
+Po úspěšném otevření portu se zkontroluje zda váha komunikuje (není vypnutá) pomocí metody \texttt{check\_conection} tím že pošle příkaz \textbf{0xBH 0x70} a váha odpoví kolik navážila, předpis ACK zprávy je ve tvaru [sss].
 
-%KOD
+\begin{lstlisting}[language=Python,breaklines=false, frame=single]
+def check_conection(self) -> bool:
+\end{lstlisting}
 
 \subsection{Komunikace s váhou po sériové lince}
 
-Ke komunikaci slouží metoda def xxx(), která odesílá stejnou zprávu jako metoda check\_conection, pokud ale váha nedopoví do stanoveného času pomocí timeoutu zkontroluje se zda je port otevřený, pokud není metoda vrátí Err1 a pokud je metoda vrátí Err0.
+Ke komunikaci slouží metoda  \texttt{print\_scale}, která odesílá stejnou zprávu jako metoda \texttt{check\_conection}, pokud ale váha neodpoví do stanoveného času pomocí timeoutu zkontroluje se zda je port otevřený, pokud není metoda vrátí \textit{Err1} a pokud je metoda vrátí \textit{Err0}.
 
-Problém je že váha neposílá žádný kontrolní znak a ani neobsahuje paritu, proto abychom se ujistili, že příchozí data nejsou poškozena budem kontrolovat zda poslední 3 přijaté zprávy jsou shodné dle stavového diagramu č.x. Kontrolovat budem pouze zprávy které došli s jednotkou hmotnosti, čímž váha říká, že je stabilizovaná. Důvodem je, že pokud zatížíme váhu, tak její naměřená hmotnost se velice rychle mění, proto bysme nedokázali přijmout v této fázi 2 stejné hodnoty hmotnosti posobě(následkem je probliknutí špatně naměřené hodnoty, kterou nijak nezpracováváme) v rámci kodu jsou zpracovávána pouze stabilizovaná data.
+\begin{lstlisting}[language=Python,breaklines=false, frame=single]
+def print_scale(self) -> str:
+\end{lstlisting}
+Problém je že váha neposílá žádný kontrolní znak a ani neobsahuje paritu, proto abychom se ujistili, že příchozí data nejsou poškozena budem kontrolovat zda poslední 3 přijaté zprávy jsou shodné dle stavového diagramu \ref{ošetření parity}. Kontrolovat budem pouze zprávy které došli s jednotkou hmotnosti, čímž váha říká, že je stabilizovaná. Důvodem je, že pokud zatížíme váhu, tak její naměřená hmotnost se velice rychle mění, proto bysme nedokázali přijmout v této fázi 2 stejné hodnoty hmotnosti posobě v rámci kodu jsou zpracovávána pouze stabilizovaná data.
 
 %% NÍŽE VYMAZAT VŠE
 
-%stavák ošetření stavového automatu
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale=0.6]{obrazky/stavovy_automat_parita.jpg}
-    \end{center}
-    \caption{Kontrola příchozích zpráv z váhy}
-    \label{ošetření parity}
-\end{figure}
-
-
-navíc do databáze se ukládají až stabilizované hodnoty, proto
-
-
-
-
-Tok dat směřuje obousměrně – váha odesílá měřené hodnoty, řídicí jednotka je v intervalech \~200 ms vyžaduje řídicím párem znaků ESC 'p'. Třída Scale zastřešuje veškero serivou komunikaci váhy s Raspberry Pi. Třída dědí ze třídy Serial, kde v jejím konstruktoru nastavujeme baudrate 9600 a timeout=5s. 
-
-Metoda open\_port() je volána z druhého stavu v mainu, která otevírá serivový port pro komunikaci v případě selhání vyhodí vyjímku vrátí hodnotu False.
-
-Dále je metoda check\_conection(), která se volá po uspěšnem otevření portu a kontroluje zda váha komunikuje, tím že pošle příkaz na ve tvaru esc+p a váha odpoví kolik navážila, pokud jsou data přijata (je jedno co pošle), tak váha komunikuje.
-
-Nejduležitší metodou je print\_scale(), která odesílá požadavek na "tisk" dat. Tím, že váha neposílá paritní bit, děláme SW kontrolu, zda 3 poslední zprávy jsou shoné pomocí stavového diagramu obrč.x
-
-\begin{lstlisting}[language=Python, caption=Funkce stavového automatu:, frame=single, breaklines=false, postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space}]
-
-def print_scalee(self) -> str:
-        try:
-            count:int = 1
-            catch_data = [0] #catch_data:vector[3]
-            while True: #len(catch_data) == 3: #True
-                data = chr(27).encode('utf-8')+chr(112).encode('utf-8')
-                self.vaha.write(data)
-                catch_data[count] = self.vaha.readline().decode()
-                if catch_data[0] == catch_data[1] == catch_data[2]:
-                    return catch_data[0]
-                elif count == 4:
-                    return "Err2"
-                if self.catch_data == '':
-                    return "Err0" # Nejsou přijímána data - Zkontrolovat připojení váhy
-                count = count + 1
-        except serial.SerialException:
-            if not self.open_port():
-                return "Err1" # Port se nepovedlo otevřít - Zkontrolovat připojení váhy
-        return self.catch_data
-        asd
-        asd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        as
-        daasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        sda
-        sdaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        daasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        sda
-        sd
-        asd
-        asd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asd
-        as
-        dasdasd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asd
-        as
-        daasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        sd
-        asd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        as
-        daasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        sdaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        sd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        as
-        daasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        sda
-        sdaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        daasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        sdaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        sdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        dasdasd
-        asd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        daasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        sdasdasasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasddasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asd
-        asd
-        asasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        da
-        sdaasdasasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasddasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        sdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asd
-        asd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd
-        asd
-        asd
-        asd
-        asd
-        as
-        da
-        sda
-        sda
-        da
-        sda
-        sd
-        asd
-        asd
-        asd
-        asd
-        as
-        dasdasd
-        asd
-        asd
-        as
-        da
-        sd
-        asd
-        asd
-        as
-        da
-        sda
-        sd
-        asd
-        asd
-        asd
-        asd
-        asd
-        asd
-        asd
-        asd
-        as
-        da
-        sda
-        sda
-        da
-        sda
-        sd
-        asd
-        asd
-        asd
-        asd
-        as
-        dasdasd
-        asd
-        asd
-        as
-        da
-        sd
-        asd
-        asd
-        as
-        da
-        sda
-        sd
-        asd
-        asd
-        asd
-        asd
-        asd
-        asd
-        asd
-        asd
-        as
-        da
-        sda
-        sda
-        da
-        sda
-        sd
-        asd
-        asd
-        asd
-        asd
-        as
-        dasdasd
-        asd
-        asd
-        as
-        da
-        sd
-        asd
-        asd
-        as
-        da
-        sda
-        sd
-        asd
-        asd
-        asd
-        asd
-        asd
-        asd
-        asd
-        asd
-        as
-        da
-        sda
-        sda
-        da
-        sda
-        sd
-        asd
-        asd
-        asd
-        asd
-        as
-        dasdasd
-        asd
-        asd
-        as
-        da
-        sd
-        asd
-        asd
-        as
-        da
-        sda
-        sd
-        asd
-        asd
-        asd
-        asd
-        asd
-        asd
-        asd
-        asd
-        as
-        da
-        sda
-        sda
-        da
-        sda
-        sd
-        asd
-        asd
-        asd
-        asd
-        as
-        dasdasd
-        asd
-        asd
-        as
-        da
-        sd
-        asd
-        asd
-        as
-        da
-        sda
-        sd
-        
-\end{lstlisting}
+%%stavák ošetření stavového automatu
+%\begin{figure}[H]
+%    \begin{center}
+%        \includegraphics[scale=0.6]{obrazky/stavovy_automat_parita.jpg}
+%    \end{center}
+%    \caption{Kontrola příchozích zpráv z váhy}
+%    \label{ošetření parity}
+%\end{figure}
+%
+%
+%navíc do databáze se ukládají až stabilizované hodnoty, proto
+%
+%
+%
+%
+%Tok dat směřuje obousměrně – váha odesílá měřené hodnoty, řídicí jednotka je v intervalech \~200 ms vyžaduje řídicím párem znaků ESC 'p'. Třída Scale zastřešuje veškero serivou komunikaci váhy s Raspberry Pi. Třída dědí ze třídy Serial, kde v jejím konstruktoru nastavujeme baudrate 9600 a timeout=5s. 
+%
+%Metoda open\_port() je volána z druhého stavu v mainu, která otevírá serivový port pro komunikaci v případě selhání vyhodí vyjímku vrátí hodnotu False.
+%
+%Dále je metoda check\_conection(), která se volá po uspěšnem otevření portu a kontroluje zda váha komunikuje, tím že pošle příkaz na ve tvaru esc+p a váha odpoví kolik navážila, pokud jsou data přijata (je jedno co pošle), tak váha komunikuje.
+%
+%Nejduležitší metodou je print\_scale(), která odesílá požadavek na "tisk" dat. Tím, že váha neposílá paritní bit, děláme SW kontrolu, zda 3 poslední zprávy jsou shoné pomocí stavového diagramu obrč.x
+%
+%\begin{lstlisting}[language=Python, caption=Funkce stavového automatu:, frame=single]
+%def print_scalee(self) -> str:
+%\end{lstlisting}
 
 \section{Spouštěcí script}
 \section{Splash obrazovka}
@@ -989,351 +683,3 @@ Hodit sem fotku celého systému
 Pak sem hodit fotku malého odměrného válce s vysokou přesností a porovnat to s fotkou kde jsem navážil stejný objem - at jde vydet hlavne lahev na váze + displej váhy, pak celý displej, jestli ukazuje stejnou hmotnost + nove vypočítaný objem.
 
 Mozna udelat aj nejaký výpočet
-sdf
-s
-df
-sdf
-sdf
-sd
-fs
-df
-sdf
-sdf
-s
-dfs
-df
-sdf
-sdf
-sd
-fs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sdf
-s
-dfs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sdf
-s
-dfs
-dfs
-f
-sf
-sf
-sf
-sdf
-s
-df
-sdf
-sdf
-sd
-fs
-df
-sdf
-sdf
-s
-dfs
-df
-sdf
-sdf
-sd
-fs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sdf
-s
-dfs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sdf
-s
-dfs
-dfs
-f
-sf
-sf
-sf
-
-sdf
-s
-df
-sdf
-sdf
-sd
-fs
-df
-sdf
-sdf
-s
-dfs
-df
-sdf
-sdf
-sd
-fs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sdf
-s
-dfs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sdf
-s
-dfs
-dfs
-f
-sf
-sf
-sf
-
-sdf
-s
-df
-sdf
-sdf
-sd
-fs
-df
-sdf
-sdf
-s
-dfs
-df
-sdf
-sdf
-sd
-fs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sdf
-s
-dfs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sdf
-s
-dfs
-dfs
-f
-sf
-sf
-sf
-sdf
-s
-df
-sdf
-sdf
-sd
-fs
-df
-sdf
-sdf
-s
-dfs
-df
-sdf
-sdf
-sd
-fs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sdf
-s
-dfs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sdf
-s
-dfs
-dfs
-f
-sf
-sf
-sf
-sdf
-s
-df
-sdf
-sdf
-sd
-fs
-df
-sdf
-sdf
-s
-dfs
-df
-sdf
-sdf
-sd
-fs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sdf
-s
-dfs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sdf
-s
-dfs
-dfs
-f
-sf
-sf
-sf
-
-sdf
-s
-df
-sdf
-sdf
-sd
-fs
-df
-sdf
-sdf
-s
-dfs
-df
-sdf
-sdf
-sd
-fs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sdf
-s
-dfs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sd
-fs
-dfs
-df
-sdf
-sdf
-s
-dfs
-dfs
-f
-sf
-sf
-sf
-
-v

@@ -49,23 +49,23 @@ Před použitím samotné váhy jsem ověřil, zda její přesnost odpovídá pa
 
 \section{Zprovoznění váhy}
 
-Komunikační rozhraní váhy je RS-232, který nejsme schopni připojit na mikrokontrolér z důvodu absence totožného rozhraní. V takovém případě použijeme adaptér z RS-232 na USB. Použitý adaptér je ADS-50 USB - serial, který je součástí balení váhy. (obrázek č.\ref{adapter})
+Komunikační rozhraní váhy je RS-232, který nejsme schopni připojit na mikrokontrolér z důvodu absence totožného rozhraní. V takovém případě použijeme adaptér z RS-232 na USB. Použitý adaptér je ADS-50 USB - serial, který je součástí balení váhy (obrázek č.\ref{propojení váhy v1}).
 
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale=0.06]{obrazky/ADS-50 USB - serial adapter.png}
-    \end{center}
-    \caption{Adaptér USB - serial AXAGO ADS-50}
-    \label{adapter}
-\end{figure}
+%\begin{figure}[H]
+%    \begin{center}
+%        \includegraphics[scale=0.06]{obrazky/ADS-50 USB - serial adapter.png}
+%    \end{center}
+%    \caption{Adaptér USB - serial AXAGO ADS-50}
+%    \label{adapter}
+%\end{figure}
 
 Propojení kabelu ADS-50 s váhou není možné z důvodu, že kabel není křížený, jinak zvaný "null modem" kabel. To znamená, že vysílací piny(Tx) jsou navzájem propojené a to samé přijímací piny(Rx). Aby komunikace mohla fungovat je nutné propojit Tx s Rx. Tato podmínka komunikace je zmíněná v dokumentaci váhy[x]. Výrobce váhy z tohoto důvodu k balení přidal kříženou redukci DB9(samice) - DB9(samice), která slouží současně k monitorování stavu jednotlivých pinů díky přídavným konektorům pro připojení např. osciloskopu. Dále výrobce přidal redukci DB9(samec) - DB9(samec) pro propojení křížené redukce s váhou(samice). Zapojení je možné vidět na obrázku č.\ref{propojení váhy v1}. Toto zapojení není praktické pokud nechceme diagnostikovat komunikaci, proto je možností koupit přímo křížený kabel nebo kříženou redukci, která vychází 5x levněji. Na obrázku č.\ref{propojení váhy v2} je výsledné řešení propojení váhy s mikrokontrolerem pomocí křížené redukce DB9(samec) - DB9(samice).
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=0.27]{obrazky/zapojeni_vahy_v1 - popis.png}
+        \includegraphics[scale=0.27]{obrazky/zapojení váhy.jpg}
     \end{center}
-    \caption{Propojení váhy s mikrokontrolerem pomocí komponent dodané výrobcem váhy}
+    \caption{Propojení váhy s mikropočítačem pomocí komponent dodané výrobcem váhy}
     \label{propojení váhy v1}
 \end{figure}
 
@@ -91,7 +91,9 @@ Na obrázku č. \ref{putty} je nastavení parametrů v PuTTY a na obrázku č.\r
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=0.09]{obrazky/komunikace váha putty.jpg}
+        %\includegraphics[scale=0.09]{obrazky/komunikace váha putty.jpg}
+        \includegraphics[scale=0.12]{obrazky/komunikace váha putty - spodek.jpg}
+        \includegraphics[scale=0.12]{obrazky/komunikace váha putty - vrch.jpg}
     \end{center}
     \caption{Čtení sériové komunikace váhy pomocí PuTTY}
     \label{puttyyyy}
