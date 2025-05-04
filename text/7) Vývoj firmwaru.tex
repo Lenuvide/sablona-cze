@@ -154,15 +154,15 @@ def state_machine(state: Automat) -> None:
 \section{Stav - Začátek inventury}
 Při spuštění firmwaru se prvně zobrazí úvodní okno, díky kterému jsme schopni spustit samotnou inventuru. Je zde pouze viditelné tlačítko start a nastavení. Tlačítko strat jednoduše spustí celý systém a kdy je možné započít inventuru. Tlačítko nastavení na uvodni obrazovce je zdůvodu, pokud uživatel se chce podívat nebo nastavit aplikaci bez toho, aby musel spouštět inventuru, tato část je vice rozberáno v sekci [x]
 
-\begin{figure}[!h]
-    \begin{center}
-        \includegraphics[scale=0.4]{obrazky/GUI Spuštění inventury.png}
-    \end{center}
-    \caption{Interakce mezi okny GUI}
-    \label{Interakce mezi okny GUI}
-\end{figure}
+%Toto okno je realizováno pomocí třídy Start_Window
 
-//OBRÁZEK
+%\begin{figure}[!h]
+%    \begin{center}
+%        \includegraphics[scale=0.4]{obrazky/GUI Spuštění inventury.png}
+%    \end{center}
+%    \caption{Úvodní okno aplikace}
+%    \label{Interakce mezi okny GUI}
+%\end{figure}
 
 \section{Stav - Ověření komunikace}
 Po spuštění celého systému provedu ověření zda komunikuje čtečka a váha, to udělám pomocí funkce 
@@ -194,7 +194,7 @@ V některých stavech mohou být určité ovládací prvky (jako tlačítka, tex
     \begin{center}
         \includegraphics[scale=0.4]{obrazky/GUI Vyhledávání.png}
     \end{center}
-    \caption{Interakce mezi okny GUI}
+    \caption{Hlavní okno ve stavu vyhledávání}
     \label{Interakce mezi okny GUI}
 \end{figure}
 
@@ -216,8 +216,8 @@ Vyhledávání produktu probíhá primárně naskenováním jeho EAN kódu. Poku
     \begin{center}
         \includegraphics[scale=0.4]{obrazky/GUI Klavesnice + list_box + filr.png}
     \end{center}
-    \caption{Interakce mezi okny GUI}
-    \label{Interakce mezi okny GUI}
+    \caption{Hlavní okno - manuální vyhledání produktu}
+    \label{Hlavní okno - manuální vyhledání produktu}
 \end{figure}
 //OBRÁZEK - JAK VYPADÁ RUČNÍ VYHLEDÁNÍ = LISTBOX + KBW
 
@@ -229,8 +229,8 @@ Do seznamu (tree wiev) po levé straně se ukládají již evidované destiláty
     \begin{center}
         \includegraphics[scale=0.4]{obrazky/GUI Rošířený seznam.png}
     \end{center}
-    \caption{Interakce mezi okny GUI}
-    \label{Interakce mezi okny GUI}
+    \caption{Hlavní okno - rozšířený seznam evidovaných produktů}
+    \label{Hlavní okno - rozšířený seznam evidovaných produktů}
 \end{figure}
 //OBRÁZEK - ROZTAŽENÝ SEZNAM
 
@@ -250,14 +250,13 @@ V případě naskenování či vyhledání již evidovaného alkoholu program p�
 
 Do tohoto stavu se dostaneme pouze prostřednictvím opětovného vyhledání produktu, který již byl jednou zaevidován. Systém následně otevře nové okno, ve kterém má uživatel na výběr: zrušit aktuální výběr (omylem vybral stejný produkt) a vrátit se zpět do stavu vyhledávání, nebo pokračovat do stavu "Vážení".
 
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale=0.4]{obrazky/GUI Duplicidita.png}
-    \end{center}
-    \caption{Interakce mezi okny GUI}
-    \label{Interakce mezi okny GUI}
-\end{figure}
-//OBRÁZEK - DUPLICIDITA ZBOŽÍ
+%\begin{figure}[H]
+%    \begin{center}
+%        \includegraphics[scale=0.4]{obrazky/GUI Duplicidita.png}
+%    \end{center}
+%    \caption{Okno informující o duplicitní evidenci produktu}
+%    \label{Okno informující o duplicitní evidenci produktu}
+%\end{figure}
 
 Opětovná evidence již zaevidovaného produktu má své opodstatnění ve dvou případech:
 \begin{itemize}
@@ -294,8 +293,8 @@ Tlačítko pro ukončení inventury se změnilo na "Vrátit zpět" pro případ,
     \begin{center}
         \includegraphics[scale=0.4]{obrazky/GUI Odeberte láhev.png}
     \end{center}
-    \caption{Interakce mezi okny GUI}
-    \label{Interakce mezi okny GUI}
+    \caption{Hlavní okno s ukázkou vážení}
+    \label{Hlavní okno s ukázkou vážení}
 \end{figure}
 
 \subsection{Podmínky vážení}
@@ -318,15 +317,13 @@ Další z funkcí tohoto systému je evidence neotevřených lahví ve skladu, p
     \begin{center}
         \includegraphics[scale=0.4]{obrazky/GUI Numericka klavesnice.png}
     \end{center}
-    \caption{Interakce mezi okny GUI}
-    \label{Interakce mezi okny GUI}
+    \caption{Hlavní okno - zadání kusového zboží ze skladu}
+    \label{Hlavní okno - evidence kusového zboží ze skladu}
 \end{figure}
-
-//OBRázek
 
 %Tato funkce nebyla původně zamýšlená, ale z praktického hlediska jsem ji dodal, protože po otestování systému v praxi vyzněla myš
 
-\subsection{Použití nalévačů}
+%\subsection{Použití nalévačů}
 % Nevyuití nalévačů
 %Další úprava která mě dovedla po otestování systému bylo odstranění původně zamýšlené databáze nalévačů.
 %Po otestování systému v praxi se ukázalo, že je nepraktické vést databázi s hmotnostmi různých nalévačů a snažit se převést schopnost v jejich výběru pomocí GUI. Implementace nalévačů do programu, proběhlo dvoumi způsobi:
@@ -338,8 +335,8 @@ Další z funkcí tohoto systému je evidence neotevřených lahví ve skladu, p
 
 %V tomto stavu nám zbývá navážit zbytkový objem a nebo zadat počet kusů. V tomto satvu jak vidite nam se přejmenovalo tlačítko z ukončení inventury na zpět, tedy mlžeme zrušit náš výběr destilátu v případě chybného zadání ručně např. nebo jsme prostě naskenovali něco co jsme evidovat nechteli.
 
-//obrazek - vážení destilátu
-//obrázek - zadávání kůsů
+%//obrazek - vážení destilátu
+%//obrázek - zadávání kůsů
 
 
 \section{Stav - Nastavení aplikace}
@@ -354,15 +351,14 @@ Ve finální verzi by nastavení mělo umožňovat:
 -nastavení jazyku
 -nastavení nočního režimu
 
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale=0.4]{obrazky/GUI Nastavení.png}
-    \end{center}
-    \caption{Interakce mezi okny GUI}
-    \label{Interakce mezi okny GUI}
-\end{figure}
+%\begin{figure}[H]
+%    \begin{center}
+%        \includegraphics[scale=0.4]{obrazky/GUI Nastavení.png}
+%    \end{center}
+%    \caption{Okno s nastavením aplikace}
+%    \label{Okno s nastavením aplikace}
+%\end{figure}
 
-//OBRAZEK
 
 \section{Stav - Konec inventury}
 
@@ -381,19 +377,17 @@ Po ukončení nebo smazání inventury je uživatel automaticky přesměrován z
     \begin{center}
         \includegraphics[scale=0.4]{obrazky/GUI Konec inventury.png}
     \end{center}
-    \caption{Interakce mezi okny GUI}
-    \label{Interakce mezi okny GUI}
+    \caption{Ukončovací okno aplikace}
+    \label{Ukončovací okno aplikace}
 \end{figure}
-//OBRÁZEK - UKONČOVACÍ OBRAZOVKA
 
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale=0.4]{obrazky/GUI Vymazání inventury.png}
-    \end{center}
-    \caption{Interakce mezi okny GUI}
-    \label{Interakce mezi okny GUI}
-\end{figure}
-//OBRÁZEK - POTVRZOVACÍ OKNO O UKONČENÍ
+%\begin{figure}[H]
+%    \begin{center}
+%        \includegraphics[scale=0.4]{obrazky/GUI Vymazání inventury.png}
+%    \end{center}
+%    \caption{Potvrzovací okno pro vymazání aktuálně spuštěné inventury}
+%    \label{Potvrzovací okno pro vymazání aktuálně spuštěné inventury}
+%\end{figure}
 
 \section{Modul grafického prostředí - gui.py}
 %V této sekci se zaměříme na programové řešení modulu \texttt{gui.py}. grafické prostředí aplikace je rozděleno do x tříd z důvodu přehlednosti a orientaci v kódu. jedna co ma nastarost vykreslování veškerých oken a další kod, co byl více komplexnejsi, tak jsem zaobalil do vlastní třídy a to třídu pro klavesnici a listbox obsahující seznam destilátů, protože samy o sobě obsahuji dosti kodu, ktery by delal hlavní třídu nepřehlednou. Tyto třídy jsou navzájem provázané pomocí klíčového slova Parent, neboli třida Keyboard a Listbox dědí z hlavní třídy pomocí toho klíčového slova. Parent předává není přímo objekt, je pouze proměná s adresou v paměti na naši hlavní třídu, tedy mužeme skrz toto slovo přistupovat do existujícího objektu.. Nástroj/třída/modul tkinter může vytvořit pouze jedno hlavní okno pomocí klíčového slova tk, tk je třída hlavního okna v programu může být vytvořena jen jednou mé tříde dědím právě ne z třídy, ale modulu..hovno přímo z třídy tk, tudíž mi klíčové slovo self. umožnuje přistupovat k proměným dané třídy tedy i k proměným děděné třídy. tedy pro vytvořeí hlavního okna..ho musím prvně setupunout a pak metodou .mainloop() spusttí hlavní smyčku programu, abych ale mohl komunikovat s dalšími i s jinými třídami a stavovým automatem jako čtečkou a váhou, tak musím z této smyčky i vyskočit, pro tyto účely je metoda after(), proto v mainu ve funkci stavového automatu, opakovaně volám funkci sebe samou
