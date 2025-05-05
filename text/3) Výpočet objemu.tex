@@ -289,7 +289,7 @@ Posledním klíčovým faktorem je chyba váhy. Jedná se o jedinou chybu, kter�
 
 %Teoreticky by nám stačila přesnost vyšší jak +-10g (+-10 ml vody), ale je nutné vzít v potaz i ostaní chyby, které ve výsledku mohou překročit celkovou chybu +-10 ml. Tedy přesnost váhy musí být určena z ohledem na to aby měřící systém jako celek nepřekročil celkovou chybu +-10ml.
 
-Hmotnost se nám ve vzorci vyskytuje na 3 místech: m, m-min a m-max. Z praktického hlediska bude měření těchto veličin prováděno stejnou váhou. Pro vypočtení přesnosti váhy je nutné znát jak se se jednotlivé chyby v systému šíří a působí na sebe, níže je schéma šíření chyb v systému:
+Hmotnost se nám ve vzorci vyskytuje na 3 místech: m, m-min a m-max. Z praktického hlediska bude měření těchto veličin prováděno stejnou váhou. Pro vypočtení přesnosti váhy je nutné znát jak se se jednotlivé chyby v systému šíří a působí na sebe, což ukazuje schéma v obrázku č. . Na základě tohoto diagramu
 
 \begin{figure}[H]
     \begin{center}
@@ -305,6 +305,18 @@ Hmotnost se nám ve vzorci vyskytuje na 3 místech: m, m-min a m-max. Z praktick
      {V_{\max}\,\pm\Delta_V}
 \]
 
+\(m_{min}\) ...hmotnost prázdné láhve \([\mathrm{g}]\)
+
+\(m_{max}\) ...hmotnost plné láhve \([\mathrm{g}]\)
+
+\(\rho\) ...hustota kapaliny \([\mathrm{g/ml}]\)
+
+\(\Delta\) ...chyba váhy \([\mathrm{g}]\)
+
+\(\Delta_\ell\) ...chyba z rozptylu hmotnosti prázdných láhví \([\mathrm{g}]\)
+
+\(\Delta_V\) ...chyba objemu plné láhve (etiketa) \([\mathrm{g}]\)
+
 \[
 \rho \;=\;
 \frac{(m_{\max}-m_{\min})\;\pm\;2\Delta}
@@ -314,6 +326,8 @@ Hmotnost se nám ve vzorci vyskytuje na 3 místech: m, m-min a m-max. Z praktick
 \[
 m_{\rho} \;=\; m_{\max} \;-\; m_{\min}
 \]
+
+\(m_{\rho}\) ...hmotnost kapaliny pro stanovení hustoty\([\mathrm{g}]\)
 
 \[
 \rho \;=\;
@@ -342,9 +356,17 @@ V \;=\;
      }.
 \]
 
+V ...objem kapaliny
+
+m ...hmotnost láhve se zbytkovou kapalinou \([\mathrm{kg}]\)
+
+\(\Delta_\rho\) ...chyba hustoty \([\mathrm{g/ml}]\)
+
 \[
 m_{\mathrm{zb}} \;=\; m \;-\; m_{\min}\,.
 \]
+
+\(m_{zb}\) ...hmotnost zbytkové kapaliny v láhvi \([\mathrm{g}]\)
 
 \[
 V \;=\;
@@ -388,7 +410,7 @@ V \;=\;
 \tag{V\text{-simp}}}
 \end{center}  
 
-\[
+\boxed{
 V
 =
 \underbrace{\frac{m-m_{\min}}{m_{\max}-m_{\min}}\,V_{\max}}_{\text{nominalní hodnota}}
@@ -399,7 +421,48 @@ V
       \bigl(3\,\Delta+2\,\Delta_{\ell}\bigr)\,
       \frac{V_{\max}}{m_{\max}-m_{\min}}
 \Bigr]}_{\text{maximální (worst-case) chyba}}
+\tag{V\text{-simp}}}
+
+\bigskip
+Ukázka výpočtu chyby měřicího systému pro $\Delta$ = 0,5 g, V$_{max}$ = 1 l, m\_max = 1200 g a m\_min = 200 g (rozdíl m\_max a m\_min ma koefient 1, což odpovídá hustotě vody)
+
+\[
+\Delta_V = 2\,\Delta_{V_{\text{max}}}
+      \;+\;
+      \bigl(3\,\Delta+2\,\Delta_{\ell}\bigr)\,
+      \frac{V_{\max}}{m_{\max}-m_{\min}}
 \]
+
+\[
+\Delta_V = 2 \cdot 3,65
+      \;+\;
+      (3\cdot0,5+2\cdot0,85)\,
+      \cdot\underbrace{\frac{1000}{1200-200}}_{\text{= 1 $\simeq \rho_{voda}$}}=\pm 9,90 ml
+\]
+
+
+
+\begin{table}[h]
+\centering
+\caption{Rozpočet „worst-case“ chyb – absolutní i relativní podíl}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Zdroj} & \textbf{Hodnota} & \textbf{Koef.} & \textbf{Příspěvek [ml]} & \textbf{Rel. podíl [\%]}\\
+\midrule
+Chyba plnění při~kalib.        & $\pm3{,}35\ \mathrm{ml}$ & $2$ & $6{,}70$ & $67{,}7$\\
+Chyba váhy (\(\Delta\))        & $\pm0{,}50\ \mathrm{g}$ & $3S$ & $1{,}50$ & $15{,}2$\\
+Rozptyl prázdných lahví (\(\Delta_\ell\))
+                               & $\pm0{,}85\ \mathrm{g}$ & $2S$ & $1{,}70$ & $17{,}1$\\
+\midrule
+\multicolumn{3}{r}{\textbf{Celkem}} &
+\(\boxed{\Delta V_{\text{max}} = 9{,}90\ \mathrm{ml}}\) & $100$\\
+\bottomrule
+\end{tabular}
+\label{tab:worst_case_budget_rel}
+\end{table}
+
+
 
 \begin{table}[H]
     \centering
