@@ -12,7 +12,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Vývoj firmware a zprovoznění systému jako celek}
+\chapter{Vývoj firmware a zprovoznění systému jako celku}
 %\addcontentsline{toc}{chapter}{Vývoj firmware a zprovoznění systému jako celek}
 
 V této kapitole se budu zabývat návrhem firmwaru s grafickým rozhraním pro mikropočítač Raspberry Pi 4, výběrem programovacího jazyka a ošetřením nežádoucích
@@ -20,7 +20,7 @@ stavů. Kapitola je rozdělená do dvou částí, jedna se zabývá čistě vizu
 Většina kódu bude prezentována jen hlavičkou metod, funkcí a tříd z důvodu rozsáhlého obsahu.
 
 %-----
-\section{Výběr programovacího jazyku a grafického modulu}
+\section{Výběr programovacího jazyku a grafické třídy}
 Jako programovací jazyk jsem zvolil Python na základě jednoduché syntaxe a čitelnosti kódu. Python má rozsáhlé množství knihoven pro vývoj GUI aplikací a je také velmi populární v komunitě \textit{Raspberry Pi}, což přináší spoustu dostupných zdrojů a podpory.
 
 Grafická knihovna byla vybrána \textit{Tkinter} na základě rozsáhlé dokumentace, jednoduchosti na naučení, velkého množství ovládacích prvků (widgetů), ale hlavně licence PSFL, která dovoluje libovolné (vč. komerční) využití při zachování copyrightu a textu licence bez jakýchkoliv finančních nákladů. [z1]
@@ -29,19 +29,19 @@ Grafická knihovna byla vybrána \textit{Tkinter} na základě rozsáhlé dokume
 %-----
 \section{Rozložení souborů a jejich vzájemná vazba}
 
-Celý program se skládá z 5 souborů obsahujících zdrojový kód v jazyce Python s příponou .py, z pravidla se těmto souborům říká "moduly".
+Celý program se skládá z 5 souborů obsahujících zdrojový kód v jazyce Python s příponou .py.
 
 \begin{itemize}
-    \item main.py - Obsahuje stavový automat, který se opakovaně volán, díky hlavní smyčce, kterou vytváři  mnou vytvořená grafická třída GPU.py, která dále dědí z grafického modulu Tkinter.py. Tato problematika je podrobněji rozebrána v samotné sekci GPU
-    \item GPU.py - Obsahuje veškerý kód týkající se grafického vykreslení, viz sekce [...]
-    \item čtečka.py - zastřešuje veškerou komunikaci se čtečkou
-    \item Váha.py - zastřešuje veškerou komunikace s váhou
-    \item Databáze.py - zastřešuje veškerou komunikaci s databázi
+    \item \textbf{main.py} - Obsahuje stavový automat, který se opakovaně volán, díky hlavní smyčce, kterou vytváři  mnou vytvořená grafická třída gui.py, která dále dědí z grafického modulu Tkinter.py. Tato problematika je podrobněji rozebrána v samotné sekci gui.
+    \item \textbf{gui.py} - Obsahuje veškerý kód týkající se grafického vykreslení.
+    \item \textbf{barcode\_sensor.py} - zastřešuje veškerou komunikaci se čtečkou.
+    \item \textbf{scale.py} - Zastřešuje veškerou komunikace s váhou.
+    \item \textbf{database.py} - Zastřešuje veškerou komunikaci s databázi.
 \end{itemize}
 
 
 %-----
-\section{Stavový automat}
+\section{Konečný stavový automat}
 Aby nám celý systém mohl fungovat, musí se řídit nějakou logikou a posloupností jednotlivých stavů, proto byl navržený stavový automat dle kterého je vytvořený celý program firmwaru. Tento stavový automat je reprezentovaný jako funkce opakovaně volající se funkce v hlavním souboru programu - main.py
 
 \begin{figure}[H]
@@ -57,7 +57,7 @@ Z pohledu programu, ale stavový automat vypadá trochu jinak, protože někter�
 
 //OBRÁZEK - Stavového automatu z pohledu programu
 
-\subsection{Main.py}
+\subsection{Zdrojový soubor - Main.py}
 %V hlavním souboru je zadefinováná třída \texttt{Automat}, která dědí ze třídy \texttt{Enum} pro vytvoření jednotlivých stavů automatu. Využití konstant nesoucí název daného stavu činí kód přehlednější než použití běžných číselných konstant.
 
 V hlavním souboru je zadefinováná třída \texttt{Automat}, která dědí ze třídy \texttt{Enum}, která umožňuje vytvoření jednotlivých stavů automatu jako konstanty nesoucí jejich název. Instance této třídy pak bude vždy rovná hodnotě, ve které se zrovna nachází stavový automat.
@@ -389,7 +389,7 @@ Po ukončení nebo smazání inventury je uživatel automaticky přesměrován z
 %    \label{Potvrzovací okno pro vymazání aktuálně spuštěné inventury}
 %\end{figure}
 
-\section{Modul grafického prostředí - gui.py}
+\section{Zdrojový soubor grafického prostředí - gui.py}
 %V této sekci se zaměříme na programové řešení modulu \texttt{gui.py}. grafické prostředí aplikace je rozděleno do x tříd z důvodu přehlednosti a orientaci v kódu. jedna co ma nastarost vykreslování veškerých oken a další kod, co byl více komplexnejsi, tak jsem zaobalil do vlastní třídy a to třídu pro klavesnici a listbox obsahující seznam destilátů, protože samy o sobě obsahuji dosti kodu, ktery by delal hlavní třídu nepřehlednou. Tyto třídy jsou navzájem provázané pomocí klíčového slova Parent, neboli třida Keyboard a Listbox dědí z hlavní třídy pomocí toho klíčového slova. Parent předává není přímo objekt, je pouze proměná s adresou v paměti na naši hlavní třídu, tedy mužeme skrz toto slovo přistupovat do existujícího objektu.. Nástroj/třída/modul tkinter může vytvořit pouze jedno hlavní okno pomocí klíčového slova tk, tk je třída hlavního okna v programu může být vytvořena jen jednou mé tříde dědím právě ne z třídy, ale modulu..hovno přímo z třídy tk, tudíž mi klíčové slovo self. umožnuje přistupovat k proměným dané třídy tedy i k proměným děděné třídy. tedy pro vytvořeí hlavního okna..ho musím prvně setupunout a pak metodou .mainloop() spusttí hlavní smyčku programu, abych ale mohl komunikovat s dalšími i s jinými třídami a stavovým automatem jako čtečkou a váhou, tak musím z této smyčky i vyskočit, pro tyto účely je metoda after(), proto v mainu ve funkci stavového automatu, opakovaně volám funkci sebe samou
 
 %nevyhodou Pythonu je, že všechny interní proměnné třídy se musí inicializovat uvnitř konstruktoru což v nšem případě, kde máme hromadu ovladacích prvků činí samotnou třídu nepřehlednou a v případě deklarovani promenné v blízkosti metody by se z ní stala statická proměnná. 
@@ -444,7 +444,7 @@ Ostatní třídy jsou definované stejným způsobem. Ukázka na třídě Keyboa
 %\end{lstlisting}
 
 
-\section{Modul databáze - database.py}
+\section{Zdrojový soubor databáze - database.py}
 
 Modul \textbf{database.py} zajišťuje trvalé ukládání a vyhledávání údajů o lahvích a inventurních měřeních do relačních databázích \textbf{database.db} a \textbf{inventory.db} uložených lokálně na SD kartě Raspberry Pi. Databáze se dále skládají z tabulek (table) stejně jako Excel se skládá z více listů. Soubory s příponou \textbf{.db} jsou čitelné pro databázový engine SQLite, který umí databázový jazyk SQL. Aby byla práce s daty v Pythonu přehlednější, je využit nástroj (modul) SQLAlchemy:
 \begin{itemize}
@@ -507,7 +507,7 @@ def delete_last_table() -> None
 
 
 
-\section{Modul čtečky čárového kódu - sensor.py}
+\section{Zdrojový soubor čtečky čárového kódu - sensor.py}
 Kamerová čtečka GM65 komunikuje prostřednictvím USBVcom. Čtečka je přepínána mezi čtecími režimi continual a manual viz kapitola č.XXX. 
 
 Kod pro ovládání čtečky je zaobaleno do třídy \texttt{BarcodeSensor} obsažené v modulu \texttt{barcode\_sensor.py}. Třídá dědí ze třídy \texttt{Serial}, která zastřešuje veškerou seriovou komunikaci. Konstruktor třídy BarcodeSensor přebírá parametry pro adresu portu, rychlost seriové komunikace (baudrate) a timeout, který slouží k přerušení zápisu/čtení na daném portu po určitém čase. Tyto veškerý data se následně předají konstruktoru třídy Serial. 

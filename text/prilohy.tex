@@ -8,6 +8,8 @@
 
 3) Mám do elektronické přilohy zařadit i dokumentaci ke krabičce nebo stačí ji zobrazit jen zde v příloze tohoto dokumentu?
 
+musí obsahovat spustielné soubory, tedy dodat knihovny z kterých se dědí. Sice je jim to jedno, protože to není připojené ke komponentům, ale k prvnimu erroru se dostanou
+
 \bigskip
 
 {\small
@@ -41,6 +43,7 @@
 .3 Images /\DTcomment{Seznam složek obsahující obrázky}.
 .4 Alcohol /\DTcomment{Obrázky destilátů}.
 .4 Icons /\DTcomment{Ikony tlačítek}.
+.3 lib.
 .2 Barcode scaner case documentation.xx.
 .2 G\&G E-3000 - Opravená verze dokumentace.pdf.
 .2 ukázka funkčnosti měřicího systému.mp4.
@@ -161,7 +164,27 @@ V této části se nachází dokumentace a obrázky navrhnuté krabičky pro čt
 \end{table}
 
 
-\section{Průběhy nárůstu hmotnosti z důvodu orosení}
+\section{Průběhy, výpočty a tabulky nárůstu hmotnosti z důvodu orosení}
+
+\begin{equation}
+T_{ds} = \frac{243,5 \cdot ln(\frac{V}{100} \cdot e^{\frac{17,67 \cdot T}{243,5 + T}})}{17,67 - ln(\frac{V}{100} \cdot e^{\frac{17,67 \cdot T}{243,5 + T}})}
+\label{rosný bod obecne}
+\end{equation}
+%\caption{Rovnice rosného bodu}
+
+\(T_{ds}\) ...Rosný bod \([\mathrm{^\circ C}]\)
+
+\(V\) ...Relativní vlhkost vzduchu \([\mathrm{\%}]\)
+
+\(T\) ...Teplota vzduchu \([\mathrm{^\circ C}]\)
+
+\begin{equation}
+T_{ds} = \frac{243,5 \cdot ln(\frac{50}{100} \cdot e^{\frac{17,67 \cdot 20}{243,5 + 20}})}{17,67 - ln(\frac{50}{100} \cdot e^{\frac{17,67 \cdot 20}{243,5 + 20}})} = 9,27 [^\circ C]
+\label{rosný bod}
+\end{equation}
+%\caption{Požadavek na orosení T\_ds> 5 °C}
+
+\bigskip
 
 % Requires: \usepackage{graphicx}
 \begin{table}[H]
@@ -209,23 +232,25 @@ V této části se nachází dokumentace a obrázky navrhnuté krabičky pro čt
 
 \begin{figure}[!h]
     \begin{center}
-        \includegraphics[scale=0.4]{obrazky/GUI Spuštění inventury.png}
+        \includegraphics[scale=0.22]{obrazky/GUI Spuštění inventury.png}
+        \includegraphics[scale=0.22]{obrazky/GUI Duplicidita.png}  
     \end{center}
     \caption{Úvodní okno firemwaru}
     \label{Úvodní okno aplikace}
 \end{figure}
 
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale=0.4]{obrazky/GUI Duplicidita.png}
-    \end{center}
-    \caption{Okno informující o duplicitní evidenci produktu}
-    \label{Okno informující o duplicitní evidenci produktu}
-\end{figure}
+%\begin{figure}[H]
+%    \begin{center}
+%        \includegraphics[scale=0.4]{obrazky/GUI Duplicidita.png}
+%    \end{center}
+%    \caption{Okno informující o duplicitní evidenci produktu}
+%    \label{Okno informující o duplicitní evidenci produktu}
+%\end{figure}
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=0.4]{obrazky/GUI Nastavení.png}
+        \includegraphics[scale=0.2]{obrazky/GUI Nastavení.png}
+        \includegraphics[scale=0.2]{obrazky/GUI Vymazání inventury.png}
     \end{center}
     \caption{Okno s nastavením firemwaru}
     \label{Okno s nastavením aplikace}
