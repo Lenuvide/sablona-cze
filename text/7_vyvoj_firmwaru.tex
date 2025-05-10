@@ -57,7 +57,7 @@ Z pohledu programu, ale stavový automat vypadá trochu jinak, protože někter�
 
 //OBRÁZEK - Stavového automatu z pohledu programu
 
-\subsection{Zdrojový soubor - Main.py}
+\subsection{Zdrojový soubor konečného stavového automatu - main.py}
 %V hlavním souboru je zadefinováná třída \texttt{Automat}, která dědí ze třídy \texttt{Enum} pro vytvoření jednotlivých stavů automatu. Využití konstant nesoucí název daného stavu činí kód přehlednější než použití běžných číselných konstant.
 
 V hlavním souboru je zadefinováná třída \texttt{Automat}, která dědí ze třídy \texttt{Enum}, která umožňuje vytvoření jednotlivých stavů automatu jako konstanty nesoucí jejich název. Instance této třídy pak bude vždy rovná hodnotě, ve které se zrovna nachází stavový automat.
@@ -507,7 +507,7 @@ def delete_last_table() -> None
 
 
 
-\section{Zdrojový soubor čtečky čárového kódu - sensor.py}
+\section{Zdrojový soubor čtečky čárového kódu - barcode\_sensor.py}
 Kamerová čtečka GM65 komunikuje prostřednictvím USBVcom. Čtečka je přepínána mezi čtecími režimi continual a manual viz kapitola č.XXX. 
 
 Kod pro ovládání čtečky je zaobaleno do třídy \texttt{BarcodeSensor} obsažené v modulu \texttt{barcode\_sensor.py}. Třídá dědí ze třídy \texttt{Serial}, která zastřešuje veškerou seriovou komunikaci. Konstruktor třídy BarcodeSensor přebírá parametry pro adresu portu, rychlost seriové komunikace (baudrate) a timeout, který slouží k přerušení zápisu/čtení na daném portu po určitém čase. Tyto veškerý data se následně předají konstruktoru třídy Serial. 
@@ -609,7 +609,7 @@ Jako poslední metoda je \texttt{read\_sensor\_data} která posílá nazpět nas
 %    return self.read(15).decode()
 %\end{lstlisting}
 
-\section{Modul váhy - scale.py}
+\section{Zdrojový soubor váhy - scale.py}
 Digitální váha G\&G E3000 komunikuje po linkách TX/RX standardu RS‑232 ve formátu 8 N 1 a baudrate 9600 Bd. Aby bylo možné váhu připojit k jednodeskovému počítači Raspberry Pi 4, je rozhraní převáděno adaptérem AXAGO ADS‑50 na virtuální COM port USB CDC (obr. 6‑3). Pro tuto váhu byla vytvořena třída Scale zastřešující veškero serivou komunikaci váhy s mikropočítačem. Konstruktor třídy přebírá parametry pro nastavení portu, baudrate a timeout který nastavuje, čtení na seriovém portu po dobu 1 s. Pokud do tohoto intervalu nejsou zaznamenány žádné příchozí data, čtení se ukončí. Třída dále dědí ze třídy serial, které předává všechny zmíněné parametry.
 
 \begin{lstlisting}[language=Python,breaklines=false, frame=single]
