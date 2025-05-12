@@ -72,7 +72,7 @@ Výpočet hustoty kapaliny:
 %\\
 %Velkou výhodou výpočtu objemu přes hmotnost je eliminace vlivu tepelné roztažnosti, která nemá vliv na hmotnost
 
-%Nově navrhovaný měřící systém je navrhovaný z důrazem na rychlost měření a i když přesnost je sekundární z důvodu hrubého odhadu, tedy zda není např. odcizena lahev. Stejně do měření objemu destilátů vstupuje hromada drobných chyb, které těžko v praxi jsme schopni ovlivnit jako je
+%Nově navrhovaný měřicí systém je navrhovaný z důrazem na rychlost měření a i když přesnost je sekundární z důvodu hrubého odhadu, tedy zda není např. odcizena lahev. Stejně do měření objemu destilátů vstupuje hromada drobných chyb, které těžko v praxi jsme schopni ovlivnit jako je
 %\begin{itemize}
 %    \item Nedodržení risky na panáku - ve spěchu přelijeme
 %    \item Rozlévání chlazeného alkoholu(menší objem), i když riska je dimenzovaná pro 20°C
@@ -81,8 +81,8 @@ Výpočet hustoty kapaliny:
 %\end{itemize}
 
 \section{Chyby měření}
-Podle první kapitoli víme, že inventura je intrení zaležtostí podniku, pro kterou není nutné mít certifikované měřidla a přesnost si stanovuje každý zaměstnavatel sám. Bylo by tedy dobré aby nový měřící systém měřil se stejnou nebo i lepší přesnotí než stávající metody, tedy odměrné válce. V praxi se nejčastěji setkáme s válci třídy B garantující přesnost +-10 ml, tedy požadovaná přesnost měřícího systému je stejná nebo méně než +-10 ml. V praxi by to znamenalo, že nám stačí váha s přesností +-10 g, ale systému vstupuje více chyb než jen chyba váhy.
-Tedy pro určení přesnosti je nutné znát chyby které působí na měřící systém.
+Podle první kapitoly víme, že inventura je interní záležitostí podniku, pro kterou není nutné mít certifikované měřidla a přesnost si stanovuje každý zaměstnavatel sám. Bylo by tedy dobré aby nový měřicí systém měřil se stejnou nebo i lepší přesností než stávající metody, tedy odměrné válce. V praxi se nejčastěji setkáme s válci třídy B garantující přesnost $\pm$10 ml, tedy požadovaná přesnost měřícího systému je stejná nebo méně než $\pm$10 ml. V praxi by to znamenalo, že nám stačí váha s přesností $\pm$10 g, ale do systému vstupuje více chyb než jen chyba váhy.
+Tedy pro určení přesnosti je nutné znát chyby které působí na měřicí systém.
 \subsection{Vliv tlaku}
 Vliv tlaku obecně zanedbáváme, protože má téměr nulový vliv a to i otevřených válců, kde vztlaková síla vytlačí vzduch, vytlačený vzduch pak nemá žádný vliv. Při vážení lahví jsou lahve uzavřené, tak k vytlačení vzdchu nedochází pokud nemáme na hrdle nalévátko. Dále máme tlak co působi zvnějšku lahve, tedy při vychlazené lahvi dojde k ochlazení okolního vzduchu, který způsobí 
 
@@ -90,15 +90,15 @@ Vliv tlaku obecně zanedbáváme, protože má téměr nulový vliv a to i otev�
 \label{orosení}
 I když výhodou nepřímého výpočtu objemu přes hmotnost je eliminace vlivu tepelné roztažnosti, stále se teplota může projevit ve formě orosení lahve, kde dojde ke změně její hmotnosti.
 
-Orosení neboli kondenzace vody na těle láhve je zapříčiněno rozdílem teplot a okolní vlhkostí. Klíčový je rosný bod (RB), který lze zjistit z rovnice rosného bodu[\ref{rosný bod obecne}], kde pro 20 °C prostředí a vlhkost 50\% (běžně se pohybuje 40 - 60\%) vychází RB kolem 9,3 °C [\ref{rosný bod}], což je dostačující pro vyvolání osorosení u lahvích chlazených na 5°C. [z1][z2]
+Orosení neboli kondenzace vody na těle láhve je zapříčiněno rozdílem teplot a okolní vlhkostí. Klíčový je rosný bod (RB), který lze zjistit z rovnice rosného bodu (viz vzorec č. \ref{rosný bod obecne}), kde pro 20 °C prostředí a vlhkost 50\% (běžně se pohybuje 40 - 60\%) vychází RB kolem 9,3 °C (viz příklad č. \ref{rosný bod}), což je dostačující pro vyvolání orosení u lahví chlazených na 5 °C. [z1][z2]
 %FRYML, Martin. Návrh přístroje pro přímé stanovení ro
 Dále na velikost orosení má vliv:
 \begin{itemize}
     \item Velikost lahve - Čím větší plocha, tím více vysrážené vody.
-    \item Obsah láhve - Přímo nijak neovlivňuje rosný bod, ale tekutina uvnitř udrží déle lahev chladnou, což zapříčiní více vysrážené vody.
+    \item Obsah láhve - Přímo nijak neovlivňuje RB, ale tekutina uvnitř udrží déle lahev chladnou, což zapříčiní více vysrážené vody.
 \end{itemize}
 \smallskip
-Byl tedy proveden experiment na 3 lahvích různých objemů a obsahu kapaliny vychlazených na 5 °C v prostorách s teplotou 20 °C a relativní vlhkostí 53 \%. Než se naakumuluje dostatek vody na povrchu lahve chvilku to trvá, proto byla hmotnost lahve měřena po dobu 60 min. Níže tabulka ukazuje výsledky měření, kdy nejvyšší nárust byl 0,54 g po 30 min, po této době už hmotnost lahve začala klesat na svoji původní hodnotu.
+Byl tedy proveden experiment na 3 lahvích různých objemů a druhů alkoholu vychlazených na 5 °C v prostorách s teplotou 20 °C a relativní vlhkostí 53 \%. Než se naakumuluje dostatek vody na povrchu lahve chvilku to trvá, proto byla hmotnost lahve měřena po dobu 60 min. Níže tabulka č. \ref{tab:orosení} ukazuje výsledky měření, kdy nejvyšší nárust byl 0,54 g po 30 min, po této době už hmotnost lahve začala klesat na svoji původní hodnotu.
 
 %Byl tedy proveden experiment na 3 lahvích různých objemů a obsahu kapaliny vychlazených na 5 °C v prostorách s teplotou 20 °C a relativní vlhkostí 53 \%. Než se naakumuluje dostatek vody na povrchu lahve chvilku to trvá, proto byla hmotnost lahve měřena po dobu 60 min. V praxi se zbytkový objem odměřuje krátce po vytažení lahve, tudíš je validní brat v potaz výsledky v krátkém intervalu. Níže tabulka ukazuje výsledky měření, kde po 5 min jsme byly schopni naměřit rozdíl 0,5g a nejvyšší nárus byl 1g po 45 min, po této době už hmotnost lahve klesala zpět na původní hodnotu.
 
@@ -116,7 +116,7 @@ Byl tedy proveden experiment na 3 lahvích různých objemů a obsahu kapaliny v
          \hline
     \end{tabular}
     \caption{Přírůstky hmotnosti při orosení láhve. Měřeno s přesností na 0,01 g.}
-    \label{tab:my_label}
+    \label{tab:orosení}
 \end{table}
 
 V případě omezení této chyby stačí láhev před měřením otřít. Cílem ale bylo ukázat, jak vysoká chyba může nastat, pokud láhev neotřeme. Pro provozní účely je tato chyba však zanedbatelná.
@@ -126,11 +126,11 @@ V případě omezení této chyby stačí láhev před měřením otřít. Cíle
 \subsection{Chyba hmotnosti lahve}
 \label{Chyba hmotnosti lahve}
 Jednou z chyb je možná odlišná hmotnost lahví při výrobě, proto bylo provedené měření rozdílu hmotností jednotlivých lahví. Pro ověření chyby z hmotnosti lahvi byla vybrána jeden z těžších destilátů. Testovných kusů bylo 15 lahví stejného typu a odlišných šarží. U stejných šarží je možné dosáhnout menší odchylky hmotnosti z důvodu identických podmínek výroby pro všechny lahve. 
-Maximální rozptyl byl 3,5 g, tedy chyba \textbf{+-0,85 g}, což u měření vody je schopno zpusobit chybu o velikosti 3,5 ml. Do výpočtu za hodnotu m\_min se bude uvádět průmerná hodnota ze všech naměřených lahví.
+Maximální rozptyl byl 3,5 g, tedy chyba \textbf{$\pm$0,85 g} (viz tab. č. \ref{tab:chyba_lahve_a_plnění}), což u měření vody je schopno zpusobit chybu o velikosti 3,5 ml. Do výpočtu za hodnotu $m_{min}$ se bude uvádět průmerná hodnota ze všech naměřených lahví.
 
 
 \subsection{Chyba hmotnosti nalévače}
-Některé láhve mají na svém hrdle nalévač nebo také nalévátko místo víčka, který ulehčuje rozlévání alkoholu. Jeho hmotnost se pohybuje na základě typu, lehčí nalévače jsou menší a plastové s hmotností okolo \textbf{3,8 g}, na druhé straně máme nalévače větší celokovové obsahující navíc klapku proti zvětrávání alkoholu, který váží až \textbf{50 g}. Hmotnost samotného nalévače přináší chybu do měřeného systému, proto bude kompenzovaná databázi hmotností jednotlivých nalévačů. \ref{databaze} %Dalším řešením je nalévač před měřením sundat, to ale zpomaluje vykonání inventury.
+Některé láhve mají na svém hrdle nalévač nebo také nalévátko místo víčka, který ulehčuje rozlévání alkoholu. Jeho hmotnost se pohybuje na základě typu - lehčí nalévače jsou menší a plastové s hmotností okolo \textbf{3,8 g}, na druhé straně máme nalévače větší celokovové obsahující navíc klapku proti zvětrávání alkoholu, který váží až \textbf{50 g}. Hmotnost samotného nalévače přináší chybu do měřeného systému, proto bude kompenzovaná databázi hmotností jednotlivých nalévačů (viz kap. č. \ref{databaze}). %Dalším řešením je nalévač před měřením sundat, to ale zpomaluje vykonání inventury.
 
 %některé obsahují klapku proti vypařování, čímž jejích hmotnost vzroste na 50 g
 
@@ -144,24 +144,23 @@ Některé láhve mají na svém hrdle nalévač nebo také nalévátko místo v�
 \end{figure}
 %modré lavévátko: https://www.alkohol-shop.cz/nalevatko-plastove-modre/
 
-\subsection{Chyby hustoty}
+\subsection{Chyba z plnění lahve}
 \label{Chyby hustoty}
+Pro výpočet objemu (rovnice č. \ref{objem_kapalina}) je nutná znalost hustoty destilátu, pro kterou platí předpis rovnice č. \ref{hustota_kapalina}, kde $m_{max}$ se získá navážením plné neotevřené lahve, $m_{min}$ navážením té stejné prázdné lahve, čímž se eliminuje chyba z rozptylu lahví viz kap. č. \ref{Chyba hmotnosti lahve} (chyby se navzájem odečtou) a $V_{max}$ se stanoví z etikety destilátu, který by měl odpovídat rozdílu $m_{max}$ a $m_{min}$. V této fázi vstupuje do výpočtu chyba plnění, tj. odchylka skutečného objemu od hodnoty uvedené na etiketě.
 
-Pro výpočet objemu je nutné znát hustotu destilátu[xx]. V aktuální verzi systému se vychází ze vzorce [xx]. Kde m\_max získáme navážením plné neotevřené lahve, m\_min navážením te stéjné prázdné lahve, čímž eliminujeme chybu z rozptylu lahví (chyby se navzájem odečtou) a V\_max což je objem plné láhve odpovídajíc rozdílu hmotností m\_max - m\_min, zde alve vstupuje chyba s jakou přesností jsou lahve plněny, tedy jak moc se liší od hodnoty uvedené na etiketě. Dle legislativy/normy ISO xxx v rámcí obchodník řetězců je dovolená chyba z objemu pro tekuré produkty od 500 - 1000 ml 15\% chyby, tedy pro 1 l lahve se jedná o +- 15 ml. V tomto případě by dominantní chybou systému by byla chyba z objemu a převyšíla by chybu i odměrných válcu (1 l) typ B, proto jsem udělal vlastní měření na 15 lahvích destilátu xxx vodka 0,5 l, kde mi chyba vyšla +-3,65 ml(měřeno váhou s přesností d=0,01 a přepočteno na objem s hustotou poměru 4/6 - ethanol/voda) viz Tabulka xx. Do výpočtu samotné hustoty nám vstupuje chyba  objemu +-3,65 a chyba váhy s kterou jsou měřeny m\_max a m\_min.
-
-Do budoucna je v plánu databázi přesunout na server, kdesi uživatel váhy pouze stahne aktualizovanou databázi, kde je evidovaná hustota destilátu s maximální přesností pro minimalizaci chyby, ale chci dát též uživateli možnost si uložit destilát do databáze za předpokladu, že by měl exotický kousek který by nebyl uloženy v databazi na serveru a to za cenu snížení přesnosti měření tohoto destilátu. 
-
-Do budoucna je v plánu databázi přesunout na server, aby uživatel nemusel vést databízi a ukládat do ní nové destiláty, možnost toho ale zustane pro případ uložení destilátu, který nebude dostupný v rámci online databáze, tam budou hustoty destilátů měřeny s vyšší přesností(jednorázová investice), důvodem je jednorázová investice, která se finančně nijak nedotýka spotřebitele a navíc hlavním zdrojem chyby systému je právě ze stanovená hustoty, pro minimalizaci chyby. Přesnost váhy zůstane stejná z důvodu pořizovacích nákladů (není důvod si připlácet o několik tisíc korun za možnost naměřit objem o "3 kapky" lépe / není důvod si připlácet o několik tisíc korun za možnost naměřit objem s přesností na 0,01 ml). V případě zanedbání chyby hustoty by celková chyba systému vyšla 
+Podle nařízení EU č. 1169/2011 je v obchodních řetězcích přípustná relativní chyba objemu 1,5 \% pro kapalné produkty o objemu 500–1000 ml, což pro 1000 ml představuje toleranci $\pm$15 ml. V tomto případě by samotná chyba plnění převýšila chybu odměrných válců třídy B o objemu 1 l. Pro ověření byla provedena vlastní měření na 15 lahvích destilátu Amundsen vodka 0,5 l, kde chyba vyšla $\pm$3,65 ml (viz tab. č. \ref{tab:chyba_lahve_a_plnění}). Měřeno váhou s přesností $\pm$0,01 g a přepočteno na objem z hustoty odpovídající měřenému destilátu.
 
 
+%a přepočteno na objem z hustoty odpovídající směsi vody a ethanolu v poměru 2:1 viz tabulka \ref{tab:chyba_lahve_a_plnění}. Do výpočtu samotné hustoty nám vstupuje chyba  objemu +-3,65 a chyba váhy s kterou jsou měřeny $m_{max}$ a $m_{min}$.
 
-%Pro výpočet objemu je nutné znát hustotu destilátu[xx]. Hustota lze stanovit dvoumi způsobi z hlediska přesnosti a časové náročnosti.
+%---------------------------------------------------------------
 
-%Za předpokladu, že by uživatel chtěl sám doplnit databázi o nový produkt, je nutné pro výpočet hustoty dodat m-max, m-min a V-max dle vzorečku[xx]. Problém je, že dle legislativy ISOxxx v rámci obchodního řetězce může dodavatel dodat 
+%Do budoucna je v plánu databázi přesunout na server, kdesi uživatel váhy pouze stahne aktualizovanou databázi, kde je evidovaná hustota destilátu s maximální přesností pro minimalizaci chyby, ale chci dát též uživateli možnost si uložit destilát do databáze za předpokladu, že by měl exotický kousek který by nebyl uloženy v databazi na serveru a to za cenu snížení přesnosti měření tohoto destilátu. 
 
-%Navážením plné lahve a pro tuto hmotnost stanovit maximální objem dle etikety. Zde ale do systému přichází chyba objemu. Dle normy xxx jsou tekuté produkty v obchodním řetězci mít dovolenou chybu z objemu max. 15\% tedy pro 1l lahev to dělá 15 ml, což způsobuje větší nepřesnost než odměrné válce. Tato metoda je sice není tolik přesná, ale usnadňuje uživateli evidovat novou lahev do databáze.
+%Do budoucna je v plánu databázi přesunout na server, aby uživatel nemusel vést databízi a ukládat do ní nové destiláty, možnost toho ale zustane pro případ uložení destilátu, který nebude dostupný v rámci online databáze, tam budou hustoty destilátů měřeny s vyšší přesností(jednorázová investice), důvodem je jednorázová investice, která se finančně nijak nedotýka spotřebitele a navíc hlavním zdrojem chyby systému je právě ze stanovená hustoty, pro minimalizaci chyby. Přesnost váhy zůstane stejná z důvodu pořizovacích nákladů (není důvod si připlácet o několik tisíc korun za možnost naměřit objem o "3 kapky" lépe / není důvod si připlácet o několik tisíc korun za možnost naměřit objem s přesností na 0,01 ml). V případě zanedbání chyby hustoty by celková chyba systému vyšla 
 
-%Druhou možností je evidovat lahev pomocí odměrného válce vyšší přesnosti než je požadována pro měřící systém tedy delta\_V < +-5ml. Tato metoda už není tolik uživatelský přívětivá, protože kombinuje další zařízení, ale jedná pouze o jednorázovou činnost. Válce se navíc cenově pohybují do 1000 kč, což na jednorázovou investici není teké moc, otázkou je zda uživatel stojí o vylepšení o 10 ml například.
+%----------------------------------------------------------------
+
 
 %Cílem práce je mít databázi uloženou na serveru, kde si uživatel váhy pouze stahne aktualizovanou databázi, kde je evidovaná hustota destilátu s maximální přesností pro minimalizaci chyby, ale chci dát též uživateli možnost si uložit destilát do databáze za předpokladu, že by měl exotický kousek který by nebyl uloženy v databazi na serveru a to za cenu snížení přesnosti měření tohoto destilátu. 
 
@@ -169,22 +168,21 @@ Do budoucna je v plánu databázi přesunout na server, aby uživatel nemusel v�
 
 %Cílem zařízení je i cenově dostupná možnost pro řešení inventarizace, proto do online databáze budou ukládaná s přesností, která neovlivní výslednou přesnost zařízení. Obsluhu a správu online databáze bude provádět prodejce měřícího systému (já).
 
-%Navážením plné lahve a pro tuto hmotnost stanovit maximální objem dle etikety. Zde ale do systému přichází chyba objemu. Dle normy xxx jsou tekuté produkty v obchodním řetězci mít dovolenou chybu z objemu max. 15\% tedy pro 1 l lahev to dělá 15 ml, což způsobuje větší nepřesnost než odměrné válce, pokud by uživatel upřednostňoval vyšší přesnost je zde druhá možnost evidence a to pomocí odměrného válce s přesností 0,5 ml na 100 ml. Tímto způsobem navíc eliminujeme chybu z hmotnosti lahve[xx], který by se za normálních okolností přičetl k chybe objemu
-
 \subsection{Chyba váhy}
 Posledním klíčovým faktorem je chyba váhy. Jedná se o jedinou chybu, která je ovlivnitelná, proto je nutné na základě již zmíněných chyb výše zvolit přesnost váhy takovou, aby celková přesnost systému nepřesáhla stanovenou hranici $\pm$ 10 ml.
 
+
 %Teoreticky by nám stačila přesnost vyšší jak +-10g (+-10 ml vody), ale je nutné vzít v potaz i ostaní chyby, které ve výsledku mohou překročit celkovou chybu +-10 ml. Tedy přesnost váhy musí být určena z ohledem na to aby měřící systém jako celek nepřekročil celkovou chybu +-10ml.
 
-Hmotnost se nám ve vzorcích č. \ref{objem_kapalina} a č.  \ref{hustota_kapalina} vyskytuje na 4 místech: \textit{m}, $m_{max}$ a 2x $m_{min}$. Z praktického hlediska bude měření těchto veličin prováděno stejnou váhou. Pro vypočtení přesnosti váhy je nutné znát jak se se jednotlivé chyby v systému šíří a působí na sebe, což je ukázáno na schématu v obrázku č. \ref{chyby} - jednotlivé proměnné jsou popsané v tab. č. \ref{tab:popis-symbolu}. (V tabulce č.x je vidět výsledná chyba systému v závislosti na různě přesných váhah běžně dostupných na trhu.) V tabulce č. \ref{tab:přesnosti vah} je vidět jak jednotlivé přesnosti běžně dostupných vah na trhu ovlivňují celkovou chybu systému. Hlavním složením destilátů je voda a ethanol, které jsou v různém poměru. Ethanol má měnší hustotu tedy na jednotku hmotnosti má větší objem než voda, proto byly výpočty stanoveny i pro destilát s obsahem čistého ethanolu. Výsledná přesnost systému se nachází někde mezi chybou stanovenou ethanolem a vodou. Z tabulky č. \ref{tab:přesnosti vah} odpovídá stanovenemu požadavku na přesnost do $\pm$ 10 ml, váha s přesností 0,5 g. 
+Hmotnost se nám ve vzorcích č. \ref{objem_kapalina} a č.  \ref{hustota_kapalina} vyskytuje na 4 místech: \textit{m}, $m_{max}$ a 2x $m_{min}$. Z praktického hlediska bude měření těchto veličin prováděno stejnou váhou. Pro vypočtení přesnosti váhy je nutné znát jak se se jednotlivé chyby v systému šíří a působí na sebe, což je ukázáno na schématu obr. č. \ref{chyby} - jednotlivé proměnné jsou popsané v tab. č. \ref{tab:popis-symbolu}. (V tabulce č.x je vidět výsledná chyba systému v závislosti na různě přesných váhah běžně dostupných na trhu.) V tabulce č. \ref{tab:přesnosti vah} je vidět jak jednotlivé přesnosti běžně dostupných vah na trhu ovlivňují celkovou chybu systému. Hlavním složením destilátů je voda a ethanol, které jsou v různém poměru na základě druhu destilátu. Ethanol má menší hustotu, tedy na jednotku hmotnosti má větší objem než voda, proto byly výpočty stanoveny i pro destilát s obsahem čistého ethanolu. Výsledná přesnost systému se nachází někde mezi chybou stanovenou ethanolem a vodou. Z tabulky č. \ref{tab:přesnosti vah} odpovídá stanovenemu požadavku na přesnost do $\pm$ 10 ml, váha s přesností 0,5 g. 
 
-Na příkladu č. \ref{vypočet_objemu} je vidět konkrétní výpočet pro váhu s přesností d = 0,5 g a hustoty vody. Chyba z orosení lahve do výpočtu nebyla započtena vůbec z důvodu, že se láhev dá před vážením otřít, navíc v praxi lahev vytažena z lednice se okamžitě váží, tudíž nestihne ani dostatečně se orosit. %V příkladu č. x se m\_max a m\_min stanoví stejnou lahví, proto se jejich chyba $\Delta_\ell$ navzájem vyruší.
+V příkladu č. \ref{vypočet_objemu} je uveden výpočet pro váhu s přesností d = 0,5 g při hustotě vody. Chyba z orosení lahve nebyla ve výpočtu uvažována. V praxi je lahev vážena bezprostředně po vyjmutí z lednice, takže vysrážená voda na stěně je zanedbatelné hmotnosti (viz tab. \ref{tab:measurement_data}), navíc se dá chyba kompenzovat otřením samotné lahve. Pro stanovení přesnosti systému je využito metody maximální kumulované chyby tzv. worst-case, která uvažuje nejvyšší možné hodnoty dílčích chyb a nezohledňuje jejich pravděpodobnostní rozdělení, na rozdíl od analýzy nejistot podle GUM (Guide to the Expression of Uncertainty in Measurement).
 
-Pro výpočet bylo využití klasických metod pro práci s chybami tzv. "worst case", kdy nam vyjde absolutní, největší možná chyba, včetně, do výpočtu jsou započítány i hrubé chyby měření, ale tím, že nám jde jen o hrubý odhad přesnosti, aby příliš "neuskočila" od přesností oměrných válců nám stačí. V případě určení přesnější chyby systému by bylo nutné zvolit stanovení chyby pomocí nejistot, které počítají s pravděpodobností výskytu chyby. Výpočet by byl složitější z důvodu nepřímého měření, který by vedl na parciální derivaci pro výpočet citlivostního koefientu a nutnosti započítat korelaci z důvodu systematických chyb způsobené opakovaným měřením stjného zařízením, výsledkem by ale byla realističtější a menší chyba systému.
+%Na příkladu č. \ref{vypočet_objemu} je vidět konkrétní výpočet pro váhu s přesností d = 0,5 g při hustotě vody. Chyba z orosení lahve nebyla ve výpočtu uvažována. V praxi je lahev před vážením otřena a proces probíhá bezprostředně po vyjmutí z chladu, takže vysrážená voda na stěně nemá měřitelný vliv na hmotnost (viz tab. \ref{tab:measurement_data}). Pro stanovení přesnosti je využito metody chyb měření, které počítají s maximální možnou chybou tzv. "worst-case", která narozdíl on nejistot měření nepočítají s pravděpodobností výskytu chyby.
+
+%Pro výpočet bylo využití klasických metod pro práci s chybami tzv. "worst case", kdy nam vyjde absolutní, největší možná chyba, včetně, do výpočtu jsou započítány i hrubé chyby měření, ale tím, že nám jde jen o hrubý odhad přesnosti, aby příliš "neuskočila" od přesností oměrných válců nám stačí. V případě určení přesnější chyby systému by bylo nutné zvolit stanovení chyby pomocí nejistot, které počítají s pravděpodobností výskytu chyby. Výpočet by byl složitější z důvodu nepřímého měření, který by vedl na parciální derivaci pro výpočet citlivostního koefientu a nutnosti započítat korelaci z důvodu systematických chyb způsobené opakovaným měřením stjného zařízením, výsledkem by ale byla realističtější a menší chyba systému.
 
 %Z tabulky jde vidět, že zvyšování přesnosti váhy o 1 řád přinese zlepšení pouze o $\approx$1 ml.
-
-%Jejich výpočet byl proveden pomocí příkladu č.x a a následně byl proveden i ukázkový výpočet pro váhu s přesností 0,5g. Z tabulky jde vidět, že zvyšování přesnosti váhy o 1 řád přinese zlepšení pouze o $\approx$1 ml.
 
 \begin{figure}[H]
     \begin{center}
@@ -212,10 +210,17 @@ Pro výpočet bylo využití klasických metod pro práci s chybami tzv. "worst 
         $\Delta_\ell$ [g]& Chyba z rozptylu hmotnosti lahví (viz kap. č. \ref{Chyba hmotnosti lahve}) \\ \hline
         $\Delta_V$ [ml]& Chyba měřicího systému \\ \hline
     \end{tabular}
-    \caption{Popis symbolů ze schématu na obr. č.x a příkladu č.x }
+    %\caption{Popis symbolů ze schématu na obr. č.x a příkladu č.x }
+    %\caption{Popis symbolů pro obr. č.x a příklad č.x }
+    %\caption{Popis šířících se veličin a chyb měřicího systému}
+    \caption{Popis šířících se veličin a chyb měřicím systémem}
     \label{tab:popis-symbolu}
 \end{table}
-Hodnoty m$_{max}$, m$_{min}$ a V$_{max}$ jsou zvoleny, aby odpovídaly hustotě vody $\rho = 0,998$ g/ml v případě použití lahve s objemem 1 l. Hodnoty chyb jsou převzaty z výše uvedených kapitol (viz kap. č. \ref{orosení} až č. \ref{Chyby hustoty}). Souhrnný výpis použitých chyb v tomto příkladu je ukázán v tab. č. \ref{tab:chyby_rozloení}.
+
+\noindent\textbf{Výpočet hustoty destilátu} 
+\smallskip
+\newline
+Hodnoty $m_{max}$, $m_{min}$ a $V_{max}$ jsou zvoleny, aby odpovídaly hustotě vody $\rho = 0,998$ g/ml v případě použití lahve s objemem 1 l. Hodnoty chyb jsou převzaty z výše uvedených kapitol (viz kap. č. \ref{orosení} až č. \ref{Chyby hustoty}). Souhrnný výpis použitých chyb v tomto příkladu je ukázán v tab. č. \ref{tab:chyby_rozloení}.
 
 \begin{equation}
     \rho \;=\;
@@ -226,7 +231,7 @@ Hodnoty m$_{max}$, m$_{min}$ a V$_{max}$ jsou zvoleny, aby odpovídaly hustotě 
      \label{hustotaa}
 \end{equation}
 \bigskip
-m$_{max}$ a m$_{min}$ se stanoví stejnou lahví, čímž se jejich chyby $\Delta_\ell$ navzájem vyruší.
+$m_{max}$ a $m_{min}$ se stanoví stejnou lahví, čímž se jejich chyby $\Delta_\ell$ navzájem vyruší.
 
 \begin{equation}
 \rho \;=\;
@@ -253,8 +258,10 @@ m$_{max}$ a m$_{min}$ se stanoví stejnou lahví, čímž se jejich chyby $\Delt
      \label{objem_kapalinaa}
 \end{equation}
 
-\bigskip
-Hodnota m je rovna m\_max (Zbytkový objem odpovídá plné lahvi.) z důvodu získání nejvyšší relativní chyby, tedy i nejvyšší chyby celého měřicího systému.
+\noindent\textbf{Výpočet zbytkového objemu destilátu} 
+\smallskip
+\newline
+Hodnota $m$ je rovna $m_{max}$ (zbytkový objem odpovídá plné lahvi) z důvodu získání nejvyšší relativní chyby, tedy i nejvyšší chyby celého měřicího systému.
 
 \begin{equation}
 V \;=\;
@@ -327,7 +334,7 @@ V \;=\;
 
 
 %za Δ dosadíme přesnosti běžně dostupných vah.
-Největší podíl na celkové chybě systému má chyba v\_max viz tab. č. \ref{tab:chyby_rozloení}. V případě výpočtu objemu za pomocí dat z online databáze, kde je hustota vedena přesně, by její chyba odpadla. Chyba systému by pak odpovídala předpisu č. \ref{chyba_objemu} - Opětovné vynechání chyby z orosení láhve. Navíc pokud dosadíme znovu váhu s přesností 0,5 g, tak nám nyní výjde přesnost značně vyšší a to 1,35 ml pro vodu (viz příklad č. \ref{chyba_objemu_vyčislení}).
+Největší podíl na celkové chybě systému má chyba $\Delta_{V_{\text{max}}}$ viz tab. č. \ref{tab:chyby_rozloení}. V případě výpočtu objemu za pomocí dat z online databáze, kde je hustota vedena přesně, by její chyba odpadla. Chyba systému by pak odpovídala předpisu č. \ref{chyba_objemu} - Opětovné vynechání chyby z orosení láhve. Navíc pokud dosadíme znovu váhu s přesností 0,5 g, tak nám nyní vyjde přesnost značně vyšší a to $\pm$1,35 ml pro vodu (viz příklad č. \ref{chyba_objemu_vyčislení}).
 
 \begin{equation}
 \Delta_V = \frac{\Delta + \Delta_\ell}{\rho_{voda}}
