@@ -3,52 +3,138 @@
 
 
 
-wi-fi
-přenosné(baterky) - více barů v ramci jedne inventury - jednoduší přenést váhu než všechny lahve
-varianta 1: oddělitelný displej, krabička
-varinata 2: aplikace(sklad)-popř. smar hodinky, krabička
-
-
--přesnost a databáze
-    -online databaze
-    -jednorazová investice
--Nalevače
+%wi-fi
+%přenosné(baterky) - více barů v ramci jedne inventury - jednoduší přenést váhu než všechny lahve
+%varianta 1: oddělitelný displej, krabička
+%varinata 2: aplikace(sklad)-popř. smar hodinky, krabička
+%
+%
+%-přesnost a databáze
+%    -online databaze
+%    -jednorazová investice
+%-Nalevače
 
 \chapter{Dosažené výsledky a inovace měřicího systému}
-Z časového hlediska stanoveného na bakalářskou práci se neimplementovaly všechny planované funkce systému a proto byl vytvořen jen prototyp zvládající nejzákladnější funkcionalitu. V této kapitole jsou podrobně rozebrány dosažených výsledku a na základě nich možné inovoace do budoucna. 
 
-V práci bylo na několika místech zmíněno, že bude doděláno v budoucnu, protože jsem s těmito funkcemi počítal předem a proto byl tento měřící systém k tomu uzpůsobnen, např. při výběru komponent, jsem vybíral mikropičítač už s implementovaným wifi modulem, který aktuálně není možné využít, protože vše běží lokálně na raspberry pi.
-Zde zmínim věci, které bude nutné do budnoucna dodělat a možné inovace:
+ Cílem práce bylo navrhnout a realizovat měřicí systém pro rychlé a provozně bezpečné zjišťování zbytkového objemu lihovin v barech a restauracích. Byly navrženy a implementovány všechny hlavní moduly – vážení, čtečka čárových kódů, databáze s parametry lahví, grafické rozhraní a stavový automat řídící logiku inventury.  Prototyp splňuje požadavek kombinované odchylky < ±10 ml a zkracuje běžnou inventuru z 20–30 minut na jednotky minut. Celková cena měřicího systému vychází xxx Kč, čož je značně nižší než váhy fungující na podobném principu.
 
-- Wi-Fi dodělání databáze, která bude přístupná přes internet a měřící systém si ji bude jen aktualizovat
-- Vizuál: Nyní je systém ve stavu prototypu a je modulární do budoucna bude systém zaobalený jednou krabičkou - tedy vymyslet vlastní loadcell, který připojím na nejký AD převodník
-- Baterka, pro eliminaci napájení kabelem - možne system přenášet 
-- 1. úroveň inovace: po využití systému v provozu se zjistilo, že by bylo lepší mít displej oddelený od váhy, která zustane na baru, tedy tam kde je načatý alkohol, který je nutné navážit. Displej zas by se odnesl do skladu, kde by se zadaly zbylé kusy ze skladu - na to váhu nepotřebujem, protože není co vážit
-- 2. úroveň inovace: Teoreticky může zustat displej zabudovaný ve váze a budem propojení s váhou pomocí mobilní aplikace, takže do skladu bysme šli pouze s mobilem.
-    +neni nutné neustále odpojovat a připojovat displej
-    +Pokud by se nám displej rozbil, tak musime koupit druhý, což muže byt problém, ale aplikaci rozjedem na libovolném mobilu
-- Dodelání PC aplikace pro jednoduší správu databáze a její přehled, teoreticky tohle vsechno by melo jít aj z mobiílní aplikace, ale člověk proste bude mít na výběr 
-- Dodelat okno nastavení (ruzne jednotky hmotnosti, noční režim, atd) tohle přesunout uplne na horu listu
-- Nějak udělat, aby systém dokázal komunikovat s dalšími ERP sytému nebo si proste vyvinout svuj vlastní
+Z časového hlediska stanoveného na bakalářskou práci nebyly neimplementovány všechny planované funkce systému a proto byl vytvořen jen prototyp zvládající nejzákladnější funkcionalitu. V této kapitole jsou podrobně rozebrány dosažených výsledku a možné inovace měřicího systému.
 
-\section{Přesnost}
-Vlastni databáze přesně měřena
-
-\section{Inovace kódu}
-
-Hlavní smyčka uvnitř GUI ne nnaopak -> obejdu problem s resetováním proměných jednotlivých tlačítek. Halvní soubor by obsahoval třídu gui a smyčka after by volala třídu ve který by byl stavový automat.
-
-Třídy Barcode Reader a Scale by se dali napsat více obecně pro/multifunkčně. Obě zařízení totiž dokáží přijímat různá data ne jenom, které využivám já např. u čtečky nastavení čtení jiných kodu než EAN. U váhy třeba dodělat metodu na tarování, atd
-
-Do modulu database dodělat třídu pro jména pracovníku, heslo, obecné nastavení prostředí (jednotky, jazyk, barva prostředí)
-
-přesun databáze z lokálního prostotu mikropočítače na web - budu dělat správu, navíc lahve budou přesněji změřeny = menší chyba měření 
-
-Váha s rychlejší dobou stabilizace
-
+%\section{Validace přesnosti měřícího systému}
+%Měřením 15 lahví vodky Amundsen 0,5 l byla zjištěna odchylka ±3,65 ml, tedy s rezervou pod limitní hodnotou.  Největší podíl na nejistotě má
+%právě tolerance plnicí linky; chyba váhy s rozlišením 0,5 g
+%se v kombinovaném výpočtu projeví méně než 1 ml.  Dosavadní odměrné válce (třída B) vykazují odchylku ±10–15 ml, proto systém představuje výrazné zlepšení.
+%
+%Bylo ověřeno, že měřicí systém měří s dostatečnou přesností a investice do dražší váhy nemá smysl ze strany spotřebitele. V případě přesunu databáze na internet jsme schopni snížit chybu ze stanovení hustoty, tím, že se bude měřit hustota mnohem přesněji. Toto řešení se nijak finančně nedotkne spotřebitele, ale přinese větší přesnost systému. Jedná se tedy o jednorázovou investici do zařízení určující přesně hustotu kapaliny, např. piknometr, přesnější váha a odměrný válec.
+%
 \section{Použití nalévačů}
 Po otestování systému v provozu se ukázalo, že vedení databáze nalévačů s jejich hmotnostmi je nepraktické. Původní návrh systému zahrnoval pevné přiřazení konkrétního typu nalévače k jednotlivým produktům a umožňoval uživateli pomocí přepínacího prvku zvolit, zda bude vážit s nalévačem či bez něj. Tato implementace však narážela na časté změny v rozmístění nalévačů – během každé inventury se nalévače měnily, nebo na lahvích zcela chyběly.
 
 Jako alternativní řešení jsem implementoval možnost dynamického výběru nalévače přímo při vážení. Zaměstnanec si mohl pro daný produkt vybrat konkrétní nalévač ze seznamu, který se zobrazil pod vstupním polem (Entry), přičemž bylo možné přepínat mezi seznamem produktů a nalévačů (List box). Přestože toto řešení umožňovalo vyšší přesnost měření při vážení s nalévačem, z pohledu obsluhy se ukázalo jako časově nepraktické. V praxi se zaměstnanci přiklonili k odstranění nalévače z hrdla lahve před jejich zvážením.
 
 Po této zkušenosti mě napadlo, že použití nalévačů by dávalo smysl, jen v případě, že by podnik standardizoval typ nalévačů napříč sortimentem. Tato strategie však neobstála, neboť provoz preferoval flexibilní nákup dle aktuálních cenových a skladových možností na trhu. Z těchto důvodů byla databáze nalévačů i s příslušnou funkcionalitou odstraněna z finální verze systému a zaměstnanec musí láhev vážit bez nalévače, ale s nasazeným víčkem.
+
+\section{Návrhy technických inovací}
+%V současné verzi je systém modulární a jednotlivé komponenty jsou propojené volnými vodiči. Ve finální verzi budou všechny komponenty schovány do krytu, což přináší jednodušší manipulaci, zabírá méně místa a působí estetičtěji.
+
+\begin{itemize}
+    \item \textbf{Kryt} - Současná verze zařízení je modulární a propojená volnými kabely. Ve finální verzi budou všechny komponenty integrovány do společného krytu, což zjednoduší manipulaci, zmenší prostorové nároky a zvýší estetičnost zařízení.
+    
+    \item \textbf{Akumulátor} - V rámci jednoho podniku může být více samostatných barů, tedy otevřených lahví na více místech, a je jednodušší přenést zařízení než všechny lahve. Při přenášení by se muselo zařízení vypnout a znovu zapnout a mít ho poblíž elektrické zásuvky. Z těchto důvodů bude do zařízení integrován akumulátor, který navíc eliminuje nutnost sebou nosit napájecí adaptér.
+
+    \item \textbf{Databáze} - V aktuální verzi systému si musí uživatel spravovat databázi destilátů sám. Cílem do budoucna je provoz cloudové databáze, která ponese nejaktuálnější data nových destilátů. Uživatel pak jednoduše synchronizuje lokální databázi v zařízení bez nutnosti, aby sám měřil hmotnosti nových lahví.
+    \item \textbf{Přesnost} - Cloudová databáze bude doplněna o samostatnou položku hustoty destilátu, která bude měřena s dostatečnou přesností, kdy její relativní chyba bude zanedbatelná vůči celkové chybě systému (v současné verzi tvoří 67,7 \% viz tab. \ref{tab:chyby_rozloení}). Jedná se o jednorázovou investici, která se nedotkne spotřebitele. Při zanedbání chyby hustoty u vybrané váhy s chybou $\pm$0,5 g, vychází chyba měřicího systému pouze $\pm$1,35 ml (viz příklad č. \ref{chyba_objemu_vyčislení})
+
+    \item \textbf{Mobilní aplikace} - Při inventuře skladu je možné využít funkce pro evidenci kusového zboží viz kap. č. \ref{sec: Zadání kusového zboží}, je ale nepraktické přenášet zařízení, když na něm nebude nic váženo. Proto je v plánu vývoj mobilní aplikace, která se bezdrátově propojí s měřicím systémem a do zařízení odešle aktuální stav skladu. Aplikace bude moct využit též mobilní kamery jako skener čárového kódu. V rámci této inovace je v plánu i vývoj aplikace pro chytré hodinky (smartwatch).
+
+    \item \textbf{Desktopová aplikace} - Vývoj desktopové aplikace by uživateli dovolil lepší přehled nad všemi inventurami pro hledání případných nesrovnalostí a ulehčil by správu lokální databáze. Propojení by fungovalo jak kabelem tak i bezdrátově.
+
+    \item \textbf{ERP (Enterprise Resource Planning) systém} - Vývoj vlastního ERP systému propojeného s měřicím zařízením odstraní ruční import dat do cizích ERP platforem a tím urychlí celý proces inventury.
+
+    \item \textbf{Ostatní} - Váha s kratší dobou stabilizace, vylepšení designu GUI, dokončení záložky s nastavením (viz kap. č. \ref{sec:Nastavení aplikace})
+
+%    \item \textbf{Programové řešení}
+%    \begin{itemize}
+%        \item Dodělat záložku s nastavením - V součané době se jedná o okno s nefunkčními tlačítky. Cílem tedy v rámci nastavení dodělat následující funkce: nastavení administrátorského přístupu, nočního režimu, jednotek objemu a hmotnosti, jazyku, velikost písma, atd.
+%        \item Vylepšení designu GUI
+%        \item Dodělat funkci pro výpočet rozdílu 
+%    \end{itemize}
+\end{itemize}
+
+ %Návrh a vývoj vlastního ERP systému, který bude komunikovat s navrhovaným měřicím systém, čímž zrychlý inventuru z důvodu absence/eliminace manuálního importovatu dat do jincýh ERP systému.
+    
+%Firmware byl navrhnut se zaměřením na jednoduchost a rychlost
+
+%Největší podíl na celkové chybě systému má chyba $\Delta_{V_{\text{max}}}$ viz tab. č. \ref{tab:chyby_rozloení}. V případě výpočtu objemu za pomocí dat z online databáze, kde je hustota vedena přesně, by její chyba odpadla. Chyba systému by pak odpovídala předpisu č. \ref{chyba_objemu} - Opětovné vynechání chyby z orosení láhve. Navíc pokud dosadíme znovu váhu s přesností 0,5 g, tak nám nyní vyjde přesnost značně vyšší a to $\pm$1,35 ml pro vodu (viz příklad č. \ref{chyba_objemu_vyčislení}).
+
+%Do budoucna je v plánu databázi přesunout na server, aby uživatel nemusel vést databízi a ukládat do ní nové destiláty, možnost toho ale zustane pro případ uložení destilátu, který nebude dostupný v rámci online databáze, tam budou hustoty destilátů měřeny s vyšší přesností(jednorázová investice), důvodem je jednorázová investice, která se finančně nijak nedotýka spotřebitele a navíc hlavním zdrojem chyby systému je právě ze stanovená hustoty, pro minimalizaci chyby. Přesnost váhy zůstane stejná z důvodu pořizovacích nákladů (není důvod si připlácet o několik tisíc korun za možnost naměřit objem o "3 kapky" lépe / není důvod si připlácet o několik tisíc korun za možnost naměřit objem s přesností na 0,01 ml). V případě zanedbání chyby hustoty by celková chyba systému vyšla 
+
+%I když chyba systému je zanedbatelná pro inevnturní účely v praxi bude systém připojen k online databázi, aby uživatel nemusel vést databízi a ukládat do ní nové destiláty, možnost toho ale zustane pro případ uložení destilátu, který nebude dostupný v rámci online databáze, tam budou hustoty destilátů měřeny s maximální přesností(jednorázová investice), důvodem je jednorázová investice, která se finančně nijak nedotýka spotřebitele a navíc hlavním zdrojem chyby systému je právě ze stanovená hustoty, pro minimalizaci chyby. Přesnost váhy zůstane stejná z důvodu pořizovacích nákladů (není důvod si připlácet o několik tisíc korun za možnost naměřit objem o "3 kapky" lépe / není důvod si připlácet o několik tisíc korun za možnost naměřit objem s přesností na 0,01 ml). V případě zanedbání chyby hustoty by celková chyba systému vyšla 
+
+
+%Přehled finančního stavu --------------------------------- 
+%Dodělat možnost evidence tržby, tedy na konci každé inventury dodat stav kasy a porovnat jej se stavem z předchozí inventury
+
+%ERP - jak bylo impelementováno více a více funkcí a přicházelo se s novýma napady na vylepšení dostal jsem se do bodu, kdy se z navrhovaného zařízení/firmawaru určený pro jednoduché/přehledné ovládání najednou stával ERP systém z duvodu impementace i  
+
+%\section{Inovace programového řešení} 
+%\begin{itemize}
+%    \item Wi-Fi třída - Jak bylo zmíněno výše v rámci inovací je v plánu připojení k cloudovému uložišti, mobilní a desktopová aplikace pro tyto účely bude navrhnuta třída která bude zastřešovat tuto komunikace
+
+%    \item Konečný stavový automat - Stavový automat byl implementován do main.py souboru a do nej je importovana třída gui, do budoucna bude lepší
+%    \item nastavení - Dodělat záložku s nastavením. V součné době se jedná o okno s nefunkčními tlačítky. Cílem tedy v rámci nastavení dodělat následující funkce:
+%    \begin{itemize}
+%        \item Administrátor - doplnění úroveň zabezepčení, kde ke správě databázích bude mít přístup jen osoba s patřičným přístupem - administrátorský přístup
+%        \item Ostatní - Noční režim, jednotky objemu a hmotnosti, jazyk, velikost písma, atd.
+%    \end{itemize}
+    
+    %\item "Zkrášlení" celého grafického prostředí - Upravit grafické prostředí, aby vypadalo estetičtěji
+%
+    %\item Třídy barcode\_scaner a scale udělat více obecné pro práci s jinou čtečku nebo váhou 
+    %Třídy scale a barcodereader byly uzpusobeny čistě pro potřeby tohoto zařízení, obě zařízení obsahují další příkazy, které by mohly být zakomponentovány do třídy a udělat tak kompletní třídu, která dokáže využít všech funkcionalit čtečky a váhy, druhá možnost třídy udělat více obecně v případě obměny zas jinou komponentu, což je ale náročné protože každé zařízení má svuj pravidla komunikace, tedy taková třída by byla příliš komplikovaná
+    %\item rozšíření o třídu pro komunikaci s cloud databázi, mobilni aplikaci a deskotopovou aplikaci... rozšíření o program pro... to je asi jedn os tím se počítá
+%\end{itemize}
+%
+%- dodělat wifi modul pro komunikaci se zařízením a využití tak integrovaného wifi modulu
+%WIFI modul
+%V ne poslední řadě bezdrátová konektivita
+
+%- dodělat všechny funkce nastavení: xxx xx xx 
+
+%- lépe implementovat stavový automat
+
+%- zlepšení celkové estetiky GUI (např. zaoblení tlačítek)
+
+%- rozšíření databáze
+
+%\bigskip
+%xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+%
+%V práci bylo na několika místech zmíněno, že bude doděláno v budoucnu, protože jsem s těmito funkcemi počítal předem a proto byl tento měřící systém k tomu uzpůsobnen, např. při výběru komponent, jsem vybíral mikropičítač už s implementovaným wifi modulem, který aktuálně není možné využít, protože vše běží lokálně na raspberry pi.
+%Zde zmínim věci, které bude nutné do budnoucna dodělat a možné inovace:
+%
+%- Wi-Fi dodělání databáze, která bude přístupná přes internet a měřící systém si ji bude jen aktualizovat
+%- Vizuál: Nyní je systém ve stavu prototypu a je modulární do budoucna bude systém zaobalený jednou krabičkou - tedy vymyslet vlastní loadcell, který připojím na nejký AD převodník
+%- Baterka, pro eliminaci napájení kabelem - možne system přenášet 
+%- 1. úroveň inovace: po využití systému v provozu se zjistilo, že by bylo lepší mít displej oddelený od váhy, která zustane na baru, tedy tam kde je načatý alkohol, který je nutné navážit. Displej zas by se odnesl do skladu, kde by se zadaly zbylé kusy ze skladu - na to váhu nepotřebujem, protože není co vážit
+%- 2. úroveň inovace: Teoreticky může zustat displej zabudovaný ve váze a budem propojení s váhou pomocí mobilní aplikace, takže do skladu bysme šli pouze s mobilem.
+%    +neni nutné neustále odpojovat a připojovat displej
+%    +Pokud by se nám displej rozbil, tak musime koupit druhý, což muže byt problém, ale aplikaci rozjedem na libovolném mobilu
+%- Dodelání PC aplikace pro jednoduší správu databáze a její přehled, teoreticky tohle vsechno by melo jít aj z mobiílní aplikace, ale člověk proste bude mít na výběr 
+%- Dodelat okno nastavení (ruzne jednotky hmotnosti, noční režim, atd) tohle přesunout uplne na horu listu
+%- Nějak udělat, aby systém dokázal komunikovat s dalšími ERP sytému nebo si proste vyvinout svuj vlastní
+%
+%\section{Přesnost}
+%Vlastni databáze přesně měřena
+%
+%\section{Inovace kóduuuu}uuu
+%
+%Hlavní smyčka uvnitř GUI ne nnaopak -> obejdu problem s resetováním proměných jednotlivých tlačítek. Halvní soubor by obsahoval třídu gui a smyčka after by volala třídu ve který by byl stavový automat.
+%
+%Třídy Barcode Reader a Scale by se dali napsat více obecně pro/multifunkčně. Obě zařízení totiž dokáží přijímat různá data ne jenom, které využivám já např. u čtečky nastavení čtení jiných kodu než EAN. U váhy třeba dodělat metodu na tarování, atd
+%
+%Do modulu database dodělat třídu pro jména pracovníku, heslo, obecné nastavení prostředí (jednotky, jazyk, barva prostředí)
+%
+%přesun databáze z lokálního prostotu mikropočítače na web - budu dělat správu, navíc lahve budou přesněji změřeny = menší chyba měření 
+%
+%Váha s rychlejší dobou stabilizace

@@ -1,12 +1,15 @@
 %7. Na vhodném příkladu odzkoušejte, ověřte a demonstrujte funkčnost celého systému.
 
 \chapter{Otestování měřícího systému}
-nalevače
-nevyužito. Byla i odstraně databáze s nalévači.
+
+
+Sundání nalévače většinou zabralo 1 - 2 s a našroubování víčka
 
 %Uvest sem tip na ověření systému
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Doba inventury po implementaci nového systému}
+Testování bylo rozděleno do dvou kategorií, v jednom jsem 
 
 započítat čas i zápisu do papíru (než se najde položky muže to trvat)
 
@@ -15,10 +18,76 @@ Příklad funkčnosti celého systému jako celek - video v příloze
 otestovat zatížení programu (podivat se do spravce uloh)
 zkusit vymyslet nějaký testy, kde se něco časuje
 
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+        Metoda & Čas [s]\\ \hline \hline
+        Odměrné válce & x\\ \hline
+        Navrhované zařízení & x\\ \hline
+        %Měřicí systém & x\\ \hline
+    \end{tabular}
+    \caption{Porovnání dob trvání inventury provedené odměrnými válci s navrženým měřicím systémem}
+    \label{tab:delka_inventury}
+\end{table}
+
+Pro měření ruzných objemu se u měření válcem na alkohol a váhou časy nemění
+
+% Requires: \usepackage{multirow}
+
+\begin{table}[H]
+    \centering
+    \newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+    \renewcommand{\arraystretch}{1.2}   % zvětší řádkování v tabulce
+    \begin{tabular}{|c|C{2,7 cm}|C{2,7 cm}|C{2,7 cm}|}
+        \hline
+        & \multicolumn{3}{c|}{Čas [s]} \\ \hline
+        \begin{tabular}[c]{@{}c@{}} Zbytkový objem \\ v lahvi [l] \end{tabular} & \begin{tabular}[c]{@{}c@{}} Odměrný \\ válec \end{tabular} & \begin{tabular}[c]{@{}c@{}} Odměrný válec \\ na alkohol \end{tabular} & \begin{tabular}[c]{@{}c@{}} Navrhované \\ zařízení \end{tabular} \\ \hline \hline
+        0,1   &            &            &            \\ \hline
+        0,5 &            & --         & --         \\ \hline
+        1 &            & --         & --         \\ \hline
+    \end{tabular}
+    \caption{Časová náročnost měření zbytkového objemu v lahvi pomocí odměrných válců a pomocí navrženého měřicího systému}
+    %\caption{Měření doby měření zbytkového objemu v lahvi pomocí odměrných válců a měřicího systému}
+    \label{tab:cas_mereni}
+\end{table}
+
+
+
+%\begin{tabular}{|l|c|c|c|}
+%  \hline
+%  & \multicolumn{3}{c|}{Čas [s]} \\ \cline{2-4}
+%  Objem lahve [l] & válec oby. & válec alc. & Váha \\ \hline
+%  lahev (1 l)   & & & \\ \hline
+%  lahev (0,5 l) & & -- & -- \\ \hline
+%  lahev (0,1 l) & & -- & -- \\ \hline
+%\end{tabular}
+
+% Requires: \usepackage{multirow}
+
+%\begin{table}
+%    \centering
+%    \begin{tabular}{|c|c|c|c|}
+%        \hline
+%        \multirow{2}{*}{Objem lahve [l]} & \multirow{2}{*}{Váha} & \multicolumn{2}{c|}{Čas [s]} \\ \cline{3-4}
+%                                         &                       & válec oby. & válec alc. \\ \hline
+%        lahev (1 l)                      & 3                     &            &            \\ \hline
+%        lahev (0,5 l)                    & 4                     &            &            \\ \hline
+%        lahev (0.1 l)                    & 5                     &            &            \\ \hline
+%    \end{tabular}
+%    \caption{Tabulka objemů lahví a časů.}
+%    \label{tab:placeholdeeer}
+%\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ověření přesnosti měřícího systému jako celek}
 
-Jak bylo uevedeno ve 3. kapitole do systému vstupuje několik chyb a i když jsme je teoreticky ověřili a spočítali celkovou přesnost měřícího systému pro stanovení přesnosti váhy, která byla jediným prvek ovlivňující výslednou přesnost je dobré si tuto přesnost ověřit i v praxi. Protože systém slouží pro měření destilátů, kde jejich hustota není nikde vedena, bude ověření provedeno experimentálně s odměrným válcem vyšší přesnosti a váhou, která stanový výslednou hodnotu objemu. Přesnost měřícího systému vyšla +-xx ml, proto pro ověření byl zvolen válec s přesností 0,05 ml na 250 ml, testovný destiláty jsou:
+Jak bylo uevedeno ve 3. kapitole do systému vstupuje několik chyb a i když jsme je teoreticky ověřili a spočítali celkovou přesnost měřícího systému pro stanovení přesnosti váhy, která byla jediným prvek ovlivňující výslednou přesnost je dobré si tuto přesnost ověřit i v praxi, reálným měřením. Protože systém slouží pro měření destilátů, kde jejich hustota není nikde vedena, bude ověření provedeno experimentálně s odměrným válcem vyšší přesnosti a váhou, která stanový výslednou hodnotu objemu. Přesnost měřícího systému vyšla +-xx ml, proto pro ověření byl zvolen válec s přesností 0,05 ml na 250 ml, testovný destiláty jsou:
 
 Válce jsou mále a nepojmou více kapaliny, proto tování přesnosti na vyšších hodnotách bud naskládáme více přesnějších válců na váhu nebo vypočítáme z něj hustotu a dopočítáme objem z vyšších hmotností
 
 Součástí přílohy je video znázorňující průběh inventury/vážení lahví
+
+Testování bylo provedeno pro 3 lahve různých velikostí: 0,5l, 0,7l a 1l, testování dále bylo provedeno pro různé hladiny
