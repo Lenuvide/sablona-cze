@@ -1,19 +1,21 @@
 \chapter{Sériová komunikace}
 \label{Sériová komunikace}
+Seriová komunikace je způsob přenosu dat mezi dvěma nebo více zařízeními, při kterém se data posílají po jednotlivých bitech po jediném vodiči nebo bezdrátovém kanálu. Touto formou budou komunikovat jednotlivé komponenty navrhovaného měřicího systému, proto je vhodné si tuto terminologii/problematiku objasnit. Nejrozšířenějšími standardy a protokoly pro sériovou komunikaci jsou RS-232, UART, SPI, USB. \cite{ser kom}
+
 
 %Sériová komunikace je posílání dat v řadě nebo-li bit po bitu
-Seriová komunikace je způsob přenosu dat mezi dvěma nebo více zařízeními, při kterém se data posílají po jednotlivých bitech po jediném vodiči nebo bezdrátovém kanálu. Seriová komunikace je vhodná pro dlouhé vzdálenosti a nižší rychlosti, protože vyžaduje méně vodičů než paralelní komunikace, která se běžně využívá na deskách plošných spojů. Seriová komunikace se dělí na synchronní a asynchronní, podle toho, zda je potřeba precizně synchronizovat časování při vysílání mezi vysílačem a přijímačem. Pro naše účely se budem zabývat pouze asychronní komunikací. Seriová komunikace se používá pro různé účely, jako je komunikace s modemem, tiskárnou, senzory, paměťovými kartami, síťovými adaptéry a dalšími periferiemi. Běžné a obecně známé standardy a protokoly pro seriovou komunikaci jsou RS-232, UART, SPI, USB.
+%Seriová komunikace je způsob přenosu dat mezi dvěma nebo více zařízeními, při kterém se data posílají po jednotlivých bitech po jediném vodiči nebo bezdrátovém kanálu. Seriová komunikace je vhodná pro dlouhé vzdálenosti a nižší rychlosti, protože vyžaduje méně vodičů než paralelní komunikace, která se běžně využívá na deskách plošných spojů. Seriová komunikace se dělí na synchronní a asynchronní, podle toho, zda je potřeba precizně synchronizovat časování při vysílání mezi vysílačem a přijímačem. Pro naše účely se budem zabývat pouze asychronní komunikací. Seriová komunikace se používá pro různé účely, jako je komunikace s modemem, tiskárnou, senzory, paměťovými kartami, síťovými adaptéry a dalšími periferiemi. Běžné a obecně známé standardy a protokoly pro seriovou komunikaci jsou RS-232, UART, SPI, USB.
 %...precizně synchronizovat časování při vysílání mezi vysílačem a přijímačem (tohle poradil Pety)
-\cite{ser kom}
+%\cite{ser kom}
 %[zdroj]
 %zdroj kniha o seriove komunikaci
-\begin{figure}[!h]
-    \begin{center}
-        \includegraphics[scale=0.62]{obrazky/paralelni_komunikace.png}
-        \includegraphics[scale=0.62]{obrazky/Seriova komunikace.png}
-    \end{center}
-    \caption[Porovnání seriové a paralelní komunikace]{Porovnání paralelní(vlevo) a sériové(vpravo) komunikace. Sériová komunikace v topologii pro UART protokol}
-\end{figure}
+%\begin{figure}[!h]
+%    \begin{center}
+%        \includegraphics[scale=0.62]{obrazky/paralelni_komunikace.png}
+%        \includegraphics[scale=0.62]{obrazky/Seriova komunikace.png}
+%    \end{center}
+%    \caption[Porovnání seriové a paralelní komunikace]{Porovnání paralelní(vlevo) a sériové(vpravo) komunikace. Sériová komunikace v topologii pro UART protokol}
+%\end{figure}
 %zdroj: https://www.rohde-schwarz.com/cz/products/test-and-measurement/essentials-test-equipment/digital-oscilloscopes/understanding-serial-protocols_254522.html#gallery-5
 
 %\section{Komunikační protokoly}
