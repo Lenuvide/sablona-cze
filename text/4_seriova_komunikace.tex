@@ -21,7 +21,7 @@ Seriová komunikace je způsob přenosu dat mezi dvěma nebo více zařízeními
 %\section{Komunikační protokoly}
 %Komunikační protokol je sada pravidel a dohod, které umožňují zařízením komunikovat mezi sebou. Protokol definuje formát, obsah, časování a řízení toku dat mezi odesílatelem a příjemcem. \cite{ser kom}
 
-\section{UART protokol}
+\section{komunikační protokol UART}
 \label{UART protokol}
 Komunikační protokol je sada pravidel a dohod, které umožňují zařízením komunikovat mezi sebou. Protokol definuje formát, obsah, časování a řízení toku dat mezi odesílatelem a příjemcem.
 
@@ -29,7 +29,7 @@ UART (Universal asynchronous receiver - transmitter) protokol je jeden z nejstar
 
 \subsection{UART datový paket}
 \label{UARTt}
-Datový paket popisuje posloupnost nebo-li datový tok bitů. Z obrázku č. \ref{UART packet} je vidět, že paket je ohraničený START(logická úrověň 1) a STOP(logická úrověň 0) bitem, které udávají začátek a konec zprávy. Díky tomu jsme schopni separovat více jdoucích paketů v řadě. Za START bitem následuje datový rámec, který býva z pravidla 8 bitový (1 Bajt) a nese informaci uživatele, ostatní bity slouží k "řízení" paketu. Dále je zde paritní bit, který aplikuje na datový rámec logickou operaci XOR. Existují dva druhy parity: sudá - XOR operace je rovna 1 pokud počet jedniček v datovém rámci je sudý.  Pro lichou paritu platí to stejné v případě, že počet jedniček v rámci je lichý. Paritní bity nejsou vždy využity. Záleží na konkrétní aplikaci. Slouží ke kontrole, jestli datový rámec není poškozen. \cite{ser kom} %[zdroj:] %https://cs.wikipedia.org/wiki/Paritn%C3%AD_bit
+Datový paket popisuje posloupnost neboli datový tok bitů. Z obrázku č. \ref{UART packet} je vidět, že paket je ohraničený START (logická úroveň 1) a STOP (logická úroveň 0) bitem, které udávají začátek a konec zprávy. Díky tomu jsme schopni separovat více jdoucích paketů v řadě. Za START bitem následuje datový rámec, který bývá z pravidla 8 bitový (1 Bajt) a nese informaci uživatele, ostatní bity slouží k "řízení" paketu. Dále je zde paritní bit, který aplikuje na datový rámec logickou operaci XOR. Existují dva druhy parity: sudá - XOR operace je rovna 1, pokud počet jedniček v datovém rámci je sudý.  Pro lichou paritu platí to stejné v případě, že počet jedniček v rámci je lichý. Paritní bity nejsou vždy využity. Záleží na konkrétní aplikaci. Slouží ke kontrole, jestli datový rámec není poškozen. \cite{ser kom} %[zdroj:] %https://cs.wikipedia.org/wiki/Paritn%C3%AD_bit
 %*XOR je 
 
 \begin{figure}[!h]
@@ -41,12 +41,12 @@ Datový paket popisuje posloupnost nebo-li datový tok bitů. Z obrázku č. \re
 \end{figure}
 %ZDROJ: https://yarkov.tech/en/blog/2022-11-04/using-the-web-serial-api-to-communicate-with-the-microcontroller/
 
-\section{Standard RS-232}
+\section{Komunikační standard RS-232}
 Komunikační standard je soubor pravidel a specifikací, které definují, jak mají zařízení komunikovat mezi sebou. Komunikační standard zahrnuje fyzické, elektrické, funkční a mechanické charakteristiky komunikačního rozhraní. Například RS-232 je komunikační standard pro sériovou komunikaci mezi počítačem a modemem.
 RS-232 definuje:
 \begin{itemize}
     \item \textbf{Elektrické charakteristiky:} RS-232 používá napěťové úrovně od -15 V do +15 V pro reprezentaci logických stavů 0 a 1. RS-232 také specifikuje maximální rychlost přenosu, impedanci, toleranci zkratu a další parametry signálu.
-    \item \textbf{Funkční charakteristiky:} RS-232 popisuje funkce a smysl definovaných signálů, které se používají pro řízení toku dat mezi zařízeními. Některé z těchto signálů jsou například: TXD (odesílaná data), RXD (přijímaná data), RTS (požadavek na odeslání), CTS (povolení k odeslání) a DTR (připraven k zařízení).
+    \item \textbf{Funkční charakteristiky:} RS-232 popisuje funkce a smysl definovaných signálů, které se používají pro řízení toku dat mezi zařízeními. Některé z těchto signálů jsou například: TXD (odesílaná data), RXD (přijímaná data), RTS (požadavek na odeslání), CTS (povolení k odeslání) a DTR (zařízení a terminál je připraveno navázat spojení). %DTR(zařízení připraveno)
     \item \textbf{Mechanické charakteristiky:} RS-232 definuje také fyzický tvar a rozmístění pinů konektorů, které se používají pro propojení zařízení. Nejběžnějšími typy konektorů jsou DB9 a DB25, které mají devět a pětadvacet pinů, viz obrázek č.\ref{rs232_obr} \cite{ser kom}
 \end{itemize}
 %Zdroj dokument o seri. komunikaci
@@ -55,8 +55,8 @@ RS-232 definuje:
     \begin{center}
         \includegraphics[scale=0.4]{obrazky/RS232.jpeg}
     \end{center}
-    \label{rs232_obr}
     \caption{Konektor DB9 s popisem pinů. \cite{RS232}}
+    \label{rs232_obr}
 \end{figure}
 %zdroj RS-232: https://www.pbxdom.com/blog/engineering/what-is-serial-rs232-port-interface/
 

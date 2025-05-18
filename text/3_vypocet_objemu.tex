@@ -82,10 +82,10 @@ Výpočet hustoty kapaliny:
 
 \section{Chyby měření}
 \label{sec:chyby měření}
-Podle první kapitoly víme, že inventura je interní záležitostí podniku, pro kterou není nutné mít certifikované měřidla a přesnost si stanovuje každý zaměstnavatel sám. Bylo by tedy dobré aby nový měřicí systém měřil se stejnou nebo i lepší přesností než stávající metody, tedy odměrné válce. V praxi se nejčastěji setkáme s válci třídy B garantující přesnost $\pm$10 ml, tedy požadovaná přesnost měřícího systému je stejná nebo méně než $\pm$10 ml. V praxi by to znamenalo, že nám stačí váha s přesností $\pm$10 g, ale do systému vstupuje více chyb než jen chyba váhy.
+Podle první kapitoly víme, že inventura je interní záležitostí podniku, pro kterou není nutné mít certifikované měřidla a přesnost si stanovuje každý zaměstnavatel sám. Bylo by tedy dobré aby nový měřicí systém měřil se stejnou nebo i lepší přesností než stávající metody, tedy odměrné válce. V praxi se nejčastěji setkáme s válci třídy B garantující přesnost $\pm$10 ml, tedy požadovaná přesnost měříciho systému je stejná nebo méně než $\pm$10 ml. V praxi by to znamenalo, že nám stačí váha s přesností $\pm$10 g, ale do systému vstupuje více chyb než jen chyba váhy.
 Tedy pro určení přesnosti je nutné znát chyby které působí na měřicí systém.
 \subsection{Vliv tlaku}
-Vliv tlaku obecně zanedbáváme, protože má téměr nulový vliv a to i otevřených válců, kde vztlaková síla vytlačí vzduch, vytlačený vzduch pak nemá žádný vliv. Při vážení lahví jsou lahve uzavřené, tak k vytlačení vzdchu nedochází pokud nemáme na hrdle nalévátko. Dále máme tlak co působi zvnějšku lahve, tedy při vychlazené lahvi dojde k ochlazení okolního vzduchu, který způsobí 
+Vliv tlaku obecně zanedbáváme, protože má téměr nulový vliv a to i otevřených válců, kde vztlaková síla vytlačí vzduch, vytlačený vzduch pak nemá žádný vliv. Při vážení lahví jsou lahve uzavřené, tak k vytlačení vzdchu nedochází pokud nemáme na hrdle nalévač. Dále máme tlak co působi zvnějšku lahve, tedy při vychlazené lahvi dojde k ochlazení okolního vzduchu, který způsobí 
 
 \subsection{Vliv teploty}
 \label{orosení}
@@ -167,7 +167,7 @@ Podle nařízení EU č. 1169/2011 je v obchodních řetězcích přípustná re
 
 %Poslední možností je, pokud uživatel trvá na vysoké přesnosti a destilát neni uložen v databázi je možné si pořídit vlastní přesné zařízení pro stanovení hustoty kapaliny jako je pyknometr nebo přesná váha + přesný odměrný válec.
 
-%Cílem zařízení je i cenově dostupná možnost pro řešení inventarizace, proto do online databáze budou ukládaná s přesností, která neovlivní výslednou přesnost zařízení. Obsluhu a správu online databáze bude provádět prodejce měřícího systému (já).
+%Cílem zařízení je i cenově dostupná možnost pro řešení inventarizace, proto do online databáze budou ukládaná s přesností, která neovlivní výslednou přesnost zařízení. Obsluhu a správu online databáze bude provádět prodejce měřicího systému (já).
 
 \subsection{Chyba váhy}
 Posledním klíčovým faktorem je chyba váhy. Jedná se o jedinou chybu, která je ovlivnitelná, proto je nutné na základě již zmíněných chyb výše zvolit přesnost váhy takovou, aby celková přesnost systému nepřesáhla stanovenou hranici $\pm$ 10 ml.
@@ -206,7 +206,7 @@ V příkladu č. \ref{vypočet_objemu} je uveden výpočet pro váhu s přesnost
         $\Delta_{\rho}$ [g/ml] & Chyba hustoty kapaliny \\ \hline
         $\Delta_m$ [g]& Chyba váhy pro stanovení chyby $\Delta_o$ a $\Delta_\ell$ \\ \hline
         $\Delta_o$ [g]& Chyba z orosení lahve (viz kap. č. \ref{orosení}) \\ \hline
-        $\Delta$ [g]& Chyba váhy měřícího systému \\ \hline
+        $\Delta$ [g]& Chyba váhy měřicího systému \\ \hline
         $\Delta_{V_{\text{max}}}$ [ml]& Chyba plnění lahve výrobcem (viz kap. č. \ref{Chyby hustoty}) \\ \hline
         $\Delta_\ell$ [g]& Chyba z rozptylu hmotnosti lahví (viz kap. č. \ref{Chyba hmotnosti lahve}) \\ \hline
         $\Delta_V$ [ml]& Chyba měřicího systému \\ \hline
@@ -398,152 +398,152 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 %    \pm m = \pm 5 \cdot 0.789 \, \left[\mathrm{g}\right] \label{objem_kapalina}
 %\end{equation}
 
-\begin{table}[h]
-\centering
-\caption{Rozpočet „worst-case“ chyb – absolutní i relativní podíl}
-\renewcommand{\arraystretch}{1.15}
-\begin{tabular}{@{}lcccc@{}}
-\toprule
-\textbf{Zdroj} & \textbf{Hodnota} & \textbf{Koef.} & \textbf{Příspěvek [ml]} & \textbf{Rel. podíl [\%]}\\
-\midrule
-Chyba plnění při~kalib.        & $\pm3{,}35\ \mathrm{ml}$ & $2$ & $6{,}70$ & $67{,}7$\\
-Chyba váhy (\(\Delta\))        & $\pm0{,}50\ \mathrm{g}$ & $3S$ & $1{,}50$ & $15{,}2$\\
-Rozptyl prázdných lahví (\(\Delta_\ell\))
-                               & $\pm0{,}85\ \mathrm{g}$ & $2S$ & $1{,}70$ & $17{,}1$\\
-\midrule
-\multicolumn{3}{r}{\textbf{Celkem}} &
-\(\boxed{\Delta V_{\text{max}} = 9{,}90\ \mathrm{ml}}\) & $100$\\
-\bottomrule
-\end{tabular}
-\label{tab:worst_case_budget_rel}
-\end{table}
+%\begin{table}[h]
+%\centering
+%\caption{Rozpočet „worst-case“ chyb – absolutní i relativní podíl}
+%\renewcommand{\arraystretch}{1.15}
+%\begin{tabular}{@{}lcccc@{}}
+%\toprule
+%\textbf{Zdroj} & \textbf{Hodnota} & \textbf{Koef.} & \textbf{Příspěvek [ml]} & \textbf{Rel. podíl [\%]}\\
+%\midrule
+%Chyba plnění při~kalib.        & $\pm3{,}35\ \mathrm{ml}$ & $2$ & $6{,}70$ & $67{,}7$\\
+%Chyba váhy (\(\Delta\))        & $\pm0{,}50\ \mathrm{g}$ & $3S$ & $1{,}50$ & $15{,}2$\\
+%Rozptyl prázdných lahví (\(\Delta_\ell\))
+%                               & $\pm0{,}85\ \mathrm{g}$ & $2S$ & $1{,}70$ & $17{,}1$\\
+%\midrule
+%\multicolumn{3}{r}{\textbf{Celkem}} &
+%\(\boxed{\Delta V_{\text{max}} = 9{,}90\ \mathrm{ml}}\) & $100$\\
+%\bottomrule
+%\end{tabular}
+%\label{tab:worst_case_budget_rel}
+%\end{table}
 
 
-\begin{table}[h]
-\centering
-\caption{Dosazené hodnoty a jejich příspěvek do maximální chyby objemu}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{@{}lccccc@{}}
-\toprule
-\textbf{Symbol} & \textbf{Popis} & \textbf{Hodnota} & \textbf{Příspěvek}\\
-\midrule
-$V_{\max}$      & jmenovitý objem lahve           & $1000\ \text{ml}$  & – \\
-$m_{\max}$      & hmotnost plné lahve (kalibr.)   & $1180\ \text{g}$   & – \\
-$m_{\min}$      & hmotnost prázdné lahve (kalibr.)& $180\ \text{g}$    & – \\
-$S=\dfrac{V_{\max}}{m_{\max}-m_{\min}}$
-                & převod $\,\bigl[\text{g}\rightarrow\text{ml}\bigr]$
-                                                   & $1,000\ \text{ml·g}^{-1}$ & – \\[4pt]
-\(\Delta V_{\text{plnění}}\)
-                & chyba plnění při kalibraci      & $\pm3,35\ \text{ml}$ &
-\(2\,\Delta V_{\text{plnění}} = 6,70\ \text{ml}\) \\
-
-\(\Delta\)      & chyba váhy (každé vážení)       & $\pm0,50\ \text{g}$ &
-\(3\,\Delta\,S = 1,50\ \text{ml}\) \\
-
-\(\Delta_{\ell}\)
-                & rozptyl hmotností lahví         & $\pm0,85\ \text{g}$ &
-\(2\,\Delta_{\ell}\,S = 1,70\ \text{ml}\) \\
-\midrule
-\multicolumn{3}{r}{\textbf{Celková maximální chyba}} &
-\(\boxed{\Delta V_{\text{max}} = 9,90\ \text{ml}}\) \\
-\bottomrule
-\end{tabular}
-\label{tab:worst_case_budget}
-\end{table}
-
-
-\[
-\Delta\rho_{\max}= \rho_{\mathrm{DB}}
-\left(
-   \frac{2\Delta}{m_{\max}-m_{\min}}
-  +\frac{\Delta V_{\max}}{V_{\max}}
-\right)
-\]
-
-\[
-\Delta V_{\max}= 2\,\Delta V_{\max}^{\text{plnění}}
-               +\frac{3\Delta\,V_{\max}}{m_{\max}-m_{\min}}
-\tag{A}
-\]
+%\begin{table}[h]
+%\centering
+%\caption{Dosazené hodnoty a jejich příspěvek do maximální chyby objemu}
+%\renewcommand{\arraystretch}{1.2}
+%\begin{tabular}{@{}lccccc@{}}
+%\toprule
+%\textbf{Symbol} & \textbf{Popis} & \textbf{Hodnota} & \textbf{Příspěvek}\\
+%\midrule
+%$V_{\max}$      & jmenovitý objem lahve           & $1000\ \text{ml}$  & – \\
+%$m_{\max}$      & hmotnost plné lahve (kalibr.)   & $1180\ \text{g}$   & – \\
+%$m_{\min}$      & hmotnost prázdné lahve (kalibr.)& $180\ \text{g}$    & – \\
+%$S=\dfrac{V_{\max}}{m_{\max}-m_{\min}}$
+%                & převod $\,\bigl[\text{g}\rightarrow\text{ml}\bigr]$
+%                                                   & $1,000\ \text{ml·g}^{-1}$ & – \\[4pt]
+%\(\Delta V_{\text{plnění}}\)
+%                & chyba plnění při kalibraci      & $\pm3,35\ \text{ml}$ &
+%\(2\,\Delta V_{\text{plnění}} = 6,70\ \text{ml}\) \\
+%
+%\(\Delta\)      & chyba váhy (každé vážení)       & $\pm0,50\ \text{g}$ &
+%\(3\,\Delta\,S = 1,50\ \text{ml}\) \\
+%
+%\(\Delta_{\ell}\)
+%                & rozptyl hmotností lahví         & $\pm0,85\ \text{g}$ &
+%\(2\,\Delta_{\ell}\,S = 1,70\ \text{ml}\) \\
+%\midrule
+%\multicolumn{3}{r}{\textbf{Celková maximální chyba}} &
+%\(\boxed{\Delta V_{\text{max}} = 9,90\ \text{ml}}\) \\
+%\bottomrule
+%\end{tabular}
+%\label{tab:worst_case_budget}
+%\end{table}
 
 
-\[
-\Delta V_{\max}
-  = 2\,\Delta V_{\max}^{\text{plnění}}
-  + \frac{(3\Delta + 2\Delta_{\ell})\,V_{\max}}
-         {m_{\max}-m_{\min}}
-\tag{B}
-\]
+%\[
+%\Delta\rho_{\max}= \rho_{\mathrm{DB}}
+%\left(
+%   \frac{2\Delta}{m_{\max}-m_{\min}}
+%  +\frac{\Delta V_{\max}}{V_{\max}}
+%\right)
+%\]
+%
+%\[
+%\Delta V_{\max}= 2\,\Delta V_{\max}^{\text{plnění}}
+%               +\frac{3\Delta\,V_{\max}}{m_{\max}-m_{\min}}
+%\tag{A}
+%\]
+%
+%
+%\[
+%\Delta V_{\max}
+%  = 2\,\Delta V_{\max}^{\text{plnění}}
+%  + \frac{(3\Delta + 2\Delta_{\ell})\,V_{\max}}
+%         {m_{\max}-m_{\min}}
+%\tag{B}
+%\]
+%
+%
+%\begin{equation}
+%    \rho \;=\;
+%\frac{\bigl(m_{\max}+\Delta_{\ell}\bigr)\,\pm\Delta
+%      \;-\;\bigl(m_{\min}+\Delta_{\ell}\bigr)\,\pm\Delta}
+%     {V_{\max}\,\pm\Delta_V} = \frac{(m_{\max}-m_{\min})\;\pm\;2\Delta}
+%     {V_{\max}\,\pm\Delta_V}   
+%     \label{hustotdda}
+%\end{equation}
 
 
-\begin{equation}
-    \rho \;=\;
-\frac{\bigl(m_{\max}+\Delta_{\ell}\bigr)\,\pm\Delta
-      \;-\;\bigl(m_{\min}+\Delta_{\ell}\bigr)\,\pm\Delta}
-     {V_{\max}\,\pm\Delta_V} = \frac{(m_{\max}-m_{\min})\;\pm\;2\Delta}
-     {V_{\max}\,\pm\Delta_V}   
-     \label{hustotdda}
-\end{equation}
 
-
-
-\begin{equation}
-\rho \;=\;
-\underbrace{
-\frac{(m_{\max}-m_{\min})}{V_{\max}}
-}_{\text{nominální hodnota}}
-\;\pm\;
-\underbrace{
-\frac{(m_{\max}-m_{\min})}{V_{\max}}
-\left(
-   \frac{2\,\Delta}{(m_{\max}-m_{\min})} \;+\; \frac{\Delta_{V_{\max}}}{V_{\max}}
-\right)
-}_{\text{maximální (worst-case) chyba}}
-     \label{objem_kapasdalina}
-\end{equation}
-
-\begin{equation}
-\rho = \frac{998}{1000}
-\;\pm\;
-\frac{998}{1000}
-\left(
-   \frac{2 \cdot 0,5}{998} \;+\; \frac{3,65}{1000}
-\right) = 0,998 \pm 0,00464 ml/g
-     \label{objem_kapasdalina}
-\end{equation}
-
-\begin{equation}
-V \;=\;
-\frac{m \pm (\Delta + \Delta_\ell) \;-\; m_{\min} \pm (\Delta + \Delta_\ell)}
-     {\rho \;\pm\; \Delta_\rho}\, = 
-\frac{\,(m-m_{\min}) \;\pm\; 2(\Delta + \Delta_\ell)}
-     {\rho \;\pm\; \Delta_\rho}
- \end{equation}
-
- \begin{equation}
-V \;=\;
-\underbrace{
-\frac{\,(m-m_{\min})}
-     {\rho} 
- }_{\text{nominální hodnota}}
- \pm
- \underbrace{
- \frac{(m-m_{\min})}{\rho}
-\left(
-   \frac{2\,(\Delta+\Delta_\ell)}{(m-m_{\min})} \;+\; \frac{\Delta_\rho}{\rho}
-\right)
-}_{\text{maximální (worst-case) chyba}}
- \end{equation}
-
- \begin{equation}
-V \;=\;
-\frac{(1198-200)}{0,998}
-\pm
- \frac{(1198-200)}{0,998}
-\left(
-   \frac{2\,(0,5+0,85)}{(1198-200)} \;+\; \frac{0,00464}{0,998}
-\right) = 1000 \pm 7,35 ml
- \end{equation}
+%\begin{equation}
+%\rho \;=\;
+%\underbrace{
+%\frac{(m_{\max}-m_{\min})}{V_{\max}}
+%}_{\text{nominální hodnota}}
+%\;\pm\;
+%\underbrace{
+%\frac{(m_{\max}-m_{\min})}{V_{\max}}
+%\left(
+%   \frac{2\,\Delta}{(m_{\max}-m_{\min})} \;+\; \frac{\Delta_{V_{\max}}}{V_{\max}}
+%\right)
+%}_{\text{maximální (worst-case) chyba}}
+%     \label{objem_kapasdalina}
+%\end{equation}
+%
+%\begin{equation}
+%\rho = \frac{998}{1000}
+%\;\pm\;
+%\frac{998}{1000}
+%\left(
+%   \frac{2 \cdot 0,5}{998} \;+\; \frac{3,65}{1000}
+%\right) = 0,998 \pm 0,00464 ml/g
+%     \label{objem_kapasdalina}
+%\end{equation}
+%
+%\begin{equation}
+%V \;=\;
+%\frac{m \pm (\Delta + \Delta_\ell) \;-\; m_{\min} \pm (\Delta + \Delta_\ell)}
+%     {\rho \;\pm\; \Delta_\rho}\, = 
+%\frac{\,(m-m_{\min}) \;\pm\; 2(\Delta + \Delta_\ell)}
+%     {\rho \;\pm\; \Delta_\rho}
+% \end{equation}
+%
+% \begin{equation}
+%V \;=\;
+%\underbrace{
+%\frac{\,(m-m_{\min})}
+%     {\rho} 
+% }_{\text{nominální hodnota}}
+% \pm
+% \underbrace{
+% \frac{(m-m_{\min})}{\rho}
+%\left(
+%   \frac{2\,(\Delta+\Delta_\ell)}{(m-m_{\min})} \;+\; \frac{\Delta_\rho}{\rho}
+%\right)
+%}_{\text{maximální (worst-case) chyba}}
+% \end{equation}
+%
+% \begin{equation}
+%V \;=\;
+%\frac{(1198-200)}{0,998}
+%\pm
+% \frac{(1198-200)}{0,998}
+%\left(
+%   \frac{2\,(0,5+0,85)}{(1198-200)} \;+\; \frac{0,00464}{0,998}
+%\right) = 1000 \pm 7,35 ml
+% \end{equation}
 
 
 

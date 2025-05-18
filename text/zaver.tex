@@ -4,7 +4,7 @@
 
 %Cílem této semestrální práce bylo navrhnout měřící systém pro měření zůstatkového objemu kapalin v HoReCa podnicích, stanovení požadavků na jednotlivé komponenty a jejich samostatné oživení.
 %
-%V první kapitole se zabýváme definicí inventury a legislativními předpisy pro použití našeho měřícího systému. Druhá kapitola se věnuje dosavadním metodám měření a jejich hlavních nevýhod. Třetí kapitola přináší matematické řešení nově navrženého systému, kdy za pomocí linearizace jsme schopni přepočítat hmotnost na objem bez nutné znalosti teploty kapaliny. Čtvrtá kapitola je teoretické seznámení se sériovou komunikací, díky které jsou data přenášeny mezi mikrokontrolérem a ostatními moduly.
+%V první kapitole se zabýváme definicí inventury a legislativními předpisy pro použití našeho měřicího systému. Druhá kapitola se věnuje dosavadním metodám měření a jejich hlavních nevýhod. Třetí kapitola přináší matematické řešení nově navrženého systému, kdy za pomocí linearizace jsme schopni přepočítat hmotnost na objem bez nutné znalosti teploty kapaliny. Čtvrtá kapitola je teoretické seznámení se sériovou komunikací, díky které jsou data přenášeny mezi mikrokontrolérem a ostatními moduly.
 %Pátá kapitola představuje požadavky na jednotlivé komponenty a jejich výběr. V poslední kapitole dochází k oživení jednotlivých modulů.
 %
 %Semestrální část se zabývala teoretickou rovinou. V rámci bakalářské práce bude cílem zprovoznit celý systém.
@@ -12,13 +12,13 @@
 
 
 
-Cílem této semestrální práce bylo navrhnout systém pro měření zůstatkového objemu kapaliny(destilátu) v láhvi pro HoReCa podniky, stanovení požadavků na jednotlivé komponenty a jejich samostatné oživení. Nově navržený systém dokáže pomocí váhy a výpočetní jednotky přepočítat hmotnost kapaliny v láhvi na její objem.
+Cílem této semestrální práce bylo navrhnout systém pro měření zůstatkového objemu kapaliny (destilátu) v láhvi pro HoReCa podniky, stanovení požadavků na jednotlivé komponenty a jejich samostatné oživení. Nově navržený systém dokáže pomocí váhy a výpočetní jednotky přepočítat hmotnost kapaliny v láhvi na její objem.
 
 V kapitole č. \ref{inventura} se zabývám definicí inventury a legislativními předpisy pro použití navrhovaného měříciho systému. Zjistil jsem, že pro naše účely není nutná certifikovaná váha a zákon nám nestanovuje s jakou přesností je nutné objem kapalin měřit. 
 
 Kapitola č. \ref{Dosavadní metody měření} pojednává o stávajících metodách měření a jejich hlavních nedostatcích. V praxi se často používají odměrné válce, které nejsou z hlediska času ani finančně efektivní v dlouhodobém měřítku. Váhy, které jsou podobné vyvíjenému systému, nabízejí větší přesnost a jsou časově účinnější, avšak kvůli vysokým nákladům se setkávají s omezeným zájmem.
 
-Kapitola č. \ref{Přepočet hmotnosti na objem} přináší matematické řešení přepočtu hmotnosti lahve na zbytkový objem. Pojednává s jakou přesností by měl nový systém měřit na základě praxe a požadavků zaměstnavatelů HoReCa podniků a vstupujících chyb do měřícího systému, které jsou podrobně rozebrány (orosení, rozptyl hmotností lahví, tolerance pro plnění lahví v obchodním řetězci, atd)
+Kapitola č. \ref{Přepočet hmotnosti na objem} přináší matematické řešení přepočtu hmotnosti lahve na zbytkový objem. Pojednává s jakou přesností by měl nový systém měřit na základě praxe a požadavků zaměstnavatelů HoReCa podniků a vstupujících chyb do měřicího systému, které jsou podrobně rozebrány (orosení, rozptyl hmotností lahví, tolerance pro plnění lahví v obchodním řetězci, atd)
 %Kapitola č. \ref{Přepočet hmotnosti na objem} přináší matematické řešení nově navrženého systému, kdy za pomocí linearizace jsme schopni přepočítat hmotnost na objem bez nutné znalosti teploty kapaliny.  %Výsledný objem je roven teplotě pro kterou byl stanoven maximální objem kapaliny v láhvi výrobcem. 
 
 V kapitola č. \ref{Sériová komunikace} je teoretické seznámení se sériovou komunikací, díky které jsou data přenášeny mezi mikrokontrolérem a ostatními moduly. Pro vyvíjený systém se jedná o rozhraní RS-232 a UART.
@@ -40,7 +40,7 @@ v 8. kapitole jsou zhrunuty možná inovace měřicího systému jako přesun da
 
 v 8 kapitole jsou zhrnuty výsledky práce a navrhnutý technologické inovace do budoucna jako vývoj mobilní aplikace, cloudové uložiště, dále programové inovace, které se nestihly implementovat a obecně přetvořit prototyp na finální verzi systému. 
 
-Do budoucna bych chtěl inovovat své zařízení o mobilní aplikaci, která bude sledovat stav inventury(počet změřených lahví, výsledky předchozích inventur, správa databáze - přidání/odebrání lahví ze systému). Dále chci redukovat počet periferií pomocí dotykového displeje, který bude obsahovat už dotykový displej. Vývoj aplikace na osobní počítač pro správu databáze a tisk jejich dat. %Výsledkem má být funkční měřicí systém jako celek a navrhnout možné inovace, které by byly nad rámec této práce.
+Do budoucna bych chtěl inovovat své zařízení o mobilní aplikaci, která bude sledovat stav inventury (počet změřených lahví, výsledky předchozích inventur, správa databáze - přidání/odebrání lahví ze systému). Dále chci redukovat počet periferií pomocí dotykového displeje, který bude obsahovat už dotykový displej. Vývoj aplikace na osobní počítač pro správu databáze a tisk jejich dat. %Výsledkem má být funkční měřicí systém jako celek a navrhnout možné inovace, které by byly nad rámec této práce.
 
 %Výsledkem má být měřicí systém fungující jako celek
 

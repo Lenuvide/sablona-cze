@@ -64,7 +64,7 @@
 %	Definice jazyka použitého ve výpisech
 %    language=[LaTeX]{TeX},	% LaTeX
 %	language={Matlab},		% Matlab
-	language={C},           % jazyk C
+	language={Python},           % jazyk C
     basicstyle=\ttfamily,	% definice základního stylu písma
     tabsize=2,% definice velikosti tabulátoru
     inputencoding=utf8,         % pro soubory uložené v kódování UTF-8
@@ -101,9 +101,14 @@
     {Ú}{{\'U}}1
     {Ů}{{\r{U}}}1
     {Ý}{{\'Y}}1
-    {Ž}{{\v{Z}}}1
+    {Ž}{{\v{Z}}}1,    
+    keywordstyle=\color{blue}\bfseries,  % klíčová slova
+    commentstyle=\color[rgb]{0,0.45,0},           % komentáře #
+    stringstyle=\color{teal},            % řetězce "..."
+    numberstyle=\tiny\color{gray},       % číslování řádků (volitelné)
+    showstringspaces=false,
 }
-\usepackage{float}
+%\usepackage{float}
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{multicol}
@@ -116,7 +121,11 @@
 \usepackage{amsmath, amssymb, array} %vyhodilo AI, že to pomuže s errory: 233 err -> fix to 125 err (spravilo to 108 err)
 \usepackage{csquotes, siunitx} %vyhodilo AI, že to pomuže s errory: 125 err -> 124 err
 
-\usepackage[utf8]{inputenc}
+\usepackage{floatrow} %tabulka a obrazek v jednom řádku
+\usepackage[T1]{fontenc}
+\usepackage[czech]{babel}
+
+%\usepackage[utf8]{inputenc}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%      Definice informací o dokumentu             %%%%%%%%%%

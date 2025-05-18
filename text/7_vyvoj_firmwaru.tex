@@ -20,14 +20,14 @@ stavů. Kapitola je rozdělená do dvou částí, jedna se zabývá čistě vizu
 Většina kódu bude prezentována jen hlavičkou metod, funkcí a tříd z důvodu rozsáhlého obsahu.
 
 %-----
-\section{Výběr programovacího jazyku a grafické třídy}
+\section{Výběr programovacího jazyka a grafické knihovny}
 Jako programovací jazyk jsem zvolil Python na základě jednoduché syntaxe a čitelnosti kódu. Python má rozsáhlé množství knihoven pro vývoj GUI aplikací a je také velmi populární v komunitě \textit{Raspberry Pi}, což přináší spoustu dostupných zdrojů a podpory.
 
 Grafická knihovna byla vybrána \textit{Tkinter} na základě rozsáhlé dokumentace, jednoduchosti na naučení, velkého množství ovládacích prvků (widgetů), ale hlavně licence PSFL, která dovoluje libovolné (vč. komerční) využití při zachování copyrightu a textu licence bez jakýchkoliv finančních nákladů. [z1]
 %https://docs.python.org/3/license.html
 
 %-----
-\section{Rozložení souborů a jejich vzájemná vazba}
+\section{Rozložení zdrojových souborů a jejich vzájemná vazba}
 
 Celý program se skládá z 5 souborů obsahujících zdrojový kód v jazyce Python s příponou .py.
 
@@ -299,10 +299,10 @@ Tlačítko pro ukončení inventury se změnilo na "Vrátit zpět" pro případ,
 
 \subsection{Podmínky vážení}
 % Podmínky a omezení - Špatná lahev
-Důležitou podmínkou pro správné zvážení je použít správnou láhev. Krom názvu a obrázku produktu je uživatel informován pokud:
+Důležitou podmínkou pro správné zvážení je použít správnou láhev. Krom názvu a obrázku produktu je uživatel informován, pokud nastala podmínka:
 \begin{itemize}
-    \item \textbf{naměřená hmotnost < hmotnost prázdné láhve} - Proto aby se mohl uložit nově naměřený objem do databáze je nutné, aby naměřená hmotnost byla větší nebo rovna než hmotnost prázdné láhve v opačném případě vyjde objem záporný (na displeji se zobrazí jako nulový) a systém čeká než se hmotnost dostane do požadovaného rozsahu.
-    \item \textbf{naměřená hmotnost > hmotnost plné láhve} - V moment kdy je naměřená hmotnost vyšší než hmotnost plné láhve se nám do Proces labelu vypíše chybové hlášení: "a.. Maximální hmotnost plné lahve byla překročena." a Label pro zbytkový objem vypíše: "MAX". V tento moment na váze je položená špatná láhev nebo cizí těleso a systém opětovně čeká než se hmotnost dostane do požadovaného rozsahu.
+    \item \textbf{naměřená hmotnost je menší než hmotnost prázdné láhve} - Proto aby se mohl uložit nově naměřený objem do databáze je nutné, aby naměřená hmotnost byla větší nebo rovna než hmotnost prázdné láhve v opačném případě vyjde objem záporný (na displeji se zobrazí jako nulový) a systém čeká než se hmotnost dostane do požadovaného rozsahu.
+    \item \textbf{naměřená hmotnost je větší než hmotnost plné láhve} - V moment kdy je naměřená hmotnost vyšší než hmotnost plné láhve se nám do Proces labelu vypíše chybové hlášení: "a.. Maximální hmotnost plné lahve byla překročena." a Label pro zbytkový objem vypíše: "MAX". V tento moment na váze je položená špatná láhev nebo cizí těleso a systém opětovně čeká než se hmotnost dostane do požadovaného rozsahu.
 \end{itemize}
 
 \subsection{Stabilizace váhy}
@@ -399,7 +399,7 @@ Po ukončení nebo smazání inventury je uživatel automaticky přesměrován z
 %//Ukazka kodu
 %Hlavní třída GUI, dědí z třídy Tk, která vytváří hlavní okno programu. V hlavní okno je rozděleno do dvou rámců/framů pro jednoduší vkládání ovládacích prvků. Jedna z metod pro vkládání je grid(), která umožnuje prvky skládat do sloupců a řádku, které mezi sebou interagují a udržují symetrický vzhled. Tudíž třeba když jeden sloupec prvků roztáhnu, ostatní se smrští a prvky se nebudou překrývat přes sebe - dynamické nastavení. Třídy jsou velice rozsáhlé, proto jen vypíchnu to nejduležitějšší.
 
-Táto sekce je zaměřená na programové řešení modulu \texttt{gui.py}. Grafické prostředí aplikace je rozděleno do x tříd z důvodu přehlednosti a orientaci v kódu. Hlavní okno je reprezentováno třídou \texttt{MainWindow}, dědící ze třídy \texttt{Tk}, které spouští hlavní smyčku programu. MainWindow vytváří instanci ostatních tříd, které obsahují kód ostatních oken nebo jinou složitější část kódu. Pro vytvoření nového okna se používá třída \texttt{Toplevel}, které je prostřednictví parametru master přiřazen přídružné okno ke kterému se vztahuje. V případě vyvíjené aplikace jsou všechna Toplevel okna odkázána na hlavní okno. V praxi je spouštěno pouze jedno hlavní okno a libovolný počet Toplevel oken. Jak už bylo jednou zmíněno pro vyskočení z hlavní smyčky za účelem periodických operací(chod stavového automatu, obsluha portů, atd) se využívá metoda after[].
+Táto sekce je zaměřená na programové řešení modulu \texttt{gui.py}. Grafické prostředí aplikace je rozděleno do x tříd z důvodu přehlednosti a orientaci v kódu. Hlavní okno je reprezentováno třídou \texttt{MainWindow}, dědící ze třídy \texttt{Tk}, které spouští hlavní smyčku programu. MainWindow vytváří instanci ostatních tříd, které obsahují kód ostatních oken nebo jinou složitější část kódu. Pro vytvoření nového okna se používá třída \texttt{Toplevel}, které je prostřednictví parametru master přiřazen přídružné okno ke kterému se vztahuje. V případě vyvíjené aplikace jsou všechna Toplevel okna odkázána na hlavní okno. V praxi je spouštěno pouze jedno hlavní okno a libovolný počet Toplevel oken. Jak už bylo jednou zmíněno pro vyskočení z hlavní smyčky za účelem periodických operací (chod stavového automatu, obsluha portů, atd) se využívá metoda after[].
 
 Hlavní okno se skládá ze dvou grafických rámců (tk.Frame) horizontálně rozdělených, kde jeden obsahuje ovládací prvky Entry, a tlačítka pro nastavení, numerickou klávesnici a rozšíření seznamu evidovaných položek. Druhý rámec představuje zbytek okna. Pro vkládání ovládacích prvků do prostředí je využita metoda grid, která umožňuje rozdělit daný rámec na mřížku, kde jednotlivé řádky a sloupce mezi sebou interagují a udržují symetrický vzhled prostředí.
 
@@ -465,16 +465,16 @@ Soubor database.db obsahuje 2 tabulky:
     \item destilate - seznam destilátů a jejich parametry [č.x]
     \item employee\_name - seznam jmen zaměstnanců možných vykonávat inventuru
 \end{itemize}
-Pro vyhledání konrétního destilátu se používají 2 funkce:
+Pro vyhledání konkrétního destilátu se používají 2 funkce:
 \begin{itemize}
     \item get\_info\_by\_ean - vyhledá produkt na základě jeho EAN kódu
     \item get\_info\_by\_name - vyhledá produkt na základě jeho názvu
 \end{itemize}
 \begin{lstlisting}[language=Python,breaklines=false, frame=single]
-def get_info_by_ean(str:ean) -> Destilate
+def get_info_by_ean(ean:str) -> Destilate
 \end{lstlisting}
 \begin{lstlisting}[language=Python,breaklines=false, frame=single]
-def get_info_by_name(str:name) -> Destilate
+def get_info_by_name(name:str) -> Destilate
 \end{lstlisting}
 V obou případech je návratová hodnota \texttt{Destilate} objekt obsahující veškeré informace vyhledaného produktu.
 Pro manuální vyhledávání slouží funkce \texttt{get\_rows\_by\_name}, která prohledá tabulku destilátů na základě vloženého substringu a vrátí list polí 2x1 obsahující název destilátu a jeho maximální objem.
@@ -533,7 +533,7 @@ def open_port(self) -> bool:
 Metoda turn\_on\_sensor přepne čtečku do aktivního stavu, kde se rozsvítí LED dioda, povolí bzučák pro případ naskenování čárového kódu a čtečka přejde do contianul režimu. Opakem této metody je metoda turn\_off\_sensor, kdy čtečka se přepně do manuálního režimu. Předpis datového packetu odesilaného do čtečky se skládá z:
 
 \begin{itemize}
-    \item hlavička (head) - Značí odesílatele dat (0xEA 0x00: řídící jednotka → čtečka)
+    \item hlavička (head) - Značí odesílatele dat (0xEA 0x00: řídicí jednotka → čtečka)
     \item Zone byte (types) – Typ operace (zápis do čtečky, výpis nastavení, ...)
     \item lens – délka bloku \textit{data} v bajtech
     \item adress – oblast nastavení (typ čtení, rychlost čtení, typ kódu)

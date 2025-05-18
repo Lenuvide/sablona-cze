@@ -1,10 +1,12 @@
 \chapter{Zprovoznění jednotlivých komponent}
 \label{Zprovoznění jednotlivých komponent}
-Jednotlivé komponenty jsou připojeny k mikrokontroléru podle obrázku č. \ref{blokove_schema}. Displej a klávesnici stačí jen připojit, proto je nebudu v rámci této kapitoly více rozebírat.
+Jednotlivé komponenty jsou připojeny k Raspberry Pi 4 podle schématu na obrázku č. \ref{blokove_schema}. %Dotykový displej stačí jen připojit, proto je nebudu v rámci této kapitoly více rozebírat.
 
 \section{Ověření přesnosti váhy}
 
-Před použitím samotné váhy jsem ověřil, zda její přesnost odpovídá parametrům stanoveným výrobcem z důvodu, že váha není certifikovaná. Ověření probíhá pomocí druhé váhy nebo kalibrovaného závaží o jednu třídy přesnosti výše. Pro váhu integrovanou do měřícího systému G\&G E3000 je třída přesnosti III, proto je nutné volit váhu s třídou přesnosti II dle normy OIML R 76 nebo kalibrované závaží s třídou přesnosti M1 dle normy OIML R 111. Pro ověření přesnosti byla použita váha Kern PCB-2500-2 s padesátkrát vyšší přesností: 0,01 g a váživostí 2,5 kg. Obě váhy byly před použitím kalibrovány a použity v laboratorním prostředí s teplotou 20,4 °C a vlhkostí 28,7 \%, které odpovídají požadavkům obou výrobců vah pro přesná měření. Z tabulky č. \ref{tab:vahy} je vidět, že váha G\&G-3000 měří s požadovanou přesností 0,5 g. %a spadá tak do třídy přesnosti III.
+Před použitím samotné váhy bylo ověřeno, zda její přesnost odpovídá parametrům stanoveným výrobcem z důvodu, že není certifikovaná. Ověření probíhá pomocí druhé váhy nebo kalibrovaného závaží o jednu třídy přesnosti výše. Pro váhu G\&G E3000 integrovanou do měříciho systému je třída přesnosti III, proto je nutné volit váhu s třídou přesnosti II dle normy OIML R 76 nebo kalibrované závaží s třídou přesnosti M1 dle normy OIML R 111. Pro ověření přesnosti byla použita váha Kern PCB-2500-2 (viz obr. č. \ref{obr:váhy_porovnani}) s padesátkrát vyšší přesností: 0,01 g a váživostí 2,5 kg. Obě váhy byly před použitím kalibrovány a použity v laboratorním prostředí s teplotou 20,4 °C a vlhkostí 28,7 \%, které odpovídají požadavkům obou výrobců vah pro přesná měření. Z grafu na obrázku č. \ref{obr:presnost_vahy} je vidět, že váha G\&G-3000 měří s požadovanou přesností 0,5 g.
+
+%Z tabulky č. \ref{tab:vahy} je vidět, že váha G\&G-3000 měří s požadovanou přesností 0,5 g. %a spadá tak do třídy přesnosti III.
 
 
 
@@ -33,18 +35,18 @@ Před použitím samotné váhy jsem ověřil, zda její přesnost odpovídá pa
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=0.7]{obrazky/mereni.PNG}
+        \includegraphics[scale=1.15]{obrazky/presnost_vahy.png}
     \end{center}
-    \caption{Nalevo Kern PCB-2500-2, napravo G\&G E3000}
-    \label{adapter}
+    \caption{Absolutní chyba váhy G\&G E3000 vůči referenční hodnotě váhy Kern PCB-2500-2}
+    \label{obr:presnost_vahy}
 \end{figure}
 
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.1]{obrazky/vahy.jpg}
     \end{center}
-    \caption{Nalevo Kern PCB-2500-2, napravo G\&G E3000}
-    \label{adapter}
+    \caption{Nalevo váha Kern PCB-2500-2, napravo váha G\&G E3000}
+    \label{obr:váhy_porovnani}
 \end{figure}
 
 \section{Zprovoznění váhy}
@@ -59,7 +61,7 @@ Komunikační rozhraní váhy je RS-232, který nejsme schopni připojit na mikr
 %    \label{adapter}
 %\end{figure}
 
-Propojení kabelu ADS-50 s váhou není možné z důvodu, že kabel není křížený, jinak zvaný "null modem" kabel. To znamená, že vysílací piny(Tx) jsou navzájem propojené a to samé přijímací piny(Rx). Aby komunikace mohla fungovat je nutné propojit Tx s Rx. Tato podmínka komunikace je zmíněná v dokumentaci váhy[x]. Výrobce váhy z tohoto důvodu k balení přidal kříženou redukci DB9(samice) - DB9(samice), která slouží současně k monitorování stavu jednotlivých pinů díky přídavným konektorům pro připojení např. osciloskopu. Dále výrobce přidal redukci DB9(samec) - DB9(samec) pro propojení křížené redukce s váhou(samice). Zapojení je možné vidět na obrázku č.\ref{propojení váhy v1}. Toto zapojení není praktické pokud nechceme diagnostikovat komunikaci, proto je možností koupit přímo křížený kabel nebo kříženou redukci, která vychází 5x levněji. Na obrázku č.\ref{propojení váhy v2} je výsledné řešení propojení váhy s mikrokontrolerem pomocí křížené redukce DB9(samec) - DB9(samice).
+Propojení kabelu ADS-50 s váhou není možné z důvodu, že kabel není křížený, označován "null modem" kabel. To znamená, že vysílací piny (Tx) jsou navzájem propojené a to samé přijímací piny (Rx). Aby komunikace mohla fungovat je nutné propojit Tx s Rx. Tato podmínka komunikace je zmíněná v dokumentaci váhy[x]. Výrobce váhy z tohoto důvodu k balení přidal kříženou redukci DB9 (samice) - DB9 (samice), která slouží současně k monitorování stavu jednotlivých pinů díky přídavným konektorům pro připojení např. osciloskopu. Dále výrobce přidal redukci DB9 (samec) - DB9 (samec) pro propojení křížené redukce s váhou(samice). Zapojení je možné vidět na obrázku č.\ref{propojení váhy v1}. Toto zapojení není praktické pokud nechceme diagnostikovat komunikaci, proto je možností koupit přímo křížený kabel nebo kříženou redukci, která vychází 5x levněji. Na obrázku č.\ref{propojení váhy v2} je výsledné řešení propojení váhy s řídicí jednotkou pomocí křížené redukce DB9 (samec) - DB9 (samice).
 
 \begin{figure}[H]
     \begin{center}
@@ -103,9 +105,9 @@ Na obrázku č.\ref{osc} byl datový výstup váhy testován pomocí osciloskopu
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=0.5]{obrazky/DS1Z_QuickPrint6.png}
+        \includegraphics[scale=0.75]{obrazky/DS1Z_QuickPrint6_ostrost.png}
     \end{center}
-    \caption{Odchycení zprávy "-204.0 g" pomocí osciloskopu}
+    \caption{Odchycení zprávy \uv{-204.0 g} pomocí osciloskopu}
     \label{osc}
 \end{figure}
 
@@ -162,7 +164,7 @@ Jelikož přechod mezi režimy nelze ovládat přímo příkazem, jedinou možno
     \item \textbf{Přerušení napájení} - Pomocí externího spínacího obvodu (např. tranzistoru řízeného přes GPIO), který by odpojil napájení čtečky nebo čtečku napájet přímo GPIO pinem, který by se spínal - Tento přístup by neumožňoval připojení přes USB a vyžadoval by komunikaci přes rozhraní UART.
     \item \textbf{Vymazání vstupního bufferu} - Čtečka sice nejde explicitně přepnout do Standby režimu, ale lze ji ponechat aktivní s vypnout LED a zvukovou signalizací. Z pohledu uživatele čtečka působí jako neaktivní, protože neposkytuje žádnou zpětnou vazbu, i když stále čte. Pokud dojde k náhodnému načtení kódu mimo požadovaný stav, příslušná data se uloží do vstupního bufferu mikrokontroléru, který lze následně programově vyprázdnit. Tento přístup lze využít například v režimu Continuous, kdy čtečka zůstává trvale aktivní.
     \item \textbf{Periodické spouštení čtečky} - V Triggered režimu nastavit krátký interval čtení a periodicky odesílat příkaz ke spuštění čtečky (Operating režim). Tato metoda není nejvhodnější z hlediska časové a výpočetní náročnosti – program je neustále přerušován odesíláním příkazů v krátkých intervalech a čekáním na ACK.
-    \item \textbf{Přepínání do manuálního režimu} (aktuální řešení): V Manual režimu čtečka čeká v standby stavu dokud uživatel nezmáčkne tlačítko, tohle tlačítko ve finální verzi měřícího systému nebude fyzicky přístupné (čtečka bude schovaná v krabičce). Čtečka na základě stavového automatu bude přepínána mezi Countiual a Manual režimem.
+    \item \textbf{Přepínání do manuálního režimu} (aktuální řešení): V Manual režimu čtečka čeká v standby stavu dokud uživatel nezmáčkne tlačítko, tohle tlačítko ve finální verzi měříciho systému nebude fyzicky přístupné (čtečka bude schovaná v krabičce). Čtečka na základě stavového automatu bude přepínána mezi Countiual a Manual režimem.
 \end{itemize}
 
 
@@ -176,7 +178,7 @@ Jelikož přechod mezi režimy nelze ovládat přímo příkazem, jedinou možno
     \label{Zprovoznění čtečky}
 \end{figure}
 
-%Čtečku bude spuštěna jen v určitém stavu programu, proto využijeme trigger mode, který nám zajístí, že uživatel nenačte čárový kod kdy nemá. To může způsobit hromadění kodu v bufferu mikrokontroleru/řídící jednotky
+%Čtečku bude spuštěna jen v určitém stavu programu, proto využijeme trigger mode, který nám zajístí, že uživatel nenačte čárový kod kdy nemá. To může způsobit hromadění kodu v bufferu mikrokontroleru/řídicí jednotky
 \\\\
 %Čtečku čárového kódu lze připojit pomocí UART nebo USB rozhraní.
 

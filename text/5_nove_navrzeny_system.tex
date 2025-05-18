@@ -4,11 +4,11 @@
 Nově navržený systém se skládá z databáze a 5 hlavních komponent navzájem propojených: modul s výpočetní jednotkou, váha, čtečka čárového kódu a dotykový displej. Dále je možnost připojit systém k počítači pro správu databáze a tisk dat. 
 
 \section{Postup měření}%/Princip/funkcionalita
-Pro evidenci zůstatkového objemu jedné láhve je nutné naskenovat její čárový kód pomocí čtečky čárových kódů a zvážit ji. Mikrokontroler na základě získaného EAN vybere z databáze patřičná data, viz kapitola č. \ref{databaze} a přepočítá hmotnost na objem. V případě, že by čárový kód nebyl čitelný, je možné ho zadat ručně do systému prostřednictvím klávesnice. Veškeré důležité informace včetně zbytkového objemu se zobrazí na displeji. %Pro výpis všech naměřených dat je možné systém připojit k počítači a nechat si je vytisknout do formátu .xlsx pomocí navržené desktopové aplikace. Tato aplikace slouží i ke správě databáze.
+Pro evidenci zůstatkového objemu jedné láhve je nutné naskenovat její čárový kód pomocí čtečky čárových kódů a zvážit ji. Modul s výpočetní jednotkou na základě získaného EAN vybere z databáze patřičná data, viz kapitola č. \ref{databaze} a přepočítá hmotnost na objem. V případě, že by čárový kód nebyl čitelný, je možné ho zadat ručně do systému prostřednictvím klávesnice. Veškeré důležité informace včetně zbytkového objemu se zobrazí na displeji. %Pro výpis všech naměřených dat je možné systém připojit k počítači a nechat si je vytisknout do formátu .xlsx pomocí navržené desktopové aplikace. Tato aplikace slouží i ke správě databáze.
 %Do budoucna k měřicimu systému bude vyvíjena desktopová aplikace běžící na stolním počítačí/notebooku. Mikrokontroler bude k počítači připojen prostřednictvím USB portu
 %Do budoucna pro výpis všech naměřených dat bude možné systém připojit k počítači a nechat si je vytisknout do formátu  .xlsx pomocí navržené desktopové aplikace. Tato aplikace slouží i ke správě databáze.
 
-Do budoucna bude vyvíjena desktopová aplikace pro editaci databáze[č.5.3] a zpracování naměřených dat, jako je například tisk do formátu .xlsl. Měřící systém bude propojený s počítačem skrz USB kabel nebo Wi-Fi.
+Do budoucna bude vyvíjena desktopová aplikace pro editaci databáze[č.5.3] a zpracování naměřených dat, jako je například tisk do formátu .xlsl. Měřicí systém bude propojený s počítačem skrz USB kabel nebo Wi-Fi.
 
 \section{Blokové schéma}
 %FOTO
@@ -17,8 +17,8 @@ Do budoucna bude vyvíjena desktopová aplikace pro editaci databáze[č.5.3] a 
     \begin{center}
         \includegraphics[scale=0.7]{obrazky/Blokové schéma.jpg}
     \end{center}
-    \label{blokove_schema}
     \caption{Blokové schéma nově navrženého systému}
+    \label{blokove_schema}
 \end{figure}
 
 \section{Databáze}
@@ -148,7 +148,7 @@ Nejdůležitější komponentou systému je váha pro výpočet zbytkového obje
 
 %Tabulka: metoda(A,B,C), přesnost váhy(C=2váhy), přesnost systému, cena
 
-Hlavním požadavkem je oboustranný otevřený komunikační port pro čtení dat a odesílání požadavku na jejich zaslání prostřednictvím sériové linky do řídící jednotky, je tedy nutné znát přesný popis přenosu dat. Tyto požadavky zpravidla splňují laboratorní a průmyslové váhy, kde se očekává, že data budou zpracovávána pomocí aplikačního softwaru.
+Hlavním požadavkem je oboustranný otevřený komunikační port pro čtení dat a odesílání požadavku na jejich zaslání prostřednictvím sériové linky do řídicí jednotky, je tedy nutné znát přesný popis přenosu dat. Tyto požadavky zpravidla splňují laboratorní a průmyslové váhy, kde se očekává, že data budou zpracovávána pomocí aplikačního softwaru.
 
 Váživost (maximální hmotnost, která lze na váze navážit) se požaduje minimálně 2 kg. Hmotnost prázdné láhve u většiny destilátů se pohybuje od 500 do 800 g a samotný obsah láhve je od 500 do 1000 ml, tudíž až necelý 1 kg. V případě robustnějších lahví okolo 1 kg by váživost do 2 kg nemusela stačit, proto je vhodnější volit 3 kg. Větší váživost jak 3 kg, by neměla pro běžné podniky HoReCa význam, navíc s vyšší váživostí úměrně klesá její přesnost a roste cena váhy.
 
@@ -184,7 +184,7 @@ Výpočet přesností váhy:
 
 
 
-Váha je určena pro fyzickou inventuru HoReCa podniků, která spadá pod interní činnost podniku a není podmínkou, aby byla certifikována viz. kapitola č.\ref{meridlo}
+Váha je určena pro fyzickou inventuru HoReCa podniků, která spadá pod interní činnost podniku a není podmínkou, aby byla certifikována (viz. kap. č.\ref{sec:metrologie})
 %Váha je určena pro interní chod podniku a není podmínkou, aby byla certifikována.
 
 Po splnění výše zmíněných požadavků je rozhodujícím faktorem cena.
@@ -226,8 +226,8 @@ Kompletní specifikace je uvedena v dokumentaci: \cite{vaha_datasheed}
         \begin{tabular}[c]{@{}c@{}}Doba \\ stabilizace\end{tabular} & < 2 s \\ \hline
         Cena                                                            & 1987 Kč     \\ \hline
     \end{tabular}
-    \label{vahaa}
     \caption{Základní parametry vybrané váhy}
+    \label{vahaa}
 \end{table}
 
 \begin{figure}[!h]
@@ -256,19 +256,20 @@ Kompletní specifikace je uvedena v dokumentaci: \cite{vaha_datasheed}
 %\end{itemize}
 %Napěťový vodič je pro náš systém zbytečný, proto není uvažován a datový vodiče jsou zapojený do kříže z důvodu pear-to-pear topologie.
 
-\subsection{Datový paket}
+\subsection{Datový paket vybrané váhy}
 \label{datový paket váhy}
 
-Paket se skládá z:
-\begin{itemize}
-    \item 1 start bit
-    \item 8 datových bitů
-    \item 1 stop bit
-    \item bez paritního bitu
-\end{itemize}
+Paket se skládá z: 1x start bit, 8x datový bit, 1x stop bit.
+%\begin{itemize}
+%    \item 1 start bit
+%    \item 8 datových bitů
+%    \item 1 stop bit
+%    \item bez paritního bitu
+%\end{itemize}
 %V našem případě není vyžadován paritní bit z důvodu opětovného odesílání stejných dat na výstup. Přínos by mohl mít pokud bychom ukládali veškeré příchozí data. Systém vezneme pouze poslední příchozí hodnotu, pokud sekvence dat za touhle hodnotou byla neměnná(např. za ±1 sekundu), tedy že se nám ustálila naměřená hmotnost.
 %
 %Datový paket váhy neobsahuje paritní bit, tudíž není možné zjistit zda zpráva není poškozena. Ošetření absence paritního bitu bude na SW úrovni. Pokud váha bude stabilizovaná a poslední 3 přijaté zprávy budou shodné, můžeme tuto hodnotu prohlásit/brát jako validní/správnou (nepoškozenou).
+
 Datový paket váhy neobsahuje paritní bit, tudíž odhalení poškozené zprávy je obtížnější. Ošetření absence paritního bitu bude na softwarové úrovni, kdy se vyhodnotí poslední 3 přijaté zprávy, pokud budou všechny shodné, můžeme prohlásit, že tato hodnota je s největší pravděpodobností nepoškozená. Pravděpodobnost, že by 3x po sobě přišla stejně poškozená zpráva, je vysoce mizivá.
 
 %Datový paket váhy neobsahuje paritní bit, což ztěžuje detekci případného poškození zprávy. Absence paritního bitu bude proto řešena na softwarové úrovni: vyhodnotí se poslední tři přijaté zprávy a pokud se všechny shodují, lze předpokládat, že jsou pravděpodobně nepoškozené. Pravděpodobnost trojnásobného opakovaného poškození stejné hodnoty je totiž téměř zanedbatelná.
@@ -431,6 +432,36 @@ Vybraný displej je JOY-IT RASPBERRY PI touch display 7". Jeho důležité param
     \caption{Vybraný displej JOY-IT \cite{displej}}
 \end{figure}
 
+
+
+%\begin{figure}[!h]
+%  \centering
+%  \begin{minipage}[t]{0.46\textwidth}
+%    \centering
+%    \captionof{table}{Základní parametry displeje}
+%    \begin{tabular}{|c|c|}
+%      \hline
+%      Výrobce            & JOY-IT           \\ \hline
+%      Uhlopříčka         & 7″ (17,78 cm)    \\ \hline
+%      Rozlišení          & 1024 × 600 px    \\ \hline
+%      Rozhraní           & HDMI, USB        \\ \hline
+%      Napájení           & 5 V / 0,6 A      \\ \hline
+%      Spotřeba           & 3 W              \\ \hline
+%      Dotykový displej   & Ano              \\ \hline
+%      Cena               & 2297 Kč          \\ \hline
+%    \end{tabular}
+%    \label{tab:displej}
+%  \end{minipage}\hfill
+%  \begin{minipage}[t]{0.48\textwidth}
+%    \centering
+%    \includegraphics[width=\linewidth]{obrazky/Displej.png}
+%    \captionof{figure}{Vybraný displej JOY-IT \cite{displej}}
+%    \label{fig:displej}
+%  \end{minipage}
+%\end{figure}
+
+
+
 \subsection{Alternativy vybraného displeje}
 Mezi alternativy můžeme zařadit:
 \begin{itemize}
@@ -449,8 +480,8 @@ Mezi alternativy můžeme zařadit:
     \end{itemize}
 
 
-    \item JOY-IT RASPBERRY PI touch display 5" - displej se liší od vybraného menší uhlopříčkou(5"), menším rozlišením(800x480) a nižší cenou(1599 Kč)
-    \item Raspberry Pi LCD - 7" Touchscreen - displej se liší od vybraného menším rozlišením(800x480) a nižší cenou(1399 Kč). Jeho nevýhodou je horší dostupnost na českém trhu
+    \item JOY-IT RASPBERRY PI touch display 5" - displej se liší od vybraného menší uhlopříčkou (5"), menším rozlišením (800x480) a nižší cenou(1599 Kč)
+    \item Raspberry Pi LCD - 7" Touchscreen - displej se liší od vybraného menším rozlišením (800x480) a nižší cenou (1399 Kč). Jeho nevýhodou je horší dostupnost na českém trhu
 \end{itemize}
 
 %Displej je připojen k mikrokontroleru
@@ -585,7 +616,7 @@ S ohledem na výše uvedené požadavky byla vybrána kamerová čtečka KROW GM
 %\end{itemize}
 
 \section{Modul s výpočetní jednotkou} %Mikrokontroler
-%Výpočetní modul / Modul s výpočetní jednotkou / Řídící jednotka / Výpočetní jednotka
+%Výpočetní modul / Modul s výpočetní jednotkou / Řídicí jednotka / Výpočetní jednotka
 
 Modul s výpočetní jednotkou je samostatná hardwarová součást (obvykle deska plošných spojů osazená procesorem, pamětí a potřebnými rozhraními), která ve větším elektronickém či řídicím systému zajišťuje hlavní výpočetní výkon. Často pracuje v kombinaci s jinými moduly – sběrnicovými, vstupními (senzory, klávesnice), výstupními (displeje, motory) nebo dalšími výpočetními jednotkami. Mezi běžné představitele těchto výpočetních jednotek patří:
 \begin{itemize}
@@ -595,13 +626,13 @@ Modul s výpočetní jednotkou je samostatná hardwarová součást (obvykle des
 
 
 %Mikrokontroler jinak označovaný jednočipový počítač je integrovaný obvod
-%Mikrokontrolér nebo také jednočipový počítač je integrovaný obvod obsahující kompletní mikropočítač. Jednočipové počítače se vyznačují velkou spolehlivostí a kompaktností, proto jsou určeny především pro jednoúčelové aplikace. Mikrokontroléry jsou často používány v embedded systémech, jako jsou například řídicí systémy, regulátory, senzory a další aplikace, kde je potřeba rychle a spolehlivě zpracovávat data. V praxi si můžeme pod takovou řídící jednotkou představit např. PLC (Programovatelný automat)
+%Mikrokontrolér nebo také jednočipový počítač je integrovaný obvod obsahující kompletní mikropočítač. Jednočipové počítače se vyznačují velkou spolehlivostí a kompaktností, proto jsou určeny především pro jednoúčelové aplikace. Mikrokontroléry jsou často používány v embedded systémech, jako jsou například řídicí systémy, regulátory, senzory a další aplikace, kde je potřeba rychle a spolehlivě zpracovávat data. V praxi si můžeme pod takovou řídicí jednotkou představit např. PLC (Programovatelný automat)
 %[zdroj]
 %Na bakalařku překopat...je to opsaný
 %https://sk.wikipedia.org/wiki/Mikrokontrol%C3%A9r
 %https://cs.wikipedia.org/wiki/Jedno%C4%8Dipov%C3%BD_po%C4%8D%C3%ADta%C4%8D
 
-\subsection{Požadavky na modul s výpočetní jednotkou} %Požadavky na řídící jednotku / výpočetní modul
+\subsection{Požadavky na modul s výpočetní jednotkou} %Požadavky na řídicí jednotku / výpočetní modul
 %napájení
 %OS(bez os nepojede databaze atd) a grafická čip, hdmi,  pro vývoj GUI
 %Jednodeskotopový PC skrz chod pythonu a Tkinter, ten na mikrokontroleru nerozjedu skrz malou pamět a výkon a na MikroPython nic takového nebude. Dále mikrokontorler nemá SD slot pro ukládání databáze
@@ -609,31 +640,36 @@ Modul s výpočetní jednotkou je samostatná hardwarová součást (obvykle des
 
 %
 
-Hlavním z požadavků je snadná realizovatelnost firmware s integrovaným grafickým uživatelským rozhraním(GUI) ovládaného dotykovým displejem. Pro takové účely je vhodné použít vysokoúrovňový programovací jazyk, např. Python, který nabízí široký výběr knihoven a nástrojů, které ulehčují a zrychlují vývoj samotného firmware, na druhou stranu je nutné přihlédnout na dostačující výkon a operační paměť(RAM) řídící jednotky. Vývoj GUI a práce s databází obnáší zpravidla přítomnost OS už jen z důvodu zabudovaných grafických ovladačů pro komunikaci s displejem, správu paměti nebo využití grafických knihoven, které je pro svoji funkčnost OS vyžadují, proto využiji nenáročné distribuce linuxu, která je oproti konkurenčním OS výkonově i paměťově nenáročná.
+Hlavním z požadavků je snadná realizovatelnost firmware s integrovaným grafickým uživatelským rozhraním (GUI) ovládaného dotykovým displejem. Pro takové účely je vhodné použít vysokoúrovňový programovací jazyk, např. Python, který nabízí široký výběr knihoven a nástrojů, které ulehčují a zrychlují vývoj samotného firmware, na druhou stranu je nutné přihlédnout na dostačující výkon a operační paměť (RAM) řídicí jednotky. Vývoj GUI a práce s databází obnáší zpravidla přítomnost OS už jen z důvodu zabudovaných grafických ovladačů pro komunikaci s displejem, správu paměti nebo využití grafických knihoven, které je pro svoji funkčnost OS vyžadují, proto využiji nenáročné distribuce linuxu, která je oproti konkurenčním OS výkonově i paměťově nenáročná.
 %Z důvodu volby vysokoúrovňového programovacího jazyku, GUI a využití databáze je nutné, aby firmware běžel na OS.
-%Z důvodu minimální výkonové a paměťové náročnosti poběží řídící jednotka na nenáročné distribuci Linuxu. Pro takový účely se hodí libovolná distribuce linuxu, která je hojně využívána u jednodeskových počítačů.
+%Z důvodu minimální výkonové a paměťové náročnosti poběží řídicí jednotka na nenáročné distribuci Linuxu. Pro takový účely se hodí libovolná distribuce linuxu, která je hojně využívána u jednodeskových počítačů.
 
 Další požadavky:
 \begin{itemize}
     \item Výkon a paměť: 
         \begin{itemize}
-            \item Dvou a více jádrový procesor pro paralelní chod GUI a stavového automatu pro zpracování dat ze čtečky čárového kódu a váhy. 
-            \item Minimální velikost RAM paměti 2 GB, optimálně 4-8 GB pro plynulý chod GUI a OS.
+            \item Dostatečně výkonný procesor pro chod GUI aplikace.
+            %\item Dvou a více jádrový procesor pro paralelní chod GUI a stavového automatu pro zpracování dat ze čtečky čárového kódu a váhy. 
+            %\item Minimální velikost RAM paměti 2 GB, optimálně 4-8 GB pro plynulý chod GUI a OS.
+            \item Velikost paměti RAM optimálně 2 GB pro plynulý chod GUI a OS.
         \end{itemize}
     \item Periferie:
         \begin{itemize}
-            \item 3x USB-A(optimálně verze 3.0) pro čtečku čárového kódu, váhu a napájení displeje. Výstupní proud alespoň 0,6 A 
+            \item 3x USB-A (optimálně verze 3.0) pro čtečku čárového kódu, váhu a napájení displeje. Výstupní proud alespoň 0,6 A 
             \item 1x HDMI nebo Micro HDMI pro dotykový displej
-            \item slot na SD kartu na které budou uložena veškerá data databáze zmíněná v kapitole č. 5.3, operační systém a samotný firmware. Velikost SD karty alespoň 32 GB[zdroj1] pro plynulý chod OS  
+            \item slot na SD kartu na které bude uložen firmware, databáze, atd.
+            
+            %\item slot na SD kartu na které budou uložena veškerá data databáze zmíněná v kapitole č. 5.3, operační systém a samotný firmware. Velikost SD karty alespoň 32 GB[zdroj1] pro plynulý chod OS 
+            
             %pro optimální rychlost čtení a zápisu [zdroj1][zdroj2]. %Například pro Rasbian OS (OS jednodeskových počítačů(SBC) raspberry pi) je doporučovaná velikost minimálně 4 GB[Zdroj1]
             %Zdroj1 : https://www.raspberrypi.com/documentation/computers/getting-started.html
             %Zdroj2 : https://www.raspberrypi.com/documentation/accessories/sd-cards.html
-            \item Řídící jednotka musí zvládnout poskytnout dle vybraných komponent, alespoň 0,7 A při 5 V, optimálně 1,2 A, pro případ rozšíření systému o další komponenty.
+            \item řídicí jednotka musí zvládnout poskytnout dle vybraných komponent, alespoň 0,7 A při 5 V, optimálně 1,2 A, pro případ rozšíření systému o další komponenty.
             %\item Alespoň jeden GPIO pro ovládání pípáku
         \end{itemize}
-    \item Integrovaný Wi-Fi modul: Do budoucna je cílem bezdrátová konektivita s měřícím systémem pomocí mobilní aplikace nebo připojení k ERP systémům
+    \item Integrovaný Wi-Fi modul: Do budoucna je cílem bezdrátová konektivita s měřicím systémem pomocí mobilní aplikace nebo připojení k ERP systémům
     %\item napájení/odběr/příkon/spotřeba: ...
-    %Výstupní proud 0,6 A (USB): Výkonově nejnáročnější komponentou připojené k řídící jednotce bude displej[] s proudovým odběr 0,6 A při 5 V. (Do budoucna bude měřicí systém bude obsahovat baterii, který může napájet jednotlivé komponenty.) Pro provoz displeje, který je proudově nejnáročnější je nutné, aby USB porty dokázaly poskytnout minimálně 0,6 A při 5 V. Řídící jednotka musí zvládnout poskytnout dle vybraných komponent, alespoň 0,7 A při 5 V, optimálně 1,2 A, pro případ rozšíření systému o další komponentu.
+    %Výstupní proud 0,6 A (USB): Výkonově nejnáročnější komponentou připojené k řídicí jednotce bude displej[] s proudovým odběr 0,6 A při 5 V. (Do budoucna bude měřicí systém bude obsahovat baterii, který může napájet jednotlivé komponenty.) Pro provoz displeje, který je proudově nejnáročnější je nutné, aby USB porty dokázaly poskytnout minimálně 0,6 A při 5 V. řídicí jednotka musí zvládnout poskytnout dle vybraných komponent, alespoň 0,7 A při 5 V, optimálně 1,2 A, pro případ rozšíření systému o další komponentu.
 \end{itemize}
 
 %Nevybírat model s konrétní velikost ram, ale určit více velikostí a pak podle toho dát rozsah ceny
@@ -652,7 +688,7 @@ Mezi klíčové výhody Raspberry Pi patří široká komunita, kvalitní podpor
 %Dále obsahuje: Wi-Fi/BT modul, SD slot, 3,5 mm Jack
 
 
-\begin{table}[!h]
+\begin{table}[H]
     \centering
     \begin{tabular}{|c|c|}
         \hline
@@ -668,8 +704,8 @@ Mezi klíčové výhody Raspberry Pi patří široká komunita, kvalitní podpor
         Dale obsahuje & \begin{tabular}[c]{@{}c@{}} Wi-Fi/BT modul \\ SD slot \end{tabular} \\ \hline
         Cena                                                            & 1987 Kč     \\ \hline
     \end{tabular}
-    \label{raspbericko_spec}
     \caption{Základní parametry Raspberry Pi 4 \cite{Raspberry pi}}
+    \label{raspbericko_spec}
 \end{table}
 
 %Hlavní nevýhodou je pořizovací cena 1479 Kč a vyšší spotřeba energie v rozmezí 3 - 7 W. Kompletní specifikace se nachází v dokumentaci výrobce.[2]
@@ -692,7 +728,7 @@ Mezi klíčové výhody Raspberry Pi patří široká komunita, kvalitní podpor
 
 %Jedinou nevýhodou je vysoká pořizovací cena.
 
-\begin{figure}[!h]
+\begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.3]{obrazky/raspberry-pi-4.png}
     \end{center}
@@ -701,6 +737,7 @@ Mezi klíčové výhody Raspberry Pi patří široká komunita, kvalitní podpor
 \end{figure}
 
 \subsection{Alternativy vybraného modulu s výpočetní jednotkou}
+Níže je seznam alternativ, včetně výhod a nevýhod vůči vybranému mikropočítači Raspberry Pi 4. 
 
 %Raspberry piko
 %Arduino Uno
@@ -708,47 +745,82 @@ Mezi klíčové výhody Raspberry Pi patří široká komunita, kvalitní podpor
 %Acemagic T8-PRO N5105 (8+0) Silver (Přebustěny jednodeskový pc / mini PC)
 
 \begin{itemize}
-    \item ESP32 (MCU)
+    %\item \textbf{ESP32} (MCU)
+    %    \begin{itemize}
+    %        \item Výhody
+    %            \begin{itemize}
+    %                \item asdasd
+    %                \item asddd
+    %            \end{itemize}
+    %        \item Nevýhody
+    %        \begin{itemize}
+    %            \item fdf
+    %            \item fff
+    %        \end{itemize}
+    %        \item Zlomová cena - 200 Kč
+    %        \item Absence debuggeru
+    %        \item ...
+    %    \end{itemize}
+    \item \textbf{Banana Pi M5} (Druhá nejlepší volba)
         \begin{itemize}
-            \item Zlomová cena - 200 Kč
-            \item Absence debuggeru
-            \item ...
+        \item[] Výhody
+            \begin{itemize}
+                \item[$-$] Výkonnější procesor - Cortex-A55 (4 jádra, 2 GHz)
+                \item[$-$] Integrované uložiště eMMC (rychlejší než SD karta)
+                \item[$-$] Nižší cena: cca 2000 Kč.
+            \end{itemize}
+        \item[] Nevýhody
+            \begin{itemize}
+                \item[$-$] Horší dostupnost v lokálních obchodech (často nutný dovoz). To sebou nese i problémy s reklamací.
+                \item[$-$] Menší uživatelská základna - méně zdrojů, tutoriálů a komunitních projektů.
+                \item[$-$] Kopie Raspberry Pi 4 - Potenciálně menší životnost HW, možné problém s licencemi (např. GPL).
+            \end{itemize}
         \end{itemize}
-    \item Banana Pi M5 (Druhá nejlepší volba)
+    \item \textbf{Odroid XU4}
         \begin{itemize}
-            \item[$-$] "Čínská" kopie raspberry pi 4
-            \item[$+$] Výkonnější procesor - Cortex-A55 (4 jádra, 2 GHz)
-            \item[$+$] Integrované uložiště eMMC (rychlejší než SD karta)
-            \item[$-$] Horší dostupnost v lokálních e-shopech (často nutný dovoz)
-            \item[$-$] Menší uživatelská základna - méně zdrojů, tutoriálů a komunitních projektů
-            \item[$+$] 2000 Kč
-        \end{itemize}
-    \item Odroid XU4
-        \begin{itemize}
-            \item[$-$] Absence Wi-Fi modulu
-            \item[$-$] Pouze 2 GB RAM
-            \item[+] eMMC modul
-            \item[$+$] Komunita kolem Hardkernel Odroidů je relativně aktivní
-            \item[$-$] Stále menší komunita než u Raspberry
+        \item[] Výhody
+            \begin{itemize}
+                \item[$-$] Integrované uložiště eMMC (rychlejší než SD karta)
+                \item[$-$] Nižší cena: cca 2000 Kč.
+            \end{itemize}
+        \item[] Nevýhody
+            \begin{itemize}
+                \item[$-$] Absence Wi-Fi modulu.
+                \item[$-$] Pouze 2 GB RAM.
+                \item[$-$] Komunita je relativně aktivní, ale stále menší než u Raspberry Pi.
+            \end{itemize}
         \end{itemize}
     %- Jen 2 GB RAM. Nemá integrovaný Wi-Fi modul, nutnost připojit externě.
-    \item NVIDIA Jetson Nano 
+    \item \textbf{NVIDIA Jetson Nano} 
         \begin{itemize}
-            \item[$-$] Cenově náročný - 8000 Kč
-            \item[$+$] Zbytečně vysoký grafický výkon. Vhodnější spíše pro strojové učení a práci s AI.
-            \item[$-$] Absence Wi-Fi modulu (možnost externího připojení)
-            \item[$-$] Vyšší spotřeba 7 - 24 W
+            \item[] Výhody
+            \begin{itemize}
+                \item[$-$] Vysoký grafický výkon. Vhodnější pro strojové učení a práci s AI. Pro navrhovaný systém nevyužitelný.
+            \end{itemize}
+            \item[] Nevýhody
+            \begin{itemize}
+                \item[$-$] Absence Wi-Fi modulu (možnost externího připojení)
+                \item[$-$] Vyšší spotřeba 7 - 24 W
+                \item[$-$] Vyšší cena: cca 8000 Kč.
+            \end{itemize}
         \end{itemize}
-    \item Recyberry Asus Tinker Board S. 
+    \item \textbf{Recyberry Asus Tinker Board S.} 
         \begin{itemize}
-            \item[$-$] Aktuálně nedostupný na českém trhu%Horší dostupnost v lokálních e-shopech
-            \item[$-$] Operační paměť max. 2 GB
-            \item[$-$] Pouze USB 2.0 (10x pomalejší než USB 3.0 %[zdroj: to co useriove komunikace])
-            \item[+] Integrovaný eMMC (rychlejší načtení OS)
+            \item[] Výhody
+            \begin{itemize}
+                \item[$-$] Integrovaný eMMC (rychlejší načtení OS)
+            \end{itemize}
+            \item[] Nevýhody
+            \begin{itemize}
+                \item[$-$] Aktuálně nedostupný na českém trhu%Horší dostupnost v lokálních e-shopech
+                \item[$-$] Operační paměť 2 GB.
+                \item[$-$] Pouze USB 2.0 (10x pomalejší než USB 3.0 %[zdroj: to co useriove komunikace])
+            \end{itemize}
         \end{itemize}
     %\item Recyberry Asus Tinker Board 2S - Vyší napájecí napětí 12-19 V, 
     %\item Arduino Portenta X8 - Nemá nativní HDMI port, ale zde využít USB-C konektoru jako Displey Port a pro ostatní USB porty použít USB rozbočovač
 \end{itemize}
+
 
 
 
