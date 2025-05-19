@@ -1,6 +1,7 @@
 \chapter{Zprovoznění jednotlivých komponent}
 \label{Zprovoznění jednotlivých komponent}
-Jednotlivé komponenty jsou připojeny k Raspberry Pi 4 podle schématu na obrázku č. \ref{blokove_schema}. %Dotykový displej stačí jen připojit, proto je nebudu v rámci této kapitoly více rozebírat.
+Táto kapitola se zabývá sprovozněním jednotlivých komponent a jejich propojením s Raspberry Pi 4 podle schématu na obrázku č. \ref{blokove_schema}.
+%Jednotlivé komponenty jsou připojeny k Raspberry Pi 4 podle schématu na obrázku č. \ref{blokove_schema}. %Dotykový displej stačí jen připojit, proto je nebudu v rámci této kapitoly více rozebírat.
 
 \section{Ověření přesnosti váhy}
 
@@ -172,14 +173,14 @@ Jelikož přechod mezi režimy nelze ovládat přímo příkazem, jedinou možno
 
 \begin{figure}[h]
     \begin{center}
-        \includegraphics[scale=0.14]{obrazky/hterm_ctecka_oriznutí.png}
+        \includegraphics[scale=0.33]{obrazky/hterm_ctecka_oriznutí_(Velký)_3_4MB.png}
     \end{center}
     \caption{Čtení sériové komunikace čtečky pomocí HTerm}
     \label{Zprovoznění čtečky}
 \end{figure}
 
 %Čtečku bude spuštěna jen v určitém stavu programu, proto využijeme trigger mode, který nám zajístí, že uživatel nenačte čárový kod kdy nemá. To může způsobit hromadění kodu v bufferu mikrokontroleru/řídicí jednotky
-\\\\
+%\\\\
 %Čtečku čárového kódu lze připojit pomocí UART nebo USB rozhraní.
 
 %Zjistit v jakem formatu mi to posílá

@@ -1,7 +1,7 @@
 \chapter{Nově navržený systém}
 \label{Nově navržený systém}
 %V této kapitole se budem zabívat nově navrženým systémem, jejíma komponentama a... 
-Nově navržený systém se skládá z databáze a 5 hlavních komponent navzájem propojených: modul s výpočetní jednotkou, váha, čtečka čárového kódu a dotykový displej. Dále je možnost připojit systém k počítači pro správu databáze a tisk dat. 
+Nově navržený systém se skládá z databáze a 5 hlavních komponent navzájem propojených: modul s výpočetní jednotkou, váha, čtečka čárového kódu a dotykový displej. Dále je možnost připojit systém k počítači pro správu databáze. 
 
 \section{Postup měření}%/Princip/funkcionalita
 Pro evidenci zůstatkového objemu jedné láhve je nutné naskenovat její čárový kód pomocí čtečky čárových kódů a zvážit ji. Modul s výpočetní jednotkou na základě získaného EAN vybere z databáze patřičná data, viz kapitola č. \ref{databaze} a přepočítá hmotnost na objem. V případě, že by čárový kód nebyl čitelný, je možné ho zadat ručně do systému prostřednictvím klávesnice. Veškeré důležité informace včetně zbytkového objemu se zobrazí na displeji. %Pro výpis všech naměřených dat je možné systém připojit k počítači a nechat si je vytisknout do formátu .xlsx pomocí navržené desktopové aplikace. Tato aplikace slouží i ke správě databáze.
@@ -339,35 +339,57 @@ Níže je seznam s parametry vah dostupných na českém či zahraničním trhu 
     %    \item Cena: 2907 Kč
     %\end{itemize}
     
-    \item G\&G E3KY05
+    \item \textbf{G\&G E3KY05}
     \begin{itemize}
         %\item Váživost 3 kg
-        \item Přesnost 0,5 g
+        \item[] Výhody
+        \begin{itemize}
+            \item[$-$] Dostačující přesnost 0,5 g
+            \item[$-$] 6 V integrovaná nabíjecí baterie
+        \end{itemize}
         %\item Oboustraný komunikační port RS-232
-        \item Dokumentace je vysoce shodná jak u vybrané váhy G\&G E3000, proto je riziko, že by mohla být chybná
-        \item Cena: 3935 Kč
+        \item[] Nevýhody
+        \begin{itemize}
+            \item[$-$] Dokumentace je strohá.
+            %\item Dokumentace je vysoce shodná jak u vybrané váhy G\&G E3000, proto je riziko, že by mohla být chybná
+            \item[$-$] Vyšší cena: cca 3900 Kč
+        \end{itemize}
     \end{itemize}
     
-    \item U.S. Solid USS-DBS86
+    \item \textbf{U.S. Solid USS-DBS86}
     \begin{itemize}
         %\item Váživost 3 kg
-        \item Přesnost 0,1 g
+        \item[] Výhody
+        \begin{itemize}
+            \item[$-$] Dostačující přesnost 0,1 g
+            \item[$-$] Nižší cena: cca 1997 Kč
+        \end{itemize}
         %\item Oboustraný komunikační port RS-232
-        \item Cena: 1997,48 Kč
-        \item Dostupná pouze v zahraničí
-        \item Velice stručná dokumentace s chybějícími informacemi o komunikačním rozhraní
+        \item[] Nevýhody
+        \begin{itemize}
+            \item[$-$] Dostupná pouze v zahraničí
+            \item[$-$] Velice stručná dokumentace s chybějícími informacemi o komunikačním rozhraní
+        \end{itemize}
     \end{itemize}
     
-    \item A\&D EK-3000i
+    \item \textbf{A\&D EK-3000i}
     \begin{itemize}
         %\item Váživost 3 kg
-        \item Přesnost 0,1 g
+        \item[] Výhody
+        \begin{itemize}
+            \item[$-$] Dostačující přesnost 0,1 g
+            \item[$-$] Obsáhlá dokumentace
+            \item[$-$] Váha je certifikovaná
+        \end{itemize}
         %\item Oboustraný komunikační port RS-232
-        \item Cena: 12670 Kč
-        \item Obsáhlá dokumentace
-        \item Certifikace
+        \item[] Nevýhody
+        \begin{itemize}
+            \item[$-$] Vyšší cena: 12670 Kč
+        \end{itemize}
     \end{itemize} %G&G E3KY05 
 \end{itemize}
+\smallskip
+Všechny výše uvedené váhy představují vhodné kandidáty pro integraci do navrženého měřicího systému. Model G\&G E3000 byl zvolen zejména s ohledem na příznivý poměr ceny a dostupnosti na tuzemském trhu. Jeho hlavní nevýhodu představuje jen stručně zpracovaná technická dokumentace.
 
 
 
@@ -465,24 +487,41 @@ Vybraný displej je JOY-IT RASPBERRY PI touch display 7". Jeho důležité param
 \subsection{Alternativy vybraného displeje}
 Mezi alternativy můžeme zařadit:
 \begin{itemize}
-    \item JOY-IT RASPBERRY PI touch display 5"
+    \item \textbf{JOY-IT RASPBERRY PI touch display 5"}
     \begin{itemize}
-        \item Uhlopříčka 5" (12,7 cm)
-        \item Rozlišení 800x480 px
-        \item Cena 1599 Kč
+    \item[] Výhody
+        \begin{itemize}
+            \item[$-$] Montážní otvory pro uchycení displeje
+            \item[$-$] Cena 1599 Kč
+        \end{itemize}
+    \item[] Nevýhody
+        \begin{itemize}
+            \item[$-$] Uhlopříčka 5" (12,7 cm)
+            \item[$-$] Rozlišení 800x480 px
+        \end{itemize}
     \end{itemize}
-    \item Raspberry Pi LCD - 7" Touchscreen
+    \item \textbf{Raspberry Pi LCD - 7" Touchscreen}
     \begin{itemize}
-        \item Uhlopříčka 7" (17,78 cm)
-        \item Rozlišení 800x480 px
-        \item Cena 1399 Kč
-        \item Horší dostupnost na českém trhu.
+    \item[] Výhody
+        \begin{itemize}
+            \item[$-$] Montážní otvory pro uchycení displeje
+            \item[$-$] Cena 1399 Kč
+        \end{itemize}
+    \item[] Nevýhody
+        \begin{itemize}
+            \item[$-$] Uhlopříčka 7" (17,78 cm)
+            \item[$-$] Rozlišení 800x480 px
+            \item[$-$] Horší dostupnost na českém trhu.
+        \end{itemize}
     \end{itemize}
 
 
-    \item JOY-IT RASPBERRY PI touch display 5" - displej se liší od vybraného menší uhlopříčkou (5"), menším rozlišením (800x480) a nižší cenou(1599 Kč)
-    \item Raspberry Pi LCD - 7" Touchscreen - displej se liší od vybraného menším rozlišením (800x480) a nižší cenou (1399 Kč). Jeho nevýhodou je horší dostupnost na českém trhu
+    %\item JOY-IT RASPBERRY PI touch display 5" - displej se liší od vybraného menší uhlopříčkou (5"), menším rozlišením (800x480) a nižší cenou(1599 Kč)
+    %\item Raspberry Pi LCD - 7" Touchscreen - displej se liší od vybraného menším rozlišením (800x480) a nižší cenou (1399 Kč). Jeho nevýhodou je horší dostupnost na českém trhu
 \end{itemize}
+
+
+
 
 %Displej je připojen k mikrokontroleru
 %Displej nám bude zobrazovat data o 
@@ -596,18 +635,33 @@ S ohledem na výše uvedené požadavky byla vybrána kamerová čtečka KROW GM
 \begin{itemize}
     \item YHDAA YHD-M800D
     \begin{itemize}
-        \item Typ: Kamerový snímač
-        \item Cena: 1000 Kč
-        \item Rozhraní: USB
-        \item Nepřehledná a nevypovídající dokumentace
+        \item[] Výhody
+        \begin{itemize}
+            \item[$-$] Typ: Kamerový snímač
+            \item[$-$] Cena: 1000 Kč
+            \item[$-$] Rozhraní: USB
+        \end{itemize}
+        \item[] Nevýhody
+        \begin{itemize}
+            \item[$-$] Nepřehledná a nevypovídající dokumentace
+        \end{itemize}
     \end{itemize}
     \item WaveShare Barcode Scanner
     \begin{itemize}
-        \item Typ: Kamerový snímač
-        \item Cena: 1318 Kč
-        \item Rozhraní: USB, UART
+        \item[] Výhody
+        \begin{itemize}
+            \item[$-$] Typ: Kamerový snímač
+            \item[$-$] Rozhraní: USB, UART
+        \end{itemize}
+        \item[] Nevýhody
+            \begin{itemize}
+                \item[$-$] Vyšší cena: 1318 Kč
+            \end{itemize}
     \end{itemize}
 \end{itemize}
+\smallskip
+Vhodnou alternativou je WaveShare, která nabízí srovnatelné technické parametry jako aktuálně zvolený model. V obou případech je k dispozici kvalitní a podrobná dokumentace. Výběr čtečky nakonec připadl na KROW GM65 z důvodu nižší ceny.
+
 
 
 %\begin{itemize}
@@ -737,7 +791,7 @@ Mezi klíčové výhody Raspberry Pi patří široká komunita, kvalitní podpor
 \end{figure}
 
 \subsection{Alternativy vybraného modulu s výpočetní jednotkou}
-Níže je seznam alternativ, včetně výhod a nevýhod vůči vybranému mikropočítači Raspberry Pi 4. 
+Níže je seznam alternativ, včetně výhod a nevýhod vůči vybranému mikropočítači Raspberry Pi 4. Všechny ceny jsou orientační pro rok 2024.
 
 %Raspberry piko
 %Arduino Uno
@@ -775,6 +829,7 @@ Níže je seznam alternativ, včetně výhod a nevýhod vůči vybranému mikrop
                 \item[$-$] Menší uživatelská základna - méně zdrojů, tutoriálů a komunitních projektů.
                 \item[$-$] Kopie Raspberry Pi 4 - Potenciálně menší životnost HW, možné problém s licencemi (např. GPL).
             \end{itemize}
+        \item[] Zhodnocení: Pokud by primární volba byla nedostupná, představuje Banana Pi M5 realistickou náhradu při zachování požadovaného výkonu i rozhraní, avšak za cenu vyššího rizika dlouhodobé podporovatelnosti.
         \end{itemize}
     \item \textbf{Odroid XU4}
         \begin{itemize}
@@ -785,7 +840,7 @@ Níže je seznam alternativ, včetně výhod a nevýhod vůči vybranému mikrop
             \end{itemize}
         \item[] Nevýhody
             \begin{itemize}
-                \item[$-$] Absence Wi-Fi modulu.
+                \item[$-$] Absence Wi-Fi modulu (možnost externího připojení).
                 \item[$-$] Pouze 2 GB RAM.
                 \item[$-$] Komunita je relativně aktivní, ale stále menší než u Raspberry Pi.
             \end{itemize}
@@ -813,8 +868,9 @@ Níže je seznam alternativ, včetně výhod a nevýhod vůči vybranému mikrop
             \item[] Nevýhody
             \begin{itemize}
                 \item[$-$] Aktuálně nedostupný na českém trhu%Horší dostupnost v lokálních e-shopech
-                \item[$-$] Operační paměť 2 GB.
-                \item[$-$] Pouze USB 2.0 (10x pomalejší než USB 3.0 %[zdroj: to co useriove komunikace])
+                \item[$-$] RAM 2 GB.
+                \item[$-$] USB 2.0 (10x pomalejší než USB 3.0 
+                %[zdroj: to co useriove komunikace])
             \end{itemize}
         \end{itemize}
     %\item Recyberry Asus Tinker Board 2S - Vyší napájecí napětí 12-19 V, 
