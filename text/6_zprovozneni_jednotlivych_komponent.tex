@@ -52,9 +52,9 @@ Před použitím samotné váhy bylo ověřeno, zda její přesnost odpovídá p
     \label{obr:váhy_porovnani}
 \end{figure}
 
-\section{Zprovoznění váhy}
+\section{Propojení váhy s řídicí jednotkou}
 
-Integrovaná váha G\&G E3000 komunikuje přes rozhraní RS-232. Protože Raspberry Pi nedisponuje plnohodnotným RS-232 portem, je mezi zařízení vložen převodník USB–serial (AXAGO ADS-50) dodaný výrobcem. Pro správnou funkci je nutné křížení signálů (Tx $\leftrightarrow$ Rx), tuto podmínku zmiňuje dokumentace váhy. Pro zprovoznění komunikace byla mezi váhu a převodník vložena „null-modem“ redukce DB9, alternativně lze použít i jednoduchý křížený kabel.
+Integrovaná váha G\&G E3000 komunikuje přes rozhraní RS-232. Protože Raspberry Pi nedisponuje RS-232 portem, je mezi zařízení vložen převodník USB–serial (AXAGO ADS-50) dodaný výrobcem. Pro správnou funkci je nutné křížení signálů (Tx $\leftrightarrow$ Rx), tuto podmínku zmiňuje dokumentace váhy. Pro zprovoznění komunikace byla mezi váhu a převodník vložena „null-modem“ redukce DB9, alternativně lze použít i křížený kabel.
 
 %Pro zprovoznění komunikace byl mezi...
 
@@ -104,9 +104,9 @@ Předpis výstupních dat se nachází v tabulce. \ref{tabos}, kdy dle dokumenta
 \label{jouu}
 \end{table}
 
-\section{Test komunikace}
+\section{Test sériové komunikace vybrané váhy}
 Dalším krokem je nastavení parametrů sériové komunikace podle manuálu váhy\cite{vaha_datasheed}. Komunikace byla testována pomocí osciloskopu s funkcí čtení UART protokolu a Windows nástroje PuTTY, který přijímal/odesílal data po sériové lince. 
-Na obrázku č. \ref{putty} je nastavení parametrů v PuTTY a na obrázku č.\ref{puttyyyy} je vidět, že váha nám na výstup konzole PuTTY posílá aktuální naměřená data.
+Na obrázku č. \ref{putty} je nastavení parametrů v PuTTY a na obrázku č.\ref{puttyyyy} je vidět, že váha nám na výstup konzole PuTTY posílá aktuálně naměřená data. Pro sériovou komunikaci váhy s Raspberry Pi byl vytvořen zdrojový soubor \texttt{scale.py}, který je podrobně rozebrán v kapitole č. \ref{sec: scale.py}.
 
 % Requires: \usepackage{graphicx}
 \begin{table}[h]

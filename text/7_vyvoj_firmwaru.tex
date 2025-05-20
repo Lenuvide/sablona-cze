@@ -612,6 +612,7 @@ Jako poslední metoda je \texttt{read\_sensor\_data} která posílá nazpět nas
 %\end{lstlisting}
 
 \section{Zdrojový soubor váhy - scale.py}
+\label{sec: scale.py}
 Digitální váha G\&G E3000 komunikuje po linkách TX/RX standardu RS‑232 ve formátu 8 N 1 a baudrate 9600 Bd. Aby bylo možné váhu připojit k jednodeskovému počítači Raspberry Pi 4, je rozhraní převáděno adaptérem AXAGO ADS‑50 na virtuální COM port USB CDC (obr. 6‑3). Pro tuto váhu byla vytvořena třída Scale zastřešující veškero serivou komunikaci váhy s mikropočítačem. Konstruktor třídy přebírá parametry pro nastavení portu, baudrate a timeout který nastavuje, čtení na seriovém portu po dobu 1 s. Pokud do tohoto intervalu nejsou zaznamenány žádné příchozí data, čtení se ukončí. Třída dále dědí ze třídy serial, které předává všechny zmíněné parametry.
 
 \begin{lstlisting}[language=Python,breaklines=false, frame=single]
