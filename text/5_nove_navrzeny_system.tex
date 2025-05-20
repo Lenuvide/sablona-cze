@@ -256,76 +256,7 @@ Kompletní specifikace je uvedena v dokumentaci: \cite{vaha_datasheed}
 %\end{itemize}
 %Napěťový vodič je pro náš systém zbytečný, proto není uvažován a datový vodiče jsou zapojený do kříže z důvodu pear-to-pear topologie.
 
-\subsection{Datový paket vybrané váhy}
-\label{datový paket váhy}
 
-Paket se skládá z: 1x start bit, 8x datový bit, 1x stop bit.
-%\begin{itemize}
-%    \item 1 start bit
-%    \item 8 datových bitů
-%    \item 1 stop bit
-%    \item bez paritního bitu
-%\end{itemize}
-%V našem případě není vyžadován paritní bit z důvodu opětovného odesílání stejných dat na výstup. Přínos by mohl mít pokud bychom ukládali veškeré příchozí data. Systém vezneme pouze poslední příchozí hodnotu, pokud sekvence dat za touhle hodnotou byla neměnná(např. za ±1 sekundu), tedy že se nám ustálila naměřená hmotnost.
-%
-%Datový paket váhy neobsahuje paritní bit, tudíž není možné zjistit zda zpráva není poškozena. Ošetření absence paritního bitu bude na SW úrovni. Pokud váha bude stabilizovaná a poslední 3 přijaté zprávy budou shodné, můžeme tuto hodnotu prohlásit/brát jako validní/správnou (nepoškozenou).
-
-Datový paket váhy neobsahuje paritní bit, tudíž odhalení poškozené zprávy je obtížnější. Ošetření absence paritního bitu bude na softwarové úrovni, kdy se vyhodnotí poslední 3 přijaté zprávy, pokud budou všechny shodné, můžeme prohlásit, že tato hodnota je s největší pravděpodobností nepoškozená. Pravděpodobnost, že by 3x po sobě přišla stejně poškozená zpráva, je vysoce mizivá.
-
-%Datový paket váhy neobsahuje paritní bit, což ztěžuje detekci případného poškození zprávy. Absence paritního bitu bude proto řešena na softwarové úrovni: vyhodnotí se poslední tři přijaté zprávy a pokud se všechny shodují, lze předpokládat, že jsou pravděpodobně nepoškozené. Pravděpodobnost trojnásobného opakovaného poškození stejné hodnoty je totiž téměř zanedbatelná.
-%Další varianty textu: https://chatgpt.com/c/67c9adf8-0744-8000-a2f2-0d6be1335475
-
-
-
-%\subsection{Datový rámec} %datový formát
-
-%Datový rámec je část paketu, který obsahuje informace o hmotnosti viz. kapitola č.\ref{UARTt}. Dle dokumentace se formát skládá ze 14 bajtů zakódovaný v ASCII. Na obrázku č.\ref{data} je vidět posloupnost bajtů a jejich význam a na obrázku č.\ref{priklad} je praktický příklad.
-
-%Datový rámec je část paketu, který obsahuje informace o hmotnosti viz. kapitola č.\ref{UARTt}. Dle dokumentace se formát skládá ze 14 bajtů zakódovaný v ASCII. Na obrázku č.\ref{data} je vidět posloupnost bajtů a jejich význam a na obrázku č.\ref{priklad} je praktický příklad.
-
-Předpis výstupních dat se nachází v tabulce. \ref{tabos}, kdy dle dokumentace se formát skládá ze 14 bajtů zakódovaných v ASCII. V tabulce č. \ref{jouu} je praktický příklad.
-
-%\begin{figure}[!h]
-%    \begin{center}
-%        \includegraphics[scale=0.5]{obrazky/data protokol - váha.PNG}
-%    \end{center}
-%    \label{data}
-%    \caption{Předpis výstupních dat (1 unit = 1 bajt) \cite{vaha_datasheed}}
-%\end{figure}
-
-\begin{table} [!h]
-    \centering
-    \begin{tabular}{|l|l|l|l|l|l|}
-    \hline
-         Znaménko    & Mezera & Data &  Jednotka & Enter & Posun řádku \\ \hline
-         1 B & 1 B           & 7 B           & 3 B &1 B&1 B\\ \hline
-    \end{tabular}
-    \caption{Předpis výstupních dat}
-    \label{tabos}
-\end{table}
-
-%\begin{itemize}
-%    \item space - "prázdný bit" %pro zachování velikosti 14-bitového slova
-%    \item enter - přesunutí na začátek řádku (značení CR v ASCII: $\backslash$r)
-%    \item linefeed - odřádkování (značeno LF, v ASCII: $\backslash$n) 
-%\end{itemize}
-
-
-
-
-\begin{table}[h]
-\centering
-\begin{tabular}{|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|}
-\hline
-\(\pm\) & SP & \multicolumn{7}{c|}{Data} & \multicolumn{3}{c|}{Jednotka} & CR & LF \\ \hline
-- & \verb|␣| & \verb|␣| & 1 & 2 & 3 & . & 4 & 5 & \verb|␣| & g & \verb|␣| & \textbackslash{r} & \textbackslash{n} \\ \hline
-\end{tabular}
-%Pety navrhl
-\caption{Příklad uspořádání dat v datovém formátu displeje}
-%Můj navrh
-%\caption{Příklad jak jsou data z displeje zapsány v datovém formátu}
-\label{jouu}
-\end{table}
 
 \subsection{Alternativy vybrané váhy}
 %Mezi alternativy k vybrané váze můžeme zařadit:
@@ -829,7 +760,7 @@ Níže je seznam alternativ, včetně výhod a nevýhod vůči vybranému mikrop
                 \item[$-$] Menší uživatelská základna - méně zdrojů, tutoriálů a komunitních projektů.
                 \item[$-$] Kopie Raspberry Pi 4 - Potenciálně menší životnost HW, možné problém s licencemi (např. GPL).
             \end{itemize}
-        \item[] Zhodnocení: Pokud by primární volba byla nedostupná, představuje Banana Pi M5 realistickou náhradu při zachování požadovaného výkonu i rozhraní, avšak za cenu vyššího rizika dlouhodobé podporovatelnosti.
+        %\item[] Zhodnocení: Pokud by primární volba byla nedostupná, představuje Banana Pi M5 realistickou náhradu při zachování požadovaného výkonu i rozhraní, avšak za cenu vyššího rizika dlouhodobé podporovatelnosti.
         \end{itemize}
     \item \textbf{Odroid XU4}
         \begin{itemize}

@@ -1,3 +1,5 @@
+%Zvolte vhodné komponenty, navrhněte jejich vhodné propojení s výpočetní jednotkou. Jednotlivé komponenty navrhovaného systému zprovozněte.
+
 \chapter{Zprovoznění jednotlivých komponent}
 \label{Zprovoznění jednotlivých komponent}
 Táto kapitola se zabývá sprovozněním jednotlivých komponent a jejich propojením s Raspberry Pi 4 podle schématu na obrázku č. \ref{blokove_schema}.
@@ -52,45 +54,83 @@ Před použitím samotné váhy bylo ověřeno, zda její přesnost odpovídá p
 
 \section{Zprovoznění váhy}
 
-Komunikační rozhraní váhy je RS-232, který nejsme schopni připojit na mikrokontrolér z důvodu absence totožného rozhraní. V takovém případě použijeme adaptér z RS-232 na USB. Použitý adaptér je ADS-50 USB - serial, který je součástí balení váhy (obrázek č.\ref{propojení váhy v1}).
+Integrovaná váha G\&G E3000 komunikuje přes rozhraní RS-232. Protože Raspberry Pi nedisponuje plnohodnotným RS-232 portem, je mezi zařízení vložen převodník USB–serial (AXAGO ADS-50) dodaný výrobcem. Pro správnou funkci je nutné křížení signálů (Tx $\leftrightarrow$ Rx), tuto podmínku zmiňuje dokumentace váhy. Pro zprovoznění komunikace byla mezi váhu a převodník vložena „null-modem“ redukce DB9, alternativně lze použít i jednoduchý křížený kabel.
+
+%Pro zprovoznění komunikace byl mezi...
+
+%Integrovaná váha G\&G E3000 komunikuje přes rozhraní RS-232. Protože Raspberry Pi nedisponuje plnohodnotným RS-232 portem, je mezi zařízení vložen převodník USB–serial (AXAGO ADS-50) dodaný výrobcem. Pro správnou funkci je nutné křížení signálů (Tx $\leftrightarrow$ Rx); podmínku zmiňuje servisní manuál váhy. V praxi stačí mezi váhu a převodník zařadit „null-modem“ redukci DB9, případně použít jednoduchý křížený kabel
+
+
+%Komunikační rozhraní váhy je RS-232, který nejsme schopni připojit na mikrokontrolér z důvodu absence totožného rozhraní. V takovém případě použijeme adaptér z RS-232 na USB. Použitý adaptér je ADS-50 USB - serial, který je součástí balení váhy (obrázek č.\ref{propojení váhy v1}).
+
+
+\section{Datový paket vybrané váhy}
+\label{datový paket váhy}
+
+Paket se skládá z: 1x start bit, 8x datový bit, 1x stop bit.
+
+Datový paket váhy neobsahuje paritní bit, tudíž odhalení poškozené zprávy je obtížnější. Ošetření absence paritního bitu bude na softwarové úrovni, kdy se vyhodnotí poslední 3 přijaté zprávy, pokud budou všechny shodné, lze prohlásit, že tato hodnota je s největší pravděpodobností nepoškozená. Pravděpodobnost, že by 3x po sobě přišla stejně poškozená zpráva, je vysoce mizivá.
+%Datový paket váhy neobsahuje paritní bit, a odhalení poškozené zprávy je proto obtížnější. Absence paritního bitu se ošetřuje na softwarové úrovni: přijmou se tři po sobě jdoucí zprávy a vyhodnotí se jejich shoda. Pokud jsou všechna tři hlášení identická, považuje se přijatá hodnota za nepoškozenou, protože pravděpodobnost výskytu téhož chybného řetězce třikrát za sebou je zanedbatelná.
+
+
+Předpis výstupních dat se nachází v tabulce. \ref{tabos}, kdy dle dokumentace se formát skládá ze 14 bajtů zakódovaných v ASCII. V tabulce č. \ref{jouu} je praktický příklad.
+
+
+\begin{table} [!h]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|l|}
+    \hline
+         Znaménko    & Mezera & Data &  Jednotka & Enter & Posun řádku \\ \hline
+         1 B & 1 B           & 7 B           & 3 B &1 B&1 B\\ \hline
+    \end{tabular}
+    \caption{Předpis výstupních dat}
+    \label{tabos}
+\end{table}
+
+
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|p{0.6cm}|}
+\hline
+\(\pm\) & SP & \multicolumn{7}{c|}{Data} & \multicolumn{3}{c|}{Jednotka} & CR & LF \\ \hline
+- & \verb|␣| & \verb|␣| & 1 & 2 & 3 & . & 4 & 5 & \verb|␣| & g & \verb|␣| & \textbackslash{r} & \textbackslash{n} \\ \hline
+\end{tabular}
+%Pety navrhl
+\caption{Příklad uspořádání dat v datovém formátu displeje}
+%Můj navrh
+%\caption{Příklad jak jsou data z displeje zapsány v datovém formátu}
+\label{jouu}
+\end{table}
+
+\section{Test komunikace}
+Dalším krokem je nastavení parametrů sériové komunikace podle manuálu váhy\cite{vaha_datasheed}. Komunikace byla testována pomocí osciloskopu s funkcí čtení UART protokolu a Windows nástroje PuTTY, který přijímal/odesílal data po sériové lince. 
+Na obrázku č. \ref{putty} je nastavení parametrů v PuTTY a na obrázku č.\ref{puttyyyy} je vidět, že váha nám na výstup konzole PuTTY posílá aktuální naměřená data.
+
+% Requires: \usepackage{graphicx}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|c|}
+        \hline
+        Speed (baud)     & 9600 \\ \hline
+        Data bits        & 8    \\ \hline
+        Stop bits        & 1    \\ \hline
+        Parity           & None \\ \hline
+        Flow control     & None \\ \hline
+    \end{tabular}
+    \caption{Nastavení parametrů sériové komunikace v PuTTY}
+    \label{putty}
+\end{table}
+
 
 %\begin{figure}[H]
 %    \begin{center}
-%        \includegraphics[scale=0.06]{obrazky/ADS-50 USB - serial adapter.png}
+%        \includegraphics[scale=0.8]{obrazky/nastaveni putty.png}
 %    \end{center}
-%    \caption{Adaptér USB - serial AXAGO ADS-50}
-%    \label{adapter}
+%    \caption{Nastavení parametrů komunikace v PuTTY}
+%    \label{putty}
 %\end{figure}
-
-Propojení kabelu ADS-50 s váhou není možné z důvodu, že kabel není křížený, označován "null modem" kabel. To znamená, že vysílací piny (Tx) jsou navzájem propojené a to samé přijímací piny (Rx). Aby komunikace mohla fungovat je nutné propojit Tx s Rx. Tato podmínka komunikace je zmíněná v dokumentaci váhy[x]. Výrobce váhy z tohoto důvodu k balení přidal kříženou redukci DB9 (samice) - DB9 (samice), která slouží současně k monitorování stavu jednotlivých pinů díky přídavným konektorům pro připojení např. osciloskopu. Dále výrobce přidal redukci DB9 (samec) - DB9 (samec) pro propojení křížené redukce s váhou(samice). Zapojení je možné vidět na obrázku č.\ref{propojení váhy v1}. Toto zapojení není praktické pokud nechceme diagnostikovat komunikaci, proto je možností koupit přímo křížený kabel nebo kříženou redukci, která vychází 5x levněji. Na obrázku č.\ref{propojení váhy v2} je výsledné řešení propojení váhy s řídicí jednotkou pomocí křížené redukce DB9 (samec) - DB9 (samice).
-
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale=0.27]{obrazky/zapojení váhy.jpg}
-    \end{center}
-    \caption{Propojení váhy s mikropočítačem pomocí komponent dodané výrobcem váhy}
-    \label{propojení váhy v1}
-\end{figure}
-
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale=0.27]{obrazky/zapojeni_vahy_v2 - popis.png}
-    \end{center}
-    \caption{Výsledné propojení váhy s mikrokontrolerem}
-    \label{propojení váhy v2}
-\end{figure}
-
-Dalším krokem je nastavení parametrů sériové komunikace podle manuálu váhy\cite{vaha_datasheed}. Komunikace byla testována pomocí osciloskopu s funkcí čtení UART protokolu a windows nástroje PuTTY, který přijímal/odesílal data po sériové lince. 
-Na obrázku č. \ref{putty} je nastavení parametrů v PuTTY a na obrázku č.\ref{puttyyyy} je vidět, že váha nám na výstup konzole PuTTY posílá aktuální naměřená data.
-
-
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale=0.8]{obrazky/nastaveni putty.png}
-    \end{center}
-    \caption{Nastavení parametrů komunikace v PuTTY}
-    \label{putty}
-\end{figure}
 
 \begin{figure}[H]
     \begin{center}
